@@ -12,7 +12,7 @@ export default class GameScene extends Phaser.Scene{
     }
     create() {
         this.time = 180000;
-        this.timeDisplay = this.add.text(0,0,"timetest");
+        this.timeDisplay = this.add.text(0,0,"timetest",{ fontFamily: 'Arial', color: 'rgba(255, 255, 255, 1)', fontSize: '72px'});
         this.KEYS = this.input.keyboard.addKeys(KEYBINDS);
     }
     update(time, dt) {
@@ -23,6 +23,10 @@ export default class GameScene extends Phaser.Scene{
         //#endregion
 
         //#region input
+        //#region gameplay
+
+        //#endregion
+        //#region debug
         if (Phaser.Input.Keyboard.JustDown(this.KEYS.TIMEUP)){
             this.addTime(30);
         }
@@ -30,13 +34,18 @@ export default class GameScene extends Phaser.Scene{
             this.addTime(-30);
         }
         //#endregion
+        //#endregion
 
 
     }
+    /**Returns an array with the number of minutes and seconds remaining on the timer.
+     */
     getTime(){
         let seconds = this.time/1000;
         return [Math.floor(seconds/60),Math.floor(seconds%60)];
     }
+    /**Adds the specified time to the scene timer, in seconds.
+     */
     addTime(time){
         this.time += (time*1000);
     }
