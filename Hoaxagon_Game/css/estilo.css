@@ -1,7 +1,19 @@
 @font-face {
     font-family: "Horizon";
-    src: url("assets/fonts/Horizon_Regular.otf") format("otf");
+    src: url("../assets/fonts/Horizon_Regular.otf") format("otf");
     font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Oswald";
+    src: url("../assets/fonts/Oswald-VariableFont_wght.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Oswald-Light";
+    src: url("../assets/fonts/Oswald-VariableFont_wght.ttf") format("truetype");
+    font-weight: 200;
     font-style: normal;
 }
 
