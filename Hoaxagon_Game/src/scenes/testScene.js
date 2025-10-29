@@ -22,6 +22,11 @@ export default class TestScene extends Phaser.Scene {
 			wordContainer.buildAndAddWord("word", 0);
 			//wordContainer.buildAndAddWord("💡", 0);
 		}*/
+		//wordContainer.buildAndAddWord("wo rd", 0);
+		const text = "Esto es un texto de sección 0, esto de la 1. ¿Y esto de la 2?\n"
+			+ "Esto de la 3, la 4 💡 ¡¡¡La 5 (incluido esto)!!!";
+
+			wordContainer.buidText(text);
 	}
 
 	update(time, dt) {

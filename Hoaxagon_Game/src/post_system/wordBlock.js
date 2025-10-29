@@ -29,6 +29,7 @@ export class WordBlock extends Phaser.GameObjects.Text {
 
         this.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             this.setBackgroundColor('#c3c327ff');
+            console.log(this.sentenceID);
         });
     }
 

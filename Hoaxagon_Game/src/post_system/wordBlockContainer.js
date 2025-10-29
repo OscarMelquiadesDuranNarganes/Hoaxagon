@@ -92,7 +92,8 @@ export class WordBlockContainer extends Phaser.GameObjects.Container {
     }
 
     /**
-     * 
+     * Creates a `WordBlock` with the passed string and its sentenceID. If it is necessary it
+     * creates more than one `WordBlock` object to distribute it through multiple lines.
      * @param {String} wordString
      * @param {number} sentenceID
      */
@@ -145,9 +146,78 @@ export class WordBlockContainer extends Phaser.GameObjects.Container {
             this.buildAndAddWord(leftoverWordPart, sentenceID);
     }
 
-    displayBounds() {
-      /*  this.scene.graphics.clear();
-        this.scene.graphics.lineStyle(1, 0xffff00);
-        this.scene.graphics.strokeRectShape(this.getBounds());*/
+    /**
+     * Uses buildAndAddWord() to create sentences made out of `WordBlock`s
+     * @param {String} text 
+     */
+    buidText(text) {
+        let currentSentenceID = 0;
+        let currentBuiltWord = "";
+
+        const separatorTypes = [',', '.', ';', ':'];
+        const openingMarkTypes = ['¿', '¡'];
+        const closingMarkTypes = ['?', '!'];
+        const spaceTypes = ['\n', '\t', ' '];
+
+        let lastChar = "";
+        let emptySentence = true;
+
+        for(let i = 0; i < text.length; i++) {
+
+            // Chars that create word separation
+            if(spaceTypes.includes(text[i])){
+                // The current word is finished and built
+                this.buildAndAddWord(currentBuiltWord, currentSentenceID);
+                currentBuiltWord = "";
+
+                // Space chars handling
+                if(text[i] === '\n') {
+                    this._currentLineIndex++;
+                    this._currentLineWidth = 0;
+                }
+                else if(text[i] === '\t') {
+                    this.buildAndAddWord("   ", currentSentenceID);
+                }
+                else if(text[i] === ' ') {
+                    this.buildAndAddWord(" ", currentSentenceID);
+                }
+            }
+            // If there is a point, coma, etc.
+            else if(separatorTypes.includes(text[i])) {
+                currentBuiltWord += text[i];
+                this.buildAndAddWord(currentBuiltWord, currentSentenceID);
+                
+                currentBuiltWord = "";
+                currentSentenceID++;
+                emptySentence = true; // After a point can come a ¿ or ¡, what creates anoder index unnecessarily
+            }
+            // If there is a ¿¿?? or ¡¡!!
+            else if(openingMarkTypes.includes(text[i]) || closingMarkTypes.includes(text[i])) {
+                // Start new sentence context           // To allow ¿¿¿ or ¡¡¡
+                if(openingMarkTypes.includes(text[i]) && spaceTypes.includes(lastChar) && !emptySentence) {
+                    currentSentenceID++;
+                }
+
+                currentBuiltWord += text[i]; // Always add the char
+
+                // In case of: ¡¡¿¿what???!!¿sure?
+                if(i < text.length-1 && closingMarkTypes.includes(text[i]) && !closingMarkTypes.includes(text[i+1])) {
+                    this.buildAndAddWord(currentBuiltWord, currentSentenceID);
+                    currentBuiltWord = "";
+                    currentSentenceID++;
+                }
+            }
+            // By default characters
+            else {
+                currentBuiltWord += text[i];
+                emptySentence = false;
+            }
+
+            lastChar = text[i];
+        }
+
+        if(currentBuiltWord != "") { // Register the last part of the text
+            this.buildAndAddWord(currentBuiltWord, currentSentenceID);
+        }
     }
 }
