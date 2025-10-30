@@ -40,7 +40,7 @@ export default class PauseScene extends Phaser.Scene{
         //#endregion
     }
     quitToMenu(){
-        console.log("AAAAAAAA");
+        console.log("LoaderOut");
         this.scene.stop("gameScene");
         this.scene.start("mainMenu");
     }

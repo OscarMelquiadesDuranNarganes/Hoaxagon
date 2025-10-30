@@ -15,11 +15,15 @@ export default class LoadScene extends Phaser.Scene {
      * Cargamos todos los assets que vamos a necesitar
      */
     preload() {
+        let { width, height } = this.sys.game.canvas;
         const progress = this.add.graphics();
         this.load.on("progress",(value)=>{
-
+                progress.clear();
+                progress.fillStyle('rgba(160, 160, 160, 1)');
+                progress.fillRect(0, height-100, 400 * width, 50);
         })
         this.load.on("complete",()=>{
+            console.log("LoaderOut");
             this.scene.start("mainMenu");
         })
 
