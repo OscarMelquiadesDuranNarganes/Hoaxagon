@@ -1,7 +1,9 @@
 import { KEYBINDS } from "../utils/Keybinds.js";
+import Button from "../utils/button.js";
 //import SIZES from "../utils/Sizes.js";
 export default class PauseScene extends Phaser.Scene{
     textsize = 72;
+    exitbutton;
     constructor(){
         super({key: "pauseScene"});
     }
@@ -22,13 +24,24 @@ export default class PauseScene extends Phaser.Scene{
                 color: 'rgba(255, 255, 255, 1)', 
                 fontSize: this.textsize+'px'});
         this.KEYS = this.input.keyboard.addKeys(KEYBINDS);
+        this.exitbutton = new Button({scene:this,
+            x:this.SCREENX/2,y:this.SCREENY/2+50,
+            width:200,height:40,
+            color:0xffffff,
+            clickCallback:this.quitToMenu});
     }
-        update(time, dt) {
+    update(time, dt) {
         //#region input
         if (Phaser.Input.Keyboard.JustDown(this.KEYS.PAUSE)){
             this.scene.resume("gameScene");
             this.scene.stop();
         }
         //#endregion
+    }
+    quitToMenu(){
+        console.log("AAAAAAAA");
+        this.scene.stop("gameScene");
+        this.scene.stop();
+        this.scene.start("mainMenu");
     }
 }

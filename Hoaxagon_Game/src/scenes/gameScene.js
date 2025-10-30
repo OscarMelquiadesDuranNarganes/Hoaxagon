@@ -1,5 +1,8 @@
 import {KEYBINDS} from "../utils/Keybinds.js";
 export default class GameScene extends Phaser.Scene{
+    //TODO: Progresión de niveles
+    //TODO: Variante para modo entrenamiento y arcade
+    //TODO: Implementación de modo inspección, mensajes, barra de información.
     time;
     timeDisplay;
     KEYS;
