@@ -1,7 +1,14 @@
 export default class Button extends Phaser.GameObjects.Rectangle{
     /**
      * 
-     * @param {*} config Incluye scene, x, y, width, height, color, alpha y opcionalmente clickCallback, hoverInCallback, hoverOutCallback, text.
+     * @param {*} config {scene,
+            x, y,
+            width, height,
+            color,
+            clickCallback?,
+            hoverInCallback?,
+            hoverOutCallback?,
+            text?}
      */
     constructor(config){
         super(config.scene,config.x,config.y,config.width,config.height,config.color,1);
