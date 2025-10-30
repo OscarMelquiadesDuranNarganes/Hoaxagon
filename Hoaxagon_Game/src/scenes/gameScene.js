@@ -3,7 +3,7 @@ export default class GameScene extends Phaser.Scene{
     //TODO: Progresión de niveles
     //TODO: Variante para modo entrenamiento y arcade
     //TODO: Implementación de modo inspección, mensajes, barra de información.
-    time;
+    timer;
     timeDisplay;
     KEYS;
     pause = false;
@@ -14,15 +14,13 @@ export default class GameScene extends Phaser.Scene{
 
     }
     create() {
-        this.time = 180000;
-        this.timeDisplay = this.add.text(0,0,"timetest",{ fontFamily: 'Horizon', color: 'rgba(255, 255, 255, 1)', fontSize: '72px'});
+        this.timer = 180000;
+        this.timeDisplay = this.add.text(10,0,"",{ fontFamily: 'Horizon', color: 'rgba(255, 255, 255, 1)', fontSize: '72px'});
         this.KEYS = this.input.keyboard.addKeys(KEYBINDS);
     }
     update(time, dt) {
         //#region timer
-        this.time = Math.max(0,this.time-=dt);
-        let TD = this.getTime();
-        this.timeDisplay.text = (TD[0]+":"+Math.floor(TD[1]/10)+TD[1]%10);
+        this.addTimeRaw(-dt);
         //#endregion
 
         //#region input
@@ -46,17 +44,31 @@ export default class GameScene extends Phaser.Scene{
     /**Returns an array with the number of minutes and seconds remaining on the timer.
      */
     getTime(){
-        let seconds = this.time/1000;
+        let seconds = this.timer/1000;
         return [Math.floor(seconds/60),Math.floor(seconds%60)];
     }
     /**Adds the specified time to the scene timer, in seconds.
      */
+    addTimeRaw(time){
+        this.timer = Math.max(0,this.timer+=time);
+        this.updateTimer();
+    }
     addTime(time){
-        this.time += (time*1000);
+        this.timer = Math.max(0,this.timer+=(time*1000));
+        this.updateTimer();
     }
     pauseGame(){
         this.scene.launch("pauseScene");
         this.scene.pause()
+    }
+    updateTimer(){
+        let TD = this.getTime();
+        this.timeDisplay.text = (TD[0]+":"+Math.floor(TD[1]/10)+TD[1]%10);
+        if (this.timer<11000) this.timeDisplay.setColor('rgba(149, 41, 41, 1)');
+        else if (this.timer<31000) this.timeDisplay.setColor('rgba(212, 125, 59, 1)');
+        else if (this.timer<61000) this.timeDisplay.setColor('rgba(211, 172, 31, 1)');
+        else if (this.timer<181000) this.timeDisplay.setColor('rgba(255, 255, 255, 1)');
+        else this.timeDisplay.setColor('rgba(83, 208, 143, 1)');
     }
 
 }
