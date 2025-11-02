@@ -65,9 +65,9 @@ export default class GameScene extends Phaser.Scene{
         this.points = 0;
         this.pointsDisplay = this.add.text(10,height-10,"Points: "+this.points,TEXT_CONFIG.Heading2).setColor(PALETTE_RGBA.White).setOrigin(0,1);
         this.KEYS = this.input.keyboard.addKeys(KEYBINDS);
-        this.createInfoBox(1000,400,this.infoDatabase.FALLACIES.AD_IGNORANTIAM);
+        this.createInfoBox(1000,380,this.infoDatabase.FALLACIES.POST_HOC);
         this.createInfoBox(1000,500,this.infoDatabase.FALLACIES.AD_VERECUNDIAM);
-        this.createInfoBox(1000,600,this.infoDatabase.FALLACIES.AD_CONSEQUENTIAM);
+        this.createInfoBox(1000,620,this.infoDatabase.FALLACIES.AD_CONSEQUENTIAM);
 
     }
     update(time, dt) {
@@ -147,7 +147,7 @@ export default class GameScene extends Phaser.Scene{
             x: posx,
             y: posy,
             width: 400,
-            height: 80,
+            height: 100,
             info:infoEntry,
             clickCallback: ()=>{this.expandInfo(infoEntry);}
         })

@@ -29,6 +29,11 @@
             "name": "Ad Consequentiam",
             "description": "¡Pero qué mal si no es cierto!",
             "long_desc": "Erróneamente concluir que algo es cierto porque es deseable que lo sea."
+        },
+        "POST_HOC":{
+            "name": "Post Hoc",
+            "description": "¡Pero si esto ocurre después de lo otro, esto debe ocurrir por lo otro!",
+            "long_desc": "Erróneamente concluir que dos sucesos que ocurren en consecuencia están necesariamente relacionados."
         }
     }
 }
