@@ -18,6 +18,7 @@ export default class PauseScene extends Phaser.Scene{
     
     }
     create() {
+        this.cameras.main.setBackgroundColor(PALETTE_RGBA.TranslucentGrey);
         let { width, height } = this.sys.game.canvas;
         this.SCREENX = width;
         this.SCREENY = height;
@@ -38,6 +39,7 @@ export default class PauseScene extends Phaser.Scene{
         //#region input
         if (Phaser.Input.Keyboard.JustDown(this.KEYS.PAUSE)){
             this.scene.resume(SCENE_KEYS.GAME_SCENE);
+            if (this.scene.isActive(SCENE_KEYS.INFO_SCENE)) this.scene.resume(SCENE_KEYS.INFO_SCENE);
             this.scene.stop();
         }
         //#endregion
@@ -45,6 +47,7 @@ export default class PauseScene extends Phaser.Scene{
     quitToMenu(){
         console.log("LoaderOut");
         this.scene.stop(SCENE_KEYS.GAME_SCENE);
+        this.scene.stop(SCENE_KEYS.INFO_SCENE);
         this.scene.start(SCENE_KEYS.MAIN_MENU_SCENE);
     }
 }

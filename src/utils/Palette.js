@@ -22,5 +22,6 @@ export const PALETTE_RGBA = {
     YellowAlert: 'rgba(211, 172, 31, 1)',
     AmberAlert: 'rgba(212, 125, 59, 1)',
     RedAlert: 'rgba(149, 41, 41, 1)',
-    Teal: 'rgba(83, 208, 143, 1)'
+    Teal: 'rgba(83, 208, 143, 1)',
+    TranslucentGrey:  'rgba(35, 35, 35, 0.75)',
 }
