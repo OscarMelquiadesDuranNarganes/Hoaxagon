@@ -12,15 +12,15 @@ export const TEXT_CONFIG = {
         fontFamily:"Horizon"
     },
     Paragraph:{
-        fontSize:"32px",
+        fontSize:"24px",
         fontFamily:"Oswald-Medium"
     },
     ParagraphBold:{
-        fontSize:"32px",
+        fontSize:"24px",
         fontFamily:"Oswald-Bold"
     },
     ParagraphLight:{
-        fontSize:"32px",
+        fontSize:"24px",
         fontFamily:"Oswald-Light"
     },
 }

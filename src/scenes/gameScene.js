@@ -1,6 +1,8 @@
 import {KEYBINDS} from "../utils/Keybinds.js";
 import { IMAGE_KEYS, SCENE_KEYS } from '../utils/CommonKeys.js'
 import { PALETTE_HEX, PALETTE_RGBA } from "../utils/Palette.js";
+import InfoBox from "../utils/infoBox.js";
+import { INFO_DATABASE } from "../utils/infoDatabase.js";
 
 export default class GameScene extends Phaser.Scene{
     //TODO: Progresión de niveles
@@ -21,6 +23,7 @@ export default class GameScene extends Phaser.Scene{
         this.timer = 180000;
         this.timeDisplay = this.add.text(10,0,"",{ fontFamily: 'Horizon', color: PALETTE_RGBA.White, fontSize: '72px'});
         this.KEYS = this.input.keyboard.addKeys(KEYBINDS);
+        this.createInfoBox(1000,500,INFO_DATABASE.TEST);
     }
     update(time, dt) {
         //#region timer
@@ -31,6 +34,9 @@ export default class GameScene extends Phaser.Scene{
         //#region gameplay
         if (Phaser.Input.Keyboard.JustDown(this.KEYS.PAUSE)){
             this.pauseGame();
+        }
+        if (Phaser.Input.Keyboard.JustDown(this.KEYS.INSPECT)){
+
         }
         //#endregion
         //#region debug
@@ -62,17 +68,32 @@ export default class GameScene extends Phaser.Scene{
         this.updateTimer();
     }
     pauseGame(){
-        this.scene.launch("pauseScene");
+        this.scene.launch(SCENE_KEYS.PAUSE_SCENE);
         this.scene.pause()
+        if (this.scene.isActive(SCENE_KEYS.INFO_SCENE))this.scene.pause(SCENE_KEYS.INFO_SCENE);
     }
     updateTimer(){
         let TD = this.getTime();
         this.timeDisplay.text = (TD[0]+":"+Math.floor(TD[1]/10)+TD[1]%10);
-        if (this.timer<11000) this.timeDisplay.setTint( PALETTE_HEX.RedAlert);
-        else if (this.timer<31000) this.timeDisplay.setTint( PALETTE_HEX.AmberAlert);
-        else if (this.timer<61000) this.timeDisplay.setTint( PALETTE_HEX.YellowAlert);
-        else if (this.timer<181000) this.timeDisplay.setTint( PALETTE_HEX.White);
-        else this.timeDisplay.setTint( PALETTE_HEX.Teal);
+        if (this.timer<11000) this.timeDisplay.setColor(PALETTE_RGBA.RedAlert);
+        else if (this.timer<31000) this.timeDisplay.setColor(PALETTE_RGBA.AmberAlert);
+        else if (this.timer<61000) this.timeDisplay.setColor(PALETTE_RGBA.YellowAlert);
+        else if (this.timer<181000) this.timeDisplay.setColor(PALETTE_RGBA.White);
+        else this.timeDisplay.setColor(PALETTE_RGBA.Teal);
+    }
+    createInfoBox(posx,posy,infoEntry){
+        new InfoBox({
+            scene: this,
+            x: posx,
+            y: posy,
+            width: 400,
+            height: 160,
+            info:infoEntry,
+            clickCallback: ()=>{this.expandInfo(infoEntry)}
+        })
+    }
+    expandInfo(infoEntry){
+        this.scene.launch(SCENE_KEYS.INFO_SCENE,infoEntry);
     }
 
 }

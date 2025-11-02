@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Horizon";
-    src: url("../assets/fonts/Horizon_Regular.otf") format("otf");
+    src: url("../assets/fonts/Horizon_Regular.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
 }

@@ -22,14 +22,14 @@ export default class MainMenu extends Phaser.Scene{
     create(){
         this.cameras.main.setBackgroundColor(PALETTE_RGBA.MiddleGrey);
         let { width, height } = this.sys.game.canvas;
-        this.add.text(width/2,100,"HOAXAGON",TEXT_CONFIG.Title).setTint(PALETTE_HEX.White).setOrigin(0.5,0.5)
+        this.add.text(width/2,100,"HOAXAGON",TEXT_CONFIG.Heading).setColor(PALETTE_RGBA.White).setOrigin(0.5,0.5)
         this.playButton = new Button({scene:this,
             x: width/2, y: height/2,
             width: 300, height:300,
             color: PALETTE_HEX.White,
-            clickCallback: ()=>{this.scene.start("gameScene")},
+            clickCallback: ()=>{this.scene.start(SCENE_KEYS.GAME_SCENE)},
             text: "PLAY",
             textConfig:TEXT_CONFIG.Heading,
-            textColor: PALETTE_HEX.DarkerGrey})
+            textColor: PALETTE_RGBA.DarkerGrey})
     }
 }
