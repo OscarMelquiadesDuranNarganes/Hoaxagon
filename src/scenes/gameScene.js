@@ -107,21 +107,29 @@ export default class GameScene extends Phaser.Scene{
         let seconds = this.timer/1000;
         return [Math.floor(seconds/60),Math.floor(seconds%60)];
     }
-    /**Adds the specified time to the scene timer, in seconds.
+    /**Adds the specified time to the scene timer, in miliseconds.
+     * @param {number} time
      */
     addTimeRaw(time){
         this.timer = Math.max(0,this.timer+=time);
         this.updateTimer();
     }
+    /**Adds the specified time to the scene timer, in seconds.
+     * @param {number} time
+     */
     addTime(time){
         this.timer = Math.max(0,this.timer+=(time*1000));
         this.updateTimer();
     }
+    /**Pauses the current scene and initializes PauseScene while closing info boxes.
+     */
     pauseGame(){
         this.scene.launch(SCENE_KEYS.PAUSE_SCENE);
-        this.scene.pause()
+        this.scene.pause();
         if (this.scene.isActive(SCENE_KEYS.INFO_SCENE))this.scene.stop(SCENE_KEYS.INFO_SCENE);
     }
+    /**Updates the timer display to match the remaining time.
+     */
     updateTimer(){
         let TD = this.getTime();
         this.timeDisplay.text = (TD[0]+":"+Math.floor(TD[1]/10)+TD[1]%10);
@@ -131,13 +139,21 @@ export default class GameScene extends Phaser.Scene{
         else if (this.timer<181000) this.timeDisplay.setColor(PALETTE_RGBA.White);
         else this.timeDisplay.setColor(PALETTE_RGBA.Teal);
     }
+    /**Adds the specified amount to the game's score.
+     * @param {number} points
+     */
     addPoints(points){
         this.points+=points;
         this.updateScore();
     }
+    /**Updates the score display to match the current score.
+     */
     updateScore(){
         this.pointsDisplay.text = "Points: "+this.points;
     }
+    /**Enforces the time limit for a Streak.
+     * @param {number} dt
+     */
     updateStreak(dt){
         this.streak.timeSince += dt;
         if (this.streak.timeSince>=this.falloffTime){ 
@@ -146,11 +162,15 @@ export default class GameScene extends Phaser.Scene{
             this.streak.BoostPity = 0;
         }
     }
+    /**Advances the Streak by 1.
+     */
     streakUp(){
         this.streak.count++;
         this.streak.BoostPity++;
         this.streak.timeSince = 0;
     }
+    /**Determines whether the next message will be Boosted or not. Chance scales off Streak.
+     */
     rollForBoost(){
         let pity = this.streak.BoostPity**2;
         let roll = Math.floor(Math.random()*100);
@@ -159,6 +179,11 @@ export default class GameScene extends Phaser.Scene{
             this.streak.BoostPity = 0;
         }
     }
+    /**Creates a clickable infobox at the set position, with a given entry.
+     * @param {number} posX
+     * @param {number} posy
+     * @param {object} infoEntry
+     */
     createInfoBox(posx,posy,infoEntry){
         new InfoBox({
             scene: this,
@@ -170,6 +195,9 @@ export default class GameScene extends Phaser.Scene{
             clickCallback: ()=>{this.expandInfo(infoEntry);}
         })
     }
+    /**Activates InfoScene according to the clicked infobox.
+     * @param {object} infoEntry
+     */
     expandInfo(infoEntry){
         if (!this.scene.isActive(SCENE_KEYS.INFO_SCENE)) this.scene.launch(SCENE_KEYS.INFO_SCENE,infoEntry);
     }
