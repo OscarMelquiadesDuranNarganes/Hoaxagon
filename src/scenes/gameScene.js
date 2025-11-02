@@ -23,8 +23,8 @@ export default class GameScene extends Phaser.Scene{
         this.timer = 180000;
         this.timeDisplay = this.add.text(10,0,"",{ fontFamily: 'Horizon', color: PALETTE_RGBA.White, fontSize: '72px'});
         this.KEYS = this.input.keyboard.addKeys(KEYBINDS);
-        this.createInfoBox(1000,200,this.infoDatabase.FALLACIES.AD_IGNORANTIAM);
-        this.createInfoBox(1000,400,this.infoDatabase.FALLACIES.AD_VERECUNDIAM);
+        this.createInfoBox(1000,400,this.infoDatabase.FALLACIES.AD_IGNORANTIAM);
+        this.createInfoBox(1000,500,this.infoDatabase.FALLACIES.AD_VERECUNDIAM);
         this.createInfoBox(1000,600,this.infoDatabase.FALLACIES.AD_CONSEQUENTIAM);
 
     }
@@ -90,7 +90,7 @@ export default class GameScene extends Phaser.Scene{
             x: posx,
             y: posy,
             width: 400,
-            height: 160,
+            height: 80,
             info:infoEntry,
             clickCallback: ()=>{this.expandInfo(infoEntry)}
         })
