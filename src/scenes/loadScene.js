@@ -1,8 +1,7 @@
 import { IMAGE_KEYS, SCENE_KEYS } from '../utils/CommonKeys.js'
 
 //import { SceneKeys } from '../../assets/srcKeys.js'
-import { PALETTE_HEX } from "../utils/Palette.js";
-import { PALETTE_RGBA } from "../utils/Palette.js";
+import { PALETTE_HEX,PALETTE_RGBA } from "../utils/Palette.js";
 
 export default class LoadScene extends Phaser.Scene {
     /**
@@ -27,7 +26,7 @@ export default class LoadScene extends Phaser.Scene {
         })
         this.load.on("complete",()=>{
             console.log("LoaderOut");
-            this.scene.start("mainMenu");
+            this.scene.start(SCENE_KEYS.MAIN_MENU_SCENE);
         })
 
             //* Music

@@ -1,8 +1,7 @@
 import { KEYBINDS } from "../utils/Keybinds.js";
 import { IMAGE_KEYS, SCENE_KEYS } from '../utils/CommonKeys.js'
 import { TEXT_CONFIG } from "../utils/textConfigs.js";
-import { PALETTE_HEX } from "../utils/Palette.js";
-import { PALETTE_RGBA } from "../utils/Palette.js";
+import { PALETTE_HEX,PALETTE_RGBA } from "../utils/Palette.js";
 import Button from "../utils/button.js";
 
 //import SIZES from "../utils/Sizes.js";
@@ -38,14 +37,14 @@ export default class PauseScene extends Phaser.Scene{
     update(time, dt) {
         //#region input
         if (Phaser.Input.Keyboard.JustDown(this.KEYS.PAUSE)){
-            this.scene.resume("gameScene");
+            this.scene.resume(SCENE_KEYS.GAME_SCENE);
             this.scene.stop();
         }
         //#endregion
     }
     quitToMenu(){
         console.log("LoaderOut");
-        this.scene.stop("gameScene");
-        this.scene.start("mainMenu");
+        this.scene.stop(SCENE_KEYS.GAME_SCENE);
+        this.scene.start(SCENE_KEYS.MAIN_MENU_SCENE);
     }
 }
