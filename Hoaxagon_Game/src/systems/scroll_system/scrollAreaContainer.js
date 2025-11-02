@@ -58,6 +58,11 @@ export class ScrollAreaContainer extends Phaser.GameObjects.Container {
             // 1. Calcular la nueva posición Y
             let newY = this._contentAreaContainer.y - scrollAmount;
 
+            let contentHeight =  this._contentAreaContainer.getBounds().height;
+
+            if(newY < -contentHeight + height) newY = -contentHeight + height;
+            if(newY > 0) newY = 0;
+
             this._contentAreaContainer.y = newY;
         });
     }
