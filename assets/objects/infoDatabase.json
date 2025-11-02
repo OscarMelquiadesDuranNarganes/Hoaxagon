@@ -3,5 +3,10 @@
         "name": "Test",
         "description": "Description",
         "long_desc": "Longer Description"
+    },
+    "TEST2": {
+        "name": "Test",
+        "description": "Description Description Description Description Description Description Description Description Description ",
+        "long_desc": "Longer Description"
     }
 }

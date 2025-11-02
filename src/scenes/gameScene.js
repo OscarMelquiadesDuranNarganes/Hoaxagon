@@ -23,7 +23,9 @@ export default class GameScene extends Phaser.Scene{
         this.timer = 180000;
         this.timeDisplay = this.add.text(10,0,"",{ fontFamily: 'Horizon', color: PALETTE_RGBA.White, fontSize: '72px'});
         this.KEYS = this.input.keyboard.addKeys(KEYBINDS);
-        this.createInfoBox(1000,500,this.infoDatabase.TEST);
+        this.createInfoBox(1000,400,this.infoDatabase.TEST);
+        this.createInfoBox(1000,600,this.infoDatabase.TEST2);
+
     }
     update(time, dt) {
         //#region timer
