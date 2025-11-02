@@ -1,7 +1,11 @@
 import { PALETTE_HEX, PALETTE_RGBA } from "./Palette.js";
 import { TEXT_CONFIG } from "./textConfigs.js";
 export default class InfoBox extends Phaser.GameObjects.Container{
+    /**
+    * @type {object}
+    */
     entry;
+
     /**
      * 
      * @param {*} config {scene,
@@ -25,5 +29,5 @@ export default class InfoBox extends Phaser.GameObjects.Container{
         if (config.hoverInCallback) this.on("pointerover",config.hoverInCallback,this.scene);
         if (config.hoverOutCallback) this.on("pointerout",config.hoverInCallback,this.scene);
     }
-    //TODO: Expanded info on click + Inspect mode interaction
+    //TODO: Inspect mode interaction
 }

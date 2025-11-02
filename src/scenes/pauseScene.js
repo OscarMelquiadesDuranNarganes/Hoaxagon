@@ -6,8 +6,11 @@ import Button from "../utils/button.js";
 
 //import SIZES from "../utils/Sizes.js";
 export default class PauseScene extends Phaser.Scene{
-    textsize = 72;
+    /**
+    * @type {Button}
+    */
     exitbutton;
+    
     constructor(){
         super(SCENE_KEYS.PAUSE_SCENE);
     }

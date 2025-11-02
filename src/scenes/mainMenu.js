@@ -5,11 +5,31 @@ import { PALETTE_HEX } from "../utils/Palette.js";
 import { PALETTE_RGBA } from "../utils/Palette.js";
 
 export default class MainMenu extends Phaser.Scene{
+    /**
+    * @type {Phaser.GameObjects.Text}
+    */
     title;
+
+    /**
+    * @type {Button}
+    */
     playButton;
+
+    /**
+    * @type {Button}
+    */
     settingsButton;
+
+    /**
+    * @type {Button}
+    */
     trainingButton;
+
+    /**
+    * @type {Button}
+    */
     exitButton;
+    
     constructor(){
         super(SCENE_KEYS.MAIN_MENU_SCENE);
     }

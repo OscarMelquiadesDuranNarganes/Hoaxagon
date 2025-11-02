@@ -2,15 +2,53 @@ import {KEYBINDS} from "../utils/Keybinds.js";
 import { IMAGE_KEYS, SCENE_KEYS, JSON_KEYS } from '../utils/CommonKeys.js'
 import { PALETTE_HEX, PALETTE_RGBA } from "../utils/Palette.js";
 import InfoBox from "../utils/infoBox.js";
+import { TEXT_CONFIG } from "../utils/textConfigs.js";
 
 export default class GameScene extends Phaser.Scene{
     //TODO: Progresión de niveles
     //TODO: Variante para modo entrenamiento y arcade
     //TODO: Implementación de modo inspección, mensajes, barra de información.
-    timer;
-    timeDisplay;
     KEYS;   
+    
+    /**
+     * @type {number}
+     */
+    timer;
+   
+    /**
+     * @type {Phaser.GameObjects.Text}
+     */
+    timeDisplay;
+
+    /**
+     * @type {boolean}
+     */
     pause = false;
+
+    /**
+     * @type {number}
+     */
+    points;
+
+    /**
+    * @type {object}
+    */
+    streak = {
+        /**
+        * @type {number}
+        */
+        count: 0,
+        /**
+        * @type {number}
+        */
+        timeSince: 0
+    };
+
+    /**
+        * @type {number}
+        */
+    falloffTime = 10000;
+
     constructor(){
         super(SCENE_KEYS.GAME_SCENE);
     }
@@ -20,8 +58,12 @@ export default class GameScene extends Phaser.Scene{
     create() {
         this.infoDatabase = this.cache.json.get(JSON_KEYS.INFO_DB);
         this.cameras.main.setBackgroundColor( PALETTE_HEX.DarkerGrey);
+        let { width, height } = this.sys.game.canvas;
         this.timer = 180000;
-        this.timeDisplay = this.add.text(10,0,"",{ fontFamily: 'Horizon', color: PALETTE_RGBA.White, fontSize: '72px'});
+        this.timeDisplay = this.add.text(10,0,"",TEXT_CONFIG.Heading).setColor(PALETTE_RGBA.White);
+        this.updateTimer();
+        this.points = 0;
+        this.pointsDisplay = this.add.text(10,height-10,"Points: "+this.points,TEXT_CONFIG.Heading2).setColor(PALETTE_RGBA.White).setOrigin(0,1);
         this.KEYS = this.input.keyboard.addKeys(KEYBINDS);
         this.createInfoBox(1000,400,this.infoDatabase.FALLACIES.AD_IGNORANTIAM);
         this.createInfoBox(1000,500,this.infoDatabase.FALLACIES.AD_VERECUNDIAM);
@@ -31,6 +73,7 @@ export default class GameScene extends Phaser.Scene{
     update(time, dt) {
         //#region timer
         this.addTimeRaw(-dt);
+        this.updateStreak(dt);
         //#endregion
 
         //#region input
@@ -84,6 +127,20 @@ export default class GameScene extends Phaser.Scene{
         else if (this.timer<181000) this.timeDisplay.setColor(PALETTE_RGBA.White);
         else this.timeDisplay.setColor(PALETTE_RGBA.Teal);
     }
+    updateScore(){
+        this.pointsDisplay.text = "Points: "+this.points;
+    }
+    updateStreak(dt){
+        this.streak.timeSince += dt;
+        if (this.streak.timeSince>=this.falloffTime){ 
+            this.streak.count = 0;
+            this.streak.timeSince = 0;
+        }
+    }
+    streakUp(){
+        this.streak.count++;
+        this.streak.timeSince = 0;
+    }
     createInfoBox(posx,posy,infoEntry){
         new InfoBox({
             scene: this,
@@ -92,7 +149,7 @@ export default class GameScene extends Phaser.Scene{
             width: 400,
             height: 80,
             info:infoEntry,
-            clickCallback: ()=>{this.expandInfo(infoEntry)}
+            clickCallback: ()=>{this.expandInfo(infoEntry);}
         })
     }
     expandInfo(infoEntry){

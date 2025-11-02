@@ -7,6 +7,10 @@ export const TEXT_CONFIG = {
         fontSize:"72px",
         fontFamily:"Horizon"
     },
+    Heading2:{
+        fontSize:"48px",
+        fontFamily:"Horizon"
+    },
     SubHeading:{
         fontSize:"24px",
         fontFamily:"Horizon"
