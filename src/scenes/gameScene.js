@@ -40,7 +40,11 @@ export default class GameScene extends Phaser.Scene{
         /**
         * @type {number}
         */
-        timeSince: 0
+        timeSince: 0,
+        /**
+        * @type {number}
+        */
+        BoostPity: 0
     };
 
     /**
@@ -127,6 +131,10 @@ export default class GameScene extends Phaser.Scene{
         else if (this.timer<181000) this.timeDisplay.setColor(PALETTE_RGBA.White);
         else this.timeDisplay.setColor(PALETTE_RGBA.Teal);
     }
+    addPoints(points){
+        this.points+=points;
+        this.updateScore();
+    }
     updateScore(){
         this.pointsDisplay.text = "Points: "+this.points;
     }
@@ -135,11 +143,21 @@ export default class GameScene extends Phaser.Scene{
         if (this.streak.timeSince>=this.falloffTime){ 
             this.streak.count = 0;
             this.streak.timeSince = 0;
+            this.streak.BoostPity = 0;
         }
     }
     streakUp(){
         this.streak.count++;
+        this.streak.BoostPity++;
         this.streak.timeSince = 0;
+    }
+    rollForBoost(){
+        let pity = this.streak.BoostPity**2;
+        let roll = Math.floor(Math.random()*100);
+        if (pity>=roll){
+            //TODO: Next message is Boosted
+            this.streak.BoostPity = 0;
+        }
     }
     createInfoBox(posx,posy,infoEntry){
         new InfoBox({
