@@ -67,7 +67,7 @@ export default class GameScene extends Phaser.Scene{
         this.timeDisplay = this.add.text(10,0,"",TEXT_CONFIG.Heading).setColor(PALETTE_RGBA.White);
         this.updateTimer();
         this.points = 0;
-        this.pointsDisplay = this.add.text(10,height-10,"Points: "+this.points,TEXT_CONFIG.Heading2).setColor(PALETTE_RGBA.White).setOrigin(0,1);
+        this.pointsDisplay = this.add.text(10,height-10,"Score: "+this.points,TEXT_CONFIG.Heading2).setColor(PALETTE_RGBA.White).setOrigin(0,1);
         this.KEYS = this.input.keyboard.addKeys(KEYBINDS);
         this.createInfoBox(1000,380,this.infoDatabase.FALLACIES.POST_HOC);
         this.createInfoBox(1000,500,this.infoDatabase.FALLACIES.AD_VERECUNDIAM);
@@ -149,7 +149,7 @@ export default class GameScene extends Phaser.Scene{
     /**Updates the score display to match the current score.
      */
     updateScore(){
-        this.pointsDisplay.text = "Points: "+this.points;
+        this.pointsDisplay.text = "Score: "+this.points;
     }
     /**Enforces the time limit for a Streak.
      * @param {number} dt
