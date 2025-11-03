@@ -6,7 +6,7 @@ import { TEXT_CONFIG } from "../utils/textConfigs.js";
 
 import { PostManager } from '../systems/post_system/postManager.js'
 import { FallacyInfoPanel } from '../systems/ui_system/fallacyInfoPanel.js'
-import { ScrollAreaContainer } from '../systems/scroll_system/scrollAreaContainer.js';
+import { PostBoxObject } from '../systems/post_system/postBoxObject.js';
 
 export default class GameScene extends Phaser.Scene{
     //TODO: Progresión de niveles
@@ -68,6 +68,21 @@ export default class GameScene extends Phaser.Scene{
      */
     postBoxCenterY;
 
+    /**
+     * @type {PostManager}
+     */
+    postManager;
+
+    /**
+     * @type {PostBoxObject}
+     */
+    currentPostObject;
+
+    /**
+     * @type {Phaser.GameObjects.Text}
+     */
+    postUserInfo;
+
     constructor() {
         super(SCENE_KEYS.GAME_SCENE);
     }
@@ -98,6 +113,40 @@ export default class GameScene extends Phaser.Scene{
         infoPanel.addInfoBox(this.createInfoBox(0, 0, this.infoDatabase.FALLACIES.POST_HOC));
         infoPanel.addInfoBox(this.createInfoBox(0, 0, this.infoDatabase.FALLACIES.AD_VERECUNDIAM));
         infoPanel.addInfoBox(this.createInfoBox(0, 0, this.infoDatabase.FALLACIES.AD_CONSEQUENTIAM));
+
+        // TextBox for post user info
+        this.postUserInfo = this.add.text(900, 150, "Usuario: ", TEXT_CONFIG.Paragraph).setColor(PALETTE_RGBA.DarkerGrey);
+        
+        this.postManager = new PostManager(this);
+        this.postManager.loadPosts(["ALL"]);
+        this.loadNextPost();
+
+        const acceptButton = this.add.text(900, 250, "ACCEPT", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.DarkerGrey);
+        const declineButton = this.add.text(1100, 250, "DECLINE", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.DarkerGrey);
+
+        acceptButton.setInteractive();
+        acceptButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
+            this.loadNextPost();
+
+            if  (this.postManager.currentPostDefinition.fallacyType === "NONE") {
+                this.success();
+            }
+            else {
+                this.fail();
+            }
+        });
+
+        declineButton.setInteractive();
+        declineButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
+            this.loadNextPost();
+
+            if  (this.postManager.currentPostDefinition.fallacyType !== "NONE") {
+                this.success();
+            } 
+            else {
+                this.fail();
+            }
+        });
     }
 
     update(time, dt) {
@@ -271,6 +320,7 @@ export default class GameScene extends Phaser.Scene{
     success(){
         this.addPoints(100);
         this.streakUp();
+        consople.log("GOOD CHOICE");
     }
 
     /**
@@ -281,5 +331,17 @@ export default class GameScene extends Phaser.Scene{
         this.streak.timeSince = 0;
         this.streak.BoostPity = 0;
         this.addTime(-30);
+        console.log("BAD CHOICE");
+    }
+
+    loadNextPost(){
+        if(this.currentPostObject){
+            this.currentPostObject.destroy();
+        }
+
+        this.currentPostObject = this.postManager.buildNewPostObject();
+        this.currentPostObject.setPosition(this.postBoxCenterX - 200, this.postBoxCenterY);
+
+        this.postUserInfo.setText("Usuario: " +  this.postManager.currentPostDefinition.user);
     }
 }
