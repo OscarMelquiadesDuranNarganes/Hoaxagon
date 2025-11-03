@@ -172,7 +172,7 @@ export default class GameScene extends Phaser.Scene{
     updateTimer() {
         let TD = this.getTime();
         const minutes = TD[0];
-        const seconds = Math.floor(TD[1] / 10) + TD[1] % 10;
+        const seconds = (Math.floor(TD[1] / 10)).toString() + (TD[1] % 10).toString();
 
         this.timeDisplay.text = (`${minutes}:${seconds}`);
 
@@ -213,6 +213,7 @@ export default class GameScene extends Phaser.Scene{
         }
     }
 
+
     /**
      * Advances the Streak by 1.
      */
@@ -220,6 +221,8 @@ export default class GameScene extends Phaser.Scene{
         this.streak.count++;
         this.streak.BoostPity++;
         this.streak.timeSince = 0;
+        let streakPoints = Math.min(150,50*Math.floor(streak/3));
+        this.addPoints(streakPoints);
     }
 
     /**
@@ -260,5 +263,23 @@ export default class GameScene extends Phaser.Scene{
     expandInfo(infoEntry) {
         if (!this.scene.isActive(SCENE_KEYS.INFO_SCENE)) 
             this.scene.launch(SCENE_KEYS.INFO_SCENE, infoEntry);
+    }
+
+    /**
+     * Awards points upon correctly evaluating a message.
+     */
+    success(){
+        this.addPoints(100);
+        this.streakUp();
+    }
+
+    /**
+     * Deducts time upon failing to evaluate a message.
+     */
+    fail(){
+        this.streak.count = 0;
+        this.streak.timeSince = 0;
+        this.streak.BoostPity = 0;
+        this.addTime(-30);
     }
 }

@@ -1,5 +1,6 @@
 export const IMAGE_KEYS = {
     TEMP_POST_CONTAINER: "TEMP_POST_CONTAINER",
+    TEMP_SPRITE: "TEMP_SPRITE"
 };
 
 export const SCENE_KEYS = {

@@ -1,5 +1,6 @@
 import { IMAGE_KEYS, SCENE_KEYS } from '../utils/CommonKeys.js'
 import Button from "../utils/button.js";
+import ImageButton from '../utils/imageButton.js';
 import { TEXT_CONFIG } from "../utils/textConfigs.js";
 import { PALETTE_HEX } from "../utils/Palette.js";
 import { PALETTE_RGBA } from "../utils/Palette.js";
@@ -50,6 +51,6 @@ export default class MainMenu extends Phaser.Scene{
             clickCallback: ()=>{this.scene.start(SCENE_KEYS.GAME_SCENE)},
             text: "PLAY",
             textConfig:TEXT_CONFIG.Heading,
-            textColor: PALETTE_RGBA.DarkerGrey})
+            textColor: PALETTE_RGBA.DarkerGrey});
     }
 }
