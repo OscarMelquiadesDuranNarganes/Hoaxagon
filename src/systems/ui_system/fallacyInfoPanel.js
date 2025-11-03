@@ -51,6 +51,6 @@ export class FallacyInfoPanel extends Phaser.GameObjects.Container {
      * @param {Phaser.GameObjects.Container} infoBox 
      */
     addInfoBox(infoBox) {
-        this.scrollArea.addGameObject(infoBox);
+        this.scrollArea.addGameObject(infoBox,infoBox.width/2,infoBox.height/2);
     }
 }
