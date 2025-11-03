@@ -1,14 +1,6 @@
 {
     "posts": [
         {
-            "user": "",
-            "text": "",
-            "userPhoto": "",
-            "fallacyType": "",
-            "fallaciousSentenceID": -1,
-            "difficulty": ""
-        },
-        {
             "user": "Trictoria",
             "text": "'No puedes confirmar que la cuadrilanina daña tus aristas' ¿Y tú puedes confirmar que no lo hace?",
             "userPhoto": "",
