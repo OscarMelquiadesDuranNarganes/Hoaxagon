@@ -35,9 +35,14 @@ export class PostManager {
      */
     _postListPosition;
 
-    constructor() {
+    /**
+     * 
+     * @param {Phaser.Scene} scene 
+     */
+    constructor(scene) {
+        this.scene = scene;
 
-        this.postDataBase = this.scene.cache.json.get(JSON_KEYS.POST_LIST);
+        this.postDataBase = scene.cache.json.get(JSON_KEYS.POST_LIST);
     }
 
     /**
@@ -55,7 +60,7 @@ export class PostManager {
         this._postList = []; // Clear
 
         this.postDataBase.posts.forEach((postDef) => {
-            if(fallacyTypes.includes(postDef.fallacyType))
+            if(fallacyTypes.includes(FALLACY_TYPE.ALL) || fallacyTypes.includes(postDef.fallacyType))
                 this._postList.push(postDef);
         });
 
@@ -84,6 +89,10 @@ export class PostManager {
         }
     }
 
+    /**
+     * Gets a Post Definition from the list, creates a `PostBoxObject` with it and returns it.
+     * @returns {PostBoxObject}
+     */
     buildNewPostObject() {
         this._postListPosition++;
 
@@ -92,6 +101,6 @@ export class PostManager {
             this.shufflePostList();
         }
 
-        return new PostBoxObject(this.scene, 0, 0, this._postList.text, POST_WIDTH);
+        return new PostBoxObject(this.scene, 0, 0, this._postList[this._postListPosition].text, POST_WIDTH);
     }
 }
