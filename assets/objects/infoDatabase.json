@@ -1,4 +1,9 @@
 {
+    "FORMAT":{
+        "name": "",
+        "description": "",
+        "long_desc": ""
+    },
     "TEST": {
         "name": "Test",
         "description": "Description",
@@ -8,5 +13,27 @@
         "name": "Test2",
         "description": "Description Description Description Description Description Description Description Description Description ",
         "long_desc": "Even Longer Description"
+    },
+    "FALLACIES":{
+        "AD_IGNORANTIAM":{
+            "name": "Ad Ignorantiam",
+            "description": "¡Pero a que no me demuestras lo contrario!",
+            "long_desc": "Erróneamente concluir que algo es cierto por no poder demostrar su falsedad."
+        },
+        "AD_VERECUNDIAM":{
+            "name": "Ad Verecundiam",
+            "description": "¡Pero si este es de fiar!",
+            "long_desc": "Erróneamente concluir que algo es cierto al ser dicho por una figura de autoridad."
+        },
+        "AD_CONSEQUENTIAM":{
+            "name": "Ad Consequentiam",
+            "description": "¡Pero qué mal si no es cierto!",
+            "long_desc": "Erróneamente concluir que algo es cierto porque es deseable que lo sea."
+        },
+        "POST_HOC":{
+            "name": "Post Hoc",
+            "description": "¡Pero si esto ocurre después de lo otro, esto debe ocurrir por lo otro!",
+            "long_desc": "Erróneamente concluir que dos sucesos que ocurren en secuencia están necesariamente relacionados."
+        }
     }
 }

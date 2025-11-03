@@ -7,6 +7,62 @@
             "fallacyType": "",
             "fallaciousSentenceID": -1,
             "difficulty": ""
+        },
+        {
+            "user": "Trictoria",
+            "text": "'No puedes confirmar que la cuadrilanina daña tus aristas' ¿Y tú puedes confirmar que no lo hace?",
+            "userPhoto": "",
+            "fallacyType": "Ad Ignorantiam",
+            "fallaciousSentenceID": 1,
+            "difficulty": ""
+        },
+        {
+            "user": "Cuadricio",
+            "text": "Se me olvidó contar mis vértices y empezó a llover. ¿Coincidencia? Lo dudo.",
+            "userPhoto": "",
+            "fallacyType": "Post Hoc",
+            "fallaciousSentenceID": 2,
+            "difficulty": ""
+        },
+        {
+            "user": "Pentadeo",
+            "text": "Tanta gente diciendo que Hexandra nos está mintiendo... ¡Con lo buena persona que es!",
+            "userPhoto": "",
+            "fallacyType": "Ad Verecundiam",
+            "fallaciousSentenceID": 1,
+            "difficulty": ""
+        },
+        {
+            "user": "Circlaudia",
+            "text": "Si nunca has abierto un libro de aristología, te ruego que no te pongas a hablar de aristas.",
+            "userPhoto": "",
+            "fallacyType": "NONE",
+            "fallaciousSentenceID": -1,
+            "difficulty": ""
+        },
+        {
+            "user": "Hexandra",
+            "text": "Cuadricio está de nuevo con que se ha caído. ¿Y si dejas de equilibrarte sobre tus vértices?",
+            "userPhoto": "",
+            "fallacyType": "NONE",
+            "fallaciousSentenceID": -1,
+            "difficulty": ""
+        },
+        {
+            "user": "Cuadricio",
+            "text": "Entiendo que la gente tiena buena opinión de Hexandra, pero no todo lo que dice va a misa.",
+            "userPhoto": "",
+            "fallacyType": "NONE",
+            "fallaciousSentenceID": -1,
+            "difficulty": ""
+        },
+        {
+            "user": "Pentadeo",
+            "text": "Quizás a veces necesitamos más información",
+            "userPhoto": "",
+            "fallacyType": "NONE",
+            "fallaciousSentenceID": -1,
+            "difficulty": ""
         }
     ]
 }

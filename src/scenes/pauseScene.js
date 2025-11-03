@@ -6,8 +6,11 @@ import Button from "../utils/button.js";
 
 //import SIZES from "../utils/Sizes.js";
 export default class PauseScene extends Phaser.Scene{
-    textsize = 72;
+    /**
+    * @type {Button}
+    */
     exitbutton;
+
     constructor(){
         super(SCENE_KEYS.PAUSE_SCENE);
     }
@@ -39,7 +42,6 @@ export default class PauseScene extends Phaser.Scene{
         //#region input
         if (Phaser.Input.Keyboard.JustDown(this.KEYS.PAUSE)){
             this.scene.resume(SCENE_KEYS.GAME_SCENE);
-            if (this.scene.isActive(SCENE_KEYS.INFO_SCENE)) this.scene.resume(SCENE_KEYS.INFO_SCENE);
             this.scene.stop();
         }
         //#endregion
@@ -47,7 +49,6 @@ export default class PauseScene extends Phaser.Scene{
     quitToMenu(){
         console.log("LoaderOut");
         this.scene.stop(SCENE_KEYS.GAME_SCENE);
-        this.scene.stop(SCENE_KEYS.INFO_SCENE);
         this.scene.start(SCENE_KEYS.MAIN_MENU_SCENE);
     }
 }

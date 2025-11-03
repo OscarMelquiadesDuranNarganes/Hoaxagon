@@ -2,34 +2,82 @@ import {KEYBINDS} from "../utils/Keybinds.js";
 import { IMAGE_KEYS, SCENE_KEYS, JSON_KEYS } from '../utils/CommonKeys.js'
 import { PALETTE_HEX, PALETTE_RGBA } from "../utils/Palette.js";
 import InfoBox from "../utils/infoBox.js";
+import { TEXT_CONFIG } from "../utils/textConfigs.js";
 
 export default class GameScene extends Phaser.Scene{
     //TODO: Progresión de niveles
     //TODO: Variante para modo entrenamiento y arcade
     //TODO: Implementación de modo inspección, mensajes, barra de información.
+    
+    /**
+     * @type {number}
+     */
     timer;
+   
+    /**
+     * @type {Phaser.GameObjects.Text}
+     */
     timeDisplay;
-    KEYS;   
+
+    /**
+     * @type {boolean}
+     */
     pause = false;
+
+    /**
+     * @type {number}
+     */
+    points;
+
+    /**
+    * @type {object}
+    */
+    streak = {
+        /**
+        * @type {number}
+        */
+        count: 0,
+        /**
+        * @type {number}
+        */
+        timeSince: 0,
+        /**
+        * @type {number}
+        */
+        BoostPity: 0
+    };
+
+    /**
+        * @type {number}
+        */
+    falloffTime = 10000;
+
     constructor(){
         super(SCENE_KEYS.GAME_SCENE);
     }
+
     init(){
 
     }
     create() {
         this.infoDatabase = this.cache.json.get(JSON_KEYS.INFO_DB);
-        this.cameras.main.setBackgroundColor( PALETTE_HEX.DarkerGrey);
+        this.cameras.main.setBackgroundColor( PALETTE_HEX.DarkGrey);
+        let { width, height } = this.sys.game.canvas;
         this.timer = 180000;
-        this.timeDisplay = this.add.text(10,0,"",{ fontFamily: 'Horizon', color: PALETTE_RGBA.White, fontSize: '72px'});
+        this.timeDisplay = this.add.text(10,0,"",TEXT_CONFIG.Heading).setColor(PALETTE_RGBA.White);
+        this.updateTimer();
+        this.points = 0;
+        this.pointsDisplay = this.add.text(10,height-10,"Score: "+this.points,TEXT_CONFIG.Heading2).setColor(PALETTE_RGBA.White).setOrigin(0,1);
         this.KEYS = this.input.keyboard.addKeys(KEYBINDS);
-        this.createInfoBox(1000,400,this.infoDatabase.TEST);
-        this.createInfoBox(1000,600,this.infoDatabase.TEST2);
+        this.createInfoBox(1000,380,this.infoDatabase.FALLACIES.POST_HOC);
+        this.createInfoBox(1000,500,this.infoDatabase.FALLACIES.AD_VERECUNDIAM);
+        this.createInfoBox(1000,620,this.infoDatabase.FALLACIES.AD_CONSEQUENTIAM);
 
     }
     update(time, dt) {
         //#region timer
         this.addTimeRaw(-dt);
+        this.updateStreak(dt);
         //#endregion
 
         //#region input
@@ -59,21 +107,29 @@ export default class GameScene extends Phaser.Scene{
         let seconds = this.timer/1000;
         return [Math.floor(seconds/60),Math.floor(seconds%60)];
     }
-    /**Adds the specified time to the scene timer, in seconds.
+    /**Adds the specified time to the scene timer, in miliseconds.
+     * @param {number} time
      */
     addTimeRaw(time){
         this.timer = Math.max(0,this.timer+=time);
         this.updateTimer();
     }
+    /**Adds the specified time to the scene timer, in seconds.
+     * @param {number} time
+     */
     addTime(time){
         this.timer = Math.max(0,this.timer+=(time*1000));
         this.updateTimer();
     }
+    /**Pauses the current scene and initializes PauseScene while closing info boxes.
+     */
     pauseGame(){
         this.scene.launch(SCENE_KEYS.PAUSE_SCENE);
-        this.scene.pause()
-        if (this.scene.isActive(SCENE_KEYS.INFO_SCENE))this.scene.pause(SCENE_KEYS.INFO_SCENE);
+        this.scene.pause();
+        if (this.scene.isActive(SCENE_KEYS.INFO_SCENE))this.scene.stop(SCENE_KEYS.INFO_SCENE);
     }
+    /**Updates the timer display to match the remaining time.
+     */
     updateTimer(){
         let TD = this.getTime();
         this.timeDisplay.text = (TD[0]+":"+Math.floor(TD[1]/10)+TD[1]%10);
@@ -83,17 +139,65 @@ export default class GameScene extends Phaser.Scene{
         else if (this.timer<181000) this.timeDisplay.setColor(PALETTE_RGBA.White);
         else this.timeDisplay.setColor(PALETTE_RGBA.Teal);
     }
+    /**Adds the specified amount to the game's score.
+     * @param {number} points
+     */
+    addPoints(points){
+        this.points+=points;
+        this.updateScore();
+    }
+    /**Updates the score display to match the current score.
+     */
+    updateScore(){
+        this.pointsDisplay.text = "Score: "+this.points;
+    }
+    /**Enforces the time limit for a Streak.
+     * @param {number} dt
+     */
+    updateStreak(dt){
+        this.streak.timeSince += dt;
+        if (this.streak.timeSince>=this.falloffTime){ 
+            this.streak.count = 0;
+            this.streak.timeSince = 0;
+            this.streak.BoostPity = 0;
+        }
+    }
+    /**Advances the Streak by 1.
+     */
+    streakUp(){
+        this.streak.count++;
+        this.streak.BoostPity++;
+        this.streak.timeSince = 0;
+    }
+    /**Determines whether the next message will be Boosted or not. Chance scales off Streak.
+     */
+    rollForBoost(){
+        let pity = this.streak.BoostPity**2;
+        let roll = Math.floor(Math.random()*100);
+        if (pity>=roll){
+            //TODO: Next message is Boosted
+            this.streak.BoostPity = 0;
+        }
+    }
+    /**Creates a clickable infobox at the set position, with a given entry.
+     * @param {number} posX
+     * @param {number} posy
+     * @param {object} infoEntry
+     */
     createInfoBox(posx,posy,infoEntry){
         new InfoBox({
             scene: this,
             x: posx,
             y: posy,
             width: 400,
-            height: 160,
+            height: 100,
             info:infoEntry,
-            clickCallback: ()=>{this.expandInfo(infoEntry)}
+            clickCallback: ()=>{this.expandInfo(infoEntry);}
         })
     }
+    /**Activates InfoScene according to the clicked infobox.
+     * @param {object} infoEntry
+     */
     expandInfo(infoEntry){
         if (!this.scene.isActive(SCENE_KEYS.INFO_SCENE)) this.scene.launch(SCENE_KEYS.INFO_SCENE,infoEntry);
     }
