@@ -151,7 +151,7 @@ export default class GameScene extends Phaser.Scene{
     updateTimer() {
         let TD = this.getTime();
         const minutes = TD[0];
-        const seconds = Math.floor(TD[1] / 10) + TD[1] % 10;
+        const seconds = (Math.floor(TD[1] / 10)).toString() + (TD[1] % 10).toString();
 
         this.timeDisplay.text = (`${minutes}:${seconds}`);
 
