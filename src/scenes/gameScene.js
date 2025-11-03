@@ -310,7 +310,9 @@ export default class GameScene extends Phaser.Scene{
      * @param {object} infoEntry
      */
     expandInfo(infoEntry) {
-        if (!this.scene.isActive(SCENE_KEYS.INFO_SCENE)) 
+        let mousex = this.game.input.mousePointer.x;
+        let mousey = this.game.input.mousePointer.y;
+        if (!this.scene.isActive(SCENE_KEYS.INFO_SCENE) && mousey>360) 
             this.scene.launch(SCENE_KEYS.INFO_SCENE, infoEntry);
     }
 
