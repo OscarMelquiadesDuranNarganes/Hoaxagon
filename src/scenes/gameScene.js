@@ -129,10 +129,10 @@ export default class GameScene extends Phaser.Scene{
             this.loadNextPost();
 
             if  (this.postManager.currentPostDefinition.fallacyType === "NONE") {
-                console.log("SUCCESS"); //this.success();
+                this.success();
             }
             else {
-                console.log("FAIL"); // this.fail();
+                this.fail();
             }
         });
 
@@ -141,10 +141,10 @@ export default class GameScene extends Phaser.Scene{
             this.loadNextPost();
 
             if  (this.postManager.currentPostDefinition.fallacyType !== "NONE") {
-                console.log("SUCCESS"); //this.success();
+                this.success();
             } 
             else {
-                console.log("FAIL"); // this.fail();
+                this.fail();
             }
         });
     }
@@ -269,7 +269,7 @@ export default class GameScene extends Phaser.Scene{
         this.streak.count++;
         this.streak.BoostPity++;
         this.streak.timeSince = 0;
-        let streakPoints = Math.min(150,50*Math.floor(streak/3));
+        let streakPoints = Math.min(150,50*Math.floor(this.streak/3));
         this.addPoints(streakPoints);
     }
 
@@ -319,19 +319,19 @@ export default class GameScene extends Phaser.Scene{
      * Awards points upon correctly evaluating a message.
      */
     success(){
-     /*   this.addPoints(100);
-        this.streakUp();*/
-        consople.log("GOOD CHOICE");
+        this.addPoints(100);
+        this.streakUp();
+        console.log("GOOD CHOICE");
     }
 
     /**
      * Deducts time upon failing to evaluate a message.
      */
     fail(){
-      /*  this.streak.count = 0;
+        this.streak.count = 0;
         this.streak.timeSince = 0;
         this.streak.BoostPity = 0;
-        this.addTime(-30);*/
+        this.addTime(-30);
         console.log("BAD CHOICE");
     }
 
