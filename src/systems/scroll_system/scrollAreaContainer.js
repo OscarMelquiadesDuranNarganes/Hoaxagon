@@ -102,9 +102,9 @@ export class ScrollAreaContainer extends Phaser.GameObjects.Container {
      * 
      * @param {Phaser.GameObjects.Container} gameObject 
      */
-    addGameObject(gameObject) {
+    addGameObject(gameObject,offsetX,offsetY) {
         this._contentAreaContainer.add(gameObject);
-        gameObject.setPosition(0, this._addedNewElementPositionY);
+        gameObject.setPosition(offsetX, this._addedNewElementPositionY+offsetY);
 
         if(typeof gameObject["getBounds"] === 'function')
             this._addedNewElementPositionY += gameObject.getBounds().height + this._elementVSeparation;
