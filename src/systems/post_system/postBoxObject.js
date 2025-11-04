@@ -55,7 +55,7 @@ export class PostBoxObject extends Phaser.GameObjects.Container {
             width - REALATIVE_POSITIONS.WORD_BLOCK_CONTAINER_X * 2
         );
 
-		wordBlockContainer.buidText(text);
+		wordBlockContainer.buildText(text);
 
         this.add(this.boxNineSlice)
         this.add(wordBlockContainer);

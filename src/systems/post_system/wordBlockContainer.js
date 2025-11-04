@@ -163,7 +163,7 @@ export class WordBlockContainer extends Phaser.GameObjects.Container {
      * Uses buildAndAddWord() to create sentences made out of `WordBlock`s
      * @param {String} text 
      */
-    buidText(text) {
+    buildText(text) {
         let currentSentenceID = 0;
         let currentBuiltWord = "";
 
