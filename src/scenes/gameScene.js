@@ -8,6 +8,13 @@ import { PostManager } from '../systems/post_system/postManager.js'
 import { FallacyInfoPanel } from '../systems/ui_system/fallacyInfoPanel.js'
 import { PostBoxObject } from '../systems/post_system/postBoxObject.js';
 
+export const GAMEMODES = 
+{
+    TUTORIAL: "TUTORIAL",
+    TRAINING: "TRAINING",
+    ARCADE: "ARCADE"
+}
+
 export default class GameScene extends Phaser.Scene{
     //TODO: Progresión de niveles
     //TODO: Variante para modo entrenamiento y arcade
@@ -100,9 +107,10 @@ export default class GameScene extends Phaser.Scene{
     init(){
 
     }
-    create() {
+    create(config) {
         this.infoDatabase = this.cache.json.get(JSON_KEYS.INFO_DB);
-        this.cameras.main.setBackgroundColor( PALETTE_HEX.DarkGrey);
+        
+
 
         let { width, height } = this.sys.game.canvas;
 
@@ -125,12 +133,12 @@ export default class GameScene extends Phaser.Scene{
         this.postBoxCenterX = this.cameras.main.centerX * 0.8;
         this.postBoxCenterY = this.cameras.main.centerY;
 
-        let infoPanel = new FallacyInfoPanel(this, 900, 300, 400, 350);
+        this.infoPanel = new FallacyInfoPanel(this, 900, 300, 400, 350);
 
-        infoPanel.addInfoBox(this.createInfoBox(0, 0, this.infoDatabase.FALLACIES.POST_HOC));
-        infoPanel.addInfoBox(this.createInfoBox(0, 0, this.infoDatabase.FALLACIES.AD_VERECUNDIAM));
-        infoPanel.addInfoBox(this.createInfoBox(0, 0, this.infoDatabase.FALLACIES.AD_CONSEQUENTIAM));
-        infoPanel.addInfoBox(this.createInfoBox(0, 0, this.infoDatabase.FALLACIES.AD_IGNORANTIAM));
+        config.fallacies.forEach(element => {
+        this.addFallacy(element);
+        });
+        this.cameras.main.setBackgroundColor( PALETTE_HEX.DarkGrey);
 
         // TextBox for post user info
         this.postUserInfo = this.add.text(900, 150, "Usuario: ", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
@@ -198,6 +206,10 @@ export default class GameScene extends Phaser.Scene{
         //#endregion
 
 
+    }
+
+    addFallacy(fallacy){
+        this.infoPanel.addInfoBox(this.createInfoBox(0, 0, fallacy));
     }
 
     /**
