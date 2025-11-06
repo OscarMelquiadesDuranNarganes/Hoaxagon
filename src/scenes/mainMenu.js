@@ -42,26 +42,6 @@ export default class MainMenu extends Phaser.Scene{
     }
     create(){
         this.infoDatabase = this.cache.json.get(JSON_KEYS.INFO_DB);
-
-        this.anims.create({
-            key: ANIM_KEYS.ICOSAMUEL_IDLE,
-            frames: this.anims.generateFrameNumbers(IMAGE_KEYS.ICOSAMUEL, {start:0,end:23}),
-            frameRate: 24,
-            repeat: -1
-        });
-        this.anims.create({
-            key: ANIM_KEYS.ICOSAMUEL_DANCE,
-            frames: this.anims.generateFrameNumbers(IMAGE_KEYS.ICOSAMUEL, {start:6,end:17}),
-            frameRate: 24,
-            repeat: -1,
-            yoyo: true
-        });
-        this.anims.create({
-            key: ANIM_KEYS.ICOSAMUEL_RIGHT,
-            frames: this.anims.generateFrameNumbers(IMAGE_KEYS.ICOSAMUEL, {start:11,end:16}),
-            frameRate: 24,
-            repeat: 0,
-        }); 
         
         // var icosamuel = this.add.sprite(0,0,IMAGE_KEYS.ICOSAMUEL).setOrigin(0,0);
         // icosamuel.setScale(0.5,0.5);

@@ -1,4 +1,4 @@
-import { IMAGE_KEYS, SCENE_KEYS, JSON_KEYS } from '../utils/CommonKeys.js'
+import { IMAGE_KEYS, SCENE_KEYS, JSON_KEYS,ANIM_KEYS } from '../utils/CommonKeys.js'
 
 //import { SceneKeys } from '../../assets/srcKeys.js'
 import { PALETTE_HEX,PALETTE_RGBA } from "../utils/Palette.js";
@@ -46,6 +46,25 @@ export default class LoadScene extends Phaser.Scene {
     * Creación de los elementos de la escena principal de juego
     */
     create() {
+        this.anims.create({
+            key: ANIM_KEYS.ICOSAMUEL_IDLE,
+            frames: this.anims.generateFrameNumbers(IMAGE_KEYS.ICOSAMUEL, {start:0,end:23}),
+            frameRate: 24,
+            repeat: -1
+        });
+        this.anims.create({
+            key: ANIM_KEYS.ICOSAMUEL_DANCE,
+            frames: this.anims.generateFrameNumbers(IMAGE_KEYS.ICOSAMUEL, {start:6,end:17}),
+            frameRate: 24,
+            repeat: -1,
+            yoyo: true
+        });
+        this.anims.create({
+            key: ANIM_KEYS.ICOSAMUEL_RIGHT,
+            frames: this.anims.generateFrameNumbers(IMAGE_KEYS.ICOSAMUEL, {start:11,end:16}),
+            frameRate: 24,
+            repeat: 0,
+        }); 
         //this.scene.start(SCENE_KEYS.TEST_SCENE);
     }
     
