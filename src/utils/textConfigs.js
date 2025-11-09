@@ -15,6 +15,10 @@ export const TEXT_CONFIG = {
         fontSize:"24px",
         fontFamily:"Horizon"
     },
+    SubHeading2:{
+        fontSize:"20px",
+        fontFamily:"Horizon"
+    },
     Paragraph:{
         fontSize:"20px",
         fontFamily:"Oswald-Medium"

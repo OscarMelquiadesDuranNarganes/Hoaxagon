@@ -11,6 +11,7 @@ export const KEYBINDS = {
     TIMEUP: KeyCodes.Q,
     TIMEDOWN: KeyCodes.W,
     SUCCEED: KeyCodes.E,
-    FAIL: KeyCodes.R
+    FAIL: KeyCodes.R,
+    BOOST: KeyCodes.T
     //#endregion
 };

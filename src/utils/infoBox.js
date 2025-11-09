@@ -17,8 +17,7 @@ export default class InfoBox extends Phaser.GameObjects.Container{
     constructor(config){
         super(config.scene,config.x,config.y);
         this.entry = config.info;
-        console.log(this.entry);
-
+        
         this.setSize(config.width,config.height);
         this.scene.add.existing(this);
         this.add(this.scene.add.rectangle(10,10,config.width,config.height,PALETTE_HEX.DarkerGrey,1));

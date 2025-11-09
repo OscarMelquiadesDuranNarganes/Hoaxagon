@@ -8,6 +8,13 @@ import { PostManager } from '../systems/post_system/postManager.js'
 import { FallacyInfoPanel } from '../systems/ui_system/fallacyInfoPanel.js'
 import { PostBoxObject } from '../systems/post_system/postBoxObject.js';
 
+export const GAMEMODES = 
+{
+    TUTORIAL: "TUTORIAL",
+    TRAINING: "TRAINING",
+    ARCADE: "ARCADE"
+}
+
 export default class GameScene extends Phaser.Scene{
     //TODO: Progresión de niveles
     //TODO: Variante para modo entrenamiento y arcade
@@ -22,6 +29,11 @@ export default class GameScene extends Phaser.Scene{
      * @type {Phaser.GameObjects.Text}
      */
     timeDisplay;
+
+    /**
+     * @type {Phaser.GameObjects.Text}
+     */
+    streakDisplay;
 
     /**
      * @type {boolean}
@@ -54,7 +66,7 @@ export default class GameScene extends Phaser.Scene{
     /**
         * @type {number}
         */
-    falloffTime = 10000;
+    falloffTime = 5000;
 
     /**
      * The centered X position of the generated `PostBoxObject`s.
@@ -83,6 +95,11 @@ export default class GameScene extends Phaser.Scene{
      */
     postUserInfo;
 
+    /**
+     * @type {boolean}
+     */
+    boost = false;
+
     constructor() {
         super(SCENE_KEYS.GAME_SCENE);
     }
@@ -90,9 +107,10 @@ export default class GameScene extends Phaser.Scene{
     init(){
 
     }
-    create() {
+    create(config) {
         this.infoDatabase = this.cache.json.get(JSON_KEYS.INFO_DB);
-        this.cameras.main.setBackgroundColor( PALETTE_HEX.DarkGrey);
+        
+
 
         let { width, height } = this.sys.game.canvas;
 
@@ -100,29 +118,37 @@ export default class GameScene extends Phaser.Scene{
         this.timeDisplay = this.add.text(10, 0, "", TEXT_CONFIG.Heading).setColor(PALETTE_RGBA.White);
         this.updateTimer();
 
+        this.streakDisplay = this.add.text(20,height-60,"Combo",TEXT_CONFIG.SubHeading2).setColor(PALETTE_RGBA.YellowAlert).setOrigin(0,1);
+        this.streakDisplay.setVisible(false);
+
         this.points = 0;
         this.pointsDisplay = this.add.text(10,height-10,"Score: "+this.points,TEXT_CONFIG.Heading2).setColor(PALETTE_RGBA.White).setOrigin(0,1);
         
+        this.boostDisplay = this.add.image(320,350,IMAGE_KEYS.TEMP_SPRITE).setVisible(false).setScale(0.5,0.5);
+        this.boostDisplay.setDepth(1);
+
+
         this.KEYS = this.input.keyboard.addKeys(KEYBINDS);
 
         this.postBoxCenterX = this.cameras.main.centerX * 0.8;
         this.postBoxCenterY = this.cameras.main.centerY;
 
-        let infoPanel = new FallacyInfoPanel(this, 900, 300, 400, 350);
+        this.infoPanel = new FallacyInfoPanel(this, 900, 300, 400, 350);
 
-        infoPanel.addInfoBox(this.createInfoBox(0, 0, this.infoDatabase.FALLACIES.POST_HOC));
-        infoPanel.addInfoBox(this.createInfoBox(0, 0, this.infoDatabase.FALLACIES.AD_VERECUNDIAM));
-        infoPanel.addInfoBox(this.createInfoBox(0, 0, this.infoDatabase.FALLACIES.AD_CONSEQUENTIAM));
+        config.fallacies.forEach(element => {
+        this.addFallacy(element);
+        });
+        this.cameras.main.setBackgroundColor( PALETTE_HEX.DarkGrey);
 
         // TextBox for post user info
-        this.postUserInfo = this.add.text(900, 150, "Usuario: ", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.DarkerGrey);
+        this.postUserInfo = this.add.text(900, 150, "Usuario: ", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
         
         this.postManager = new PostManager(this);
         this.postManager.loadPosts(["ALL"]);
         this.loadNextPost();
 
-        const acceptButton = this.add.text(900, 250, "ACCEPT", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.DarkerGrey);
-        const declineButton = this.add.text(1100, 250, "DECLINE", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.DarkerGrey);
+        const acceptButton = this.add.text(900, 250, "ACCEPT", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
+        const declineButton = this.add.text(1100, 250, "DECLINE", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
 
         acceptButton.setInteractive();
         acceptButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
@@ -173,10 +199,17 @@ export default class GameScene extends Phaser.Scene{
         if (Phaser.Input.Keyboard.JustDown(this.KEYS.TIMEDOWN)){
             this.addTime(-30);
         }
+        if (Phaser.Input.Keyboard.JustDown(this.KEYS.BOOST)){
+            this.setBoost(true);
+        }
         //#endregion
         //#endregion
 
 
+    }
+
+    addFallacy(fallacy){
+        this.infoPanel.addInfoBox(this.createInfoBox(0, 0, fallacy));
     }
 
     /**
@@ -258,9 +291,7 @@ export default class GameScene extends Phaser.Scene{
         this.streak.timeSince += dt;
 
         if (this.streak.timeSince >= this.falloffTime) { 
-            this.streak.count = 0;
-            this.streak.timeSince = 0;
-            this.streak.BoostPity = 0;
+            this.resetStreak();
         }
     }
 
@@ -273,6 +304,21 @@ export default class GameScene extends Phaser.Scene{
         this.streak.timeSince = 0;
         let streakPoints = Math.min(150,50*Math.floor(this.streak.count/3));
         this.addPoints(streakPoints);
+        if (this.streak.count>=3){
+            this.streakDisplay.setVisible(true);
+            this.streakDisplay.text = this.streak.count + "x Combo! +"+streakPoints+" score."
+        }
+        this.rollForBoost();
+    }
+
+    /**
+     * Sets all Streak scores to 0.
+     */
+    resetStreak(){
+            this.streak.count = 0;
+            this.streak.timeSince = 0;
+            this.streak.BoostPity = 0;
+            this.streakDisplay.setVisible(false);
     }
 
     /**
@@ -282,6 +328,7 @@ export default class GameScene extends Phaser.Scene{
         let pity = this.streak.BoostPity ** 2;
         let roll = Math.floor(Math.random() * 100);
         if (pity >= roll) {
+            this.setBoost(true);
             //TODO: Next message is Boosted
             this.streak.BoostPity = 0;
         }
@@ -318,9 +365,24 @@ export default class GameScene extends Phaser.Scene{
     }
 
     /**
+     * Determines whether the next message is Boosted, and updates the UI accordingly.
+     * @param {boolean} boost
+     */
+    setBoost(boost){
+        this.boost = boost;
+        if (this.boost) this.boostDisplay.setVisible(true);
+        else this.boostDisplay.setVisible(false);
+    }
+
+    /**
      * Awards points upon correctly evaluating a message.
      */
     success(){
+        if (this.boost){
+            this.addPoints(200);
+            this.addTime(10);
+            this.setBoost(false);
+        }
         this.addPoints(100);
         this.streakUp();
         console.log("GOOD CHOICE");
@@ -330,9 +392,8 @@ export default class GameScene extends Phaser.Scene{
      * Deducts time upon failing to evaluate a message.
      */
     fail(){
-        this.streak.count = 0;
-        this.streak.timeSince = 0;
-        this.streak.BoostPity = 0;
+        this.setBoost(false);
+        this.resetStreak();
         this.addTime(-30);
         console.log("BAD CHOICE");
     }
@@ -345,6 +406,5 @@ export default class GameScene extends Phaser.Scene{
         this.currentPostObject = this.postManager.buildNewPostObject();
         this.currentPostObject.setPosition(this.postBoxCenterX - 200, this.postBoxCenterY);
 
-        this.postUserInfo.setText("Usuario: " +  this.postManager.currentPostDefinition.user);
-    }
+        this.postUserInfo.setText("Usuario: " +  this.postManager.currentPostDefinition.user);    }
 }

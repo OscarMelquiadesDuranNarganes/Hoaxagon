@@ -56,7 +56,7 @@ export class PostBoxObject extends Phaser.GameObjects.Container {
             scene, 
             REALATIVE_POSITIONS.WORD_BLOCK_CONTAINER_X,
             REALATIVE_POSITIONS.WORD_BLOCK_CONTAINER_Y,
-            'Arial', 20,
+            'Oswald-Medium', 20,
             width - REALATIVE_POSITIONS.WORD_BLOCK_CONTAINER_X * 2
         );
 

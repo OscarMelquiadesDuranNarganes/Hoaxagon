@@ -1,4 +1,4 @@
-import { IMAGE_KEYS, SCENE_KEYS, JSON_KEYS } from '../utils/CommonKeys.js'
+import { IMAGE_KEYS, SCENE_KEYS, JSON_KEYS,ANIM_KEYS } from '../utils/CommonKeys.js'
 
 //import { SceneKeys } from '../../assets/srcKeys.js'
 import { PALETTE_HEX,PALETTE_RGBA } from "../utils/Palette.js";
@@ -34,17 +34,37 @@ export default class LoadScene extends Phaser.Scene {
 
             // Main Menu
             // this.load.image(TextureKeys.Health, 'assets/item/health.png');
-        this.load.image(IMAGE_KEYS.TEMP_POST_CONTAINER, 'assets/images/temp_post_container.png');
-        this.load.image(IMAGE_KEYS.TEMP_SPRITE, 'assets/images/wigglytuff.png');
+        this.load.image(IMAGE_KEYS.TEMP_POST_CONTAINER, './assets/images/temp_post_container.png');
+        this.load.image(IMAGE_KEYS.TEMP_SPRITE, './assets/images/wigglytuff.png');
+        this.load.spritesheet(IMAGE_KEYS.ICOSAMUEL,"./assets/images/ICOSAMUEL/icosamuel_spritesheet.png",{frameWidth:540,frameHeight:540})
 
-        this.load.json(JSON_KEYS.POST_LIST, 'assets/objects/postList.json');
-        this.load.json(JSON_KEYS.INFO_DB, 'assets/objects/infoDatabase.json');
+        this.load.json(JSON_KEYS.POST_LIST, './assets/objects/postList.json');
+        this.load.json(JSON_KEYS.INFO_DB, './assets/objects/infoDatabase.json');
     }
 
     /**
     * Creación de los elementos de la escena principal de juego
     */
     create() {
+        this.anims.create({
+            key: ANIM_KEYS.ICOSAMUEL_IDLE,
+            frames: this.anims.generateFrameNumbers(IMAGE_KEYS.ICOSAMUEL, {start:0,end:23}),
+            frameRate: 24,
+            repeat: -1
+        });
+        this.anims.create({
+            key: ANIM_KEYS.ICOSAMUEL_DANCE,
+            frames: this.anims.generateFrameNumbers(IMAGE_KEYS.ICOSAMUEL, {start:6,end:17}),
+            frameRate: 24,
+            repeat: -1,
+            yoyo: true
+        });
+        this.anims.create({
+            key: ANIM_KEYS.ICOSAMUEL_RIGHT,
+            frames: this.anims.generateFrameNumbers(IMAGE_KEYS.ICOSAMUEL, {start:11,end:16}),
+            frameRate: 24,
+            repeat: 0,
+        }); 
         //this.scene.start(SCENE_KEYS.TEST_SCENE);
     }
     
