@@ -1,7 +1,12 @@
 import { TEXT_CONFIG } from "../../utils/textConfigs.js";
-import { PALETTE_RGBA } from "../../utils/ColorPalette.js";
+import { PALETTE_RGBA } from "../../utils/Palette.js";
 
 export class TimerManager {
+
+    /**
+     * @type {Phaser.Scene}
+     */
+    scene;
 
     /**
      * The variable that keeps track of the timer in milliseconds.
@@ -9,17 +14,23 @@ export class TimerManager {
      */
     timer;
 
-
     /**
      * @type {Phaser.GameObjects.Text}
      */
     timeDisplay;
 
-    constructor(scene, positionX, positionY, initialTimeMilliseconds) {
+    constructor(scene, initialTimeMilliseconds) {
+        console.assert(scene instanceof Phaser.Scene, "ScoreManager: scene is not a Phaser.Scene");
+        
+        this.scene = scene;
         this.timer = initialTimeMilliseconds;
 
-        this.timeDisplay = scene.add.text(positionX, positionY, '', TEXT_CONFIG.Heading)
-            .setColor(PALETTE_RGBA.White);
+        this.timeDisplay = this.scene.add.text(
+            10, 0,
+            '', 
+            TEXT_CONFIG.Heading
+        )
+        .setColor(PALETTE_RGBA.White);
         
         this.updateTimer();
     }

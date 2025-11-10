@@ -1,5 +1,7 @@
 import { JSON_KEYS } from "../../utils/CommonKeys.js";
 import { PostBoxObject } from "./postBoxObject.js";
+import { TEXT_CONFIG } from "../../utils/textConfigs.js";
+import { PALETTE_RGBA } from "../../utils/Palette.js";
 
 export const FALLACY_TYPE = {
     ALL: "ALL",
@@ -60,21 +62,40 @@ export class PostManager {
      * @type {number}
      */
     _postListPosition;
+    
+    postBoxCenterX;
+    postBoxCenterY;
 
     /**
      * @param {Phaser.Scene} scene
-     * @param {Phaser.GameObjects.Container} postFieldContainer
-     * @param {Phaser.GameObjects.Text} userNameTag
-     * @param {Phaser.GameObjects.Image} userPicture
      */
-    constructor(scene/*, postFieldContainer, userNameTag, userPicture*/) {
+    constructor(scene) {
+        console.assert(scene instanceof Phaser.Scene, "PostManager: scene is not a Phaser.Scene");
+
         this.scene = scene;
 
+        this.postBoxCenterX = this.scene.cameras.main.centerX * 0.8;
+        this.postBoxCenterY = this.scene.cameras.main.centerY;
+
+        this.postUserInfo = this.scene.add.text(
+            900, 150, 
+            "Usuario: ", 
+            TEXT_CONFIG.SubHeading
+        )
+        .setColor(PALETTE_RGBA.White);
+
         this.postDataBase = scene.cache.json.get(JSON_KEYS.POST_LIST);
+
+        this.init(); // Set the initial state of the components the manager controls
+    }
+
+    init() {
+        this.loadPosts(["ALL"]);
+        this.loadNextPostInUI();
     }
 
     /**
-     * 
+     * Fills the _postList array with the posts from the database that match the given fallacy types.
      * @param {Array<String>} fallacyTypes
      */
     loadPosts(fallacyTypes) {
@@ -140,9 +161,9 @@ export class PostManager {
         }
 
         this.currentPostObject = this.buildNewPostObject();
+        this.currentPostObject.setPosition(this.postBoxCenterX - 200, this.postBoxCenterY);
 
-        this.postFieldContainer.add(this.currentPostObject);
-        this.userNameTag.setText(/*"Usuario: " +  */this.currentPostDefinition.user);
+        this.postUserInfo.setText("Usuario: " + this.currentPostDefinition.user);
         //this.userPicture.setTexture(newPost.userPicture);
     }
 }

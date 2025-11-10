@@ -140,12 +140,7 @@ export default class GameScene extends Phaser.Scene{
         });
         this.cameras.main.setBackgroundColor( PALETTE_HEX.DarkGrey);
 
-        // TextBox for post user info
-        this.postUserInfo = this.add.text(900, 150, "Usuario: ", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
-        
         this.postManager = new PostManager(this);
-        this.postManager.loadPosts(["ALL"]);
-        this.loadNextPost();
 
         const acceptButton = this.add.text(900, 250, "ACCEPT", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
         const declineButton = this.add.text(1100, 250, "DECLINE", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
@@ -160,7 +155,7 @@ export default class GameScene extends Phaser.Scene{
                 this.fail();
             }
             
-            this.loadNextPost();
+            this.postManager.loadNextPostInUI();
         });
 
         declineButton.setInteractive();
@@ -173,7 +168,7 @@ export default class GameScene extends Phaser.Scene{
                 this.fail();
             }
             
-            this.loadNextPost();
+            this.postManager.loadNextPostInUI();
         });
     }
 
@@ -397,14 +392,4 @@ export default class GameScene extends Phaser.Scene{
         this.addTime(-30);
         console.log("BAD CHOICE");
     }
-
-    loadNextPost(){
-        if(this.currentPostObject){
-            this.currentPostObject.destroy();
-        }
-
-        this.currentPostObject = this.postManager.buildNewPostObject();
-        this.currentPostObject.setPosition(this.postBoxCenterX - 200, this.postBoxCenterY);
-
-        this.postUserInfo.setText("Usuario: " +  this.postManager.currentPostDefinition.user);    }
 }
