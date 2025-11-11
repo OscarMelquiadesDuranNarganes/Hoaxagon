@@ -156,11 +156,38 @@ export class PostManager {
     }
 
     loadNextPostInUI() {
-        if(this.currentPostObject){
-            this.currentPostObject.destroy();
+        const oldPost = this.currentPostObject;
+        const newPost = this.buildNewPostObject();
+        newPost.setScale(0);
+
+        const appearTween = this.scene.tweens.add({
+            targets: newPost,
+            ease: "Linear",
+            repeat: 0,
+            duration: 200,
+            props: {
+                scaleX: 1,
+                scaleY: 1,
+            },
+        });
+
+        if(oldPost){
+            const destroyTween = this.scene.tweens.add({
+                targets: oldPost,
+                ease: "Linear",
+                repeat: 0,
+                duration: 200,
+                props: {
+                    scaleX: 0,
+                    scaleY: 0,
+                },
+                onComplete: () =>{
+                    oldPost.destroy();
+                },
+            });
         }
 
-        this.currentPostObject = this.buildNewPostObject();
+        this.currentPostObject = newPost;
         this.currentPostObject.setPosition(this.postBoxCenterX - 200, this.postBoxCenterY);
 
         this.postUserInfo.setText("Usuario: " + this.currentPostDefinition.user);
