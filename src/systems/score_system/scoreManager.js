@@ -117,6 +117,28 @@ export class ScoreManager {
      */
     updateScore() {
         this.pointsDisplay.text = `Score: ${this.points}`;
+
+        // Asegúrate de llamar a esto en un lugar donde tengas acceso a la escena (this.scene)
+
+        const myTimeline = this.scene.tweens.chain({
+            targets: this.pointsDisplay, // El objeto al que se aplicarán todos los tweens
+            ease: 'Power1',    // Función de easing por defecto para todos los pasos
+            loop: 0,           // 0 para no repetir, o -1 para loop infinito
+
+            // Array de TWEENS que se ejecutan en secuencia
+            tweens: [
+                {
+                    //scaleY: 1.2,
+                    scaleX: 1.2,
+                    duration: 50
+                },
+                {
+                    //scaleY: 1,
+                    scaleX: 1,
+                    duration: 50
+                }
+            ]
+        });
     }
 
     /**

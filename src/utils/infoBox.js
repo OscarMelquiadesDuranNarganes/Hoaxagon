@@ -2,7 +2,7 @@ import { PALETTE_HEX, PALETTE_RGBA } from "./Palette.js";
 import { TEXT_CONFIG } from "./textConfigs.js";
 import { IMAGE_KEYS, SCENE_KEYS, JSON_KEYS } from './CommonKeys.js'
 
-export class InfoBox extends Phaser.GameObjects.Container{
+export class InfoBox extends Phaser.GameObjects.Container {
     /**
     * @type {object}
     */
@@ -106,7 +106,7 @@ export class InfoBox extends Phaser.GameObjects.Container{
         this.isSelected = value;
         
         if(this.isSelected)
-            this.boxRectangle.setFillStyle(0xc3c327)
+            this.boxRectangle.setFillStyle(0xc3c327);
         else
             this.boxRectangle.setFillStyle(PALETTE_HEX.White);
     }

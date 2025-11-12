@@ -5,16 +5,12 @@ import { TEXT_CONFIG } from "../utils/textConfigs.js";
 import { InfoBox } from "../utils/infoBox.js";
 //import SIZES from "../utils/Sizes.js";
 
-export default class InfoScene extends Phaser.Scene{
+export default class InfoScene extends Phaser.Scene {
+
     constructor(){
         super(SCENE_KEYS.INFO_SCENE);
     }
-    preload() {
-        
-    }
-    init(){
-    
-    }
+
     create(infoEntry) {
         this.cameras.main.setBackgroundColor(PALETTE_RGBA.TranslucentGrey);
         let { width, height } = this.sys.game.canvas;
