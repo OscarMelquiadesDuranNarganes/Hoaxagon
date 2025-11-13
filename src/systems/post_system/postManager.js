@@ -8,6 +8,11 @@ export const FALLACY_TYPE = {
     AD_HOMINEM: "AD_HOMINEM"
 };
 
+export const POST_VEREDICT = {
+    SUCCESSFUL: "SUCCESSFUL",
+    FAILURE: "FAILURE"
+};
+
 export const POST_WIDTH = 400;
 
 /**
@@ -50,7 +55,7 @@ export class PostManager {
     /**
      * @type {PostBoxObject}
      */
-    currentPostObject;
+    currentPostObject = null;
 
     /**
      * @type {Array<PostDef>}
@@ -155,8 +160,81 @@ export class PostManager {
         return new PostBoxObject(this.scene, 0, 0, this.currentPostDefinition.text, POST_WIDTH);
     }
 
-    loadNextPostInUI() {
-        const oldPost = this.currentPostObject;
+    /**
+     * Eliminates de current PostBoxObject in differet ways depending on whether the post veredict
+     * is correct or not. The parameter veredictResult is a constant that belongs to `POST_VEREDICT`
+     * @param {String} veredictResult 
+     */
+    replacePostInUI(veredictResult) {
+        if(veredictResult === POST_VEREDICT.SUCCESSFUL) {
+            this.scene.tweens.chain({
+                targets: this.currentPostObject,
+                ease: "Linear",
+                repeat: 0,
+                duration: 200,
+
+                tweens: [
+                    {
+                        scaleX: 1.3,
+                        scaleY: 0.7,
+                        duration: 100
+                    },
+                    {
+                        scaleX: 0.7,
+                        scaleY: 1.3,
+                        duration: 100
+                    },
+                    {
+                        scaleX: 1,
+                        scaleY: 1,
+                        duration: 100
+                    },
+                ],
+
+                onComplete: () =>{
+                    this.currentPostObject.destroy();
+                    this.createPostInUI();
+                },
+            });
+
+            return;
+        }
+
+        if(veredictResult === POST_VEREDICT.FAILURE) {
+            this.scene.tweens.chain({
+                targets: this.currentPostObject,
+                ease: "Linear",
+                repeat: 0,
+                duration: 800,
+
+                tweens: [
+                    {
+                        rotation: 0.2,
+                        duration: 50,
+                    },
+                    {
+                        rotation: -0.2,
+                        duration: 50,
+                    },
+                    {
+                        rotation: 0.2,
+                        duration: 50,
+                    },
+                    {
+                        rotation: -0.2,
+                        duration: 50,
+                    },
+                ],
+
+                onComplete: () =>{
+                    this.currentPostObject.destroy();
+                    this.createPostInUI();
+                },
+            });
+        }
+    }
+
+    createPostInUI() {
         const newPost = this.buildNewPostObject();
         newPost.setScale(0);
 
@@ -164,33 +242,27 @@ export class PostManager {
             targets: newPost,
             ease: "Linear",
             repeat: 0,
-            duration: 200,
+            duration: 250,
             props: {
                 scaleX: 1,
                 scaleY: 1,
             },
         });
 
-        if(oldPost){
-            const destroyTween = this.scene.tweens.add({
-                targets: oldPost,
-                ease: "Linear",
-                repeat: 0,
-                duration: 200,
-                props: {
-                    scaleX: 0,
-                    scaleY: 0,
-                },
-                onComplete: () =>{
-                    oldPost.destroy();
-                },
-            });
-        }
-
         this.currentPostObject = newPost;
         this.currentPostObject.setPosition(this.postBoxCenterX - 200, this.postBoxCenterY);
 
         this.postUserInfo.setText("Usuario: " + this.currentPostDefinition.user);
-        //this.userPicture.setTexture(newPost.userPicture);
+    }
+
+    /**
+     * Handles the load of a new post box.
+     * @param {String} veredictResult 
+     */
+    loadNextPostInUI(veredictResult) {
+        if(this.currentPostObject)
+            this.replacePostInUI(veredictResult);
+        else
+            this.createPostInUI();
     }
 }

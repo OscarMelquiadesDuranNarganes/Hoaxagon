@@ -4,7 +4,7 @@ import { PALETTE_HEX, PALETTE_RGBA } from "../utils/Palette.js";
 import { InfoBox } from "../utils/infoBox.js";
 import { TEXT_CONFIG } from "../utils/textConfigs.js";
 
-import { PostManager } from '../systems/post_system/postManager.js'
+import { PostManager, POST_VEREDICT } from '../systems/post_system/postManager.js'
 import { TimerManager } from "../systems/time_system/timerManager.js";
 import { ScoreManager } from "../systems/score_system/scoreManager.js";
 import { InspectorManager } from "../systems/inspection_system/inspectorManager.js";
@@ -99,8 +99,6 @@ export default class GameScene extends Phaser.Scene{
             else {
                 this.fail();
             }
-            
-            this.postManager.loadNextPostInUI();
         });
 
         declineButton.setInteractive();
@@ -112,8 +110,6 @@ export default class GameScene extends Phaser.Scene{
             else {
                 this.fail();
             }
-            
-            this.postManager.loadNextPostInUI();
         });
     }
 
@@ -185,6 +181,8 @@ export default class GameScene extends Phaser.Scene{
 
         this.scoreManager.addPoints(100);
         this.scoreManager.streakUp();
+            
+        this.postManager.loadNextPostInUI(POST_VEREDICT.SUCCESSFUL);
 
         console.log("GOOD CHOICE");
     }
@@ -197,6 +195,8 @@ export default class GameScene extends Phaser.Scene{
         this.scoreManager.resetStreak();
 
         this.timerManager.addTimeSeconds(-30);
+            
+        this.postManager.loadNextPostInUI(POST_VEREDICT.FAILURE);
 
         console.log("BAD CHOICE");
     }
