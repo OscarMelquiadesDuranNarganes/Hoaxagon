@@ -73,28 +73,6 @@ export class WordBlockContainer extends Phaser.GameObjects.Container {
         this.textFontFamily = textFontFamily;
 
         scene.add.existing(this);
-
-        this._pointerDownHandler = (pointer, game_objects) => {
-            game_objects.forEach((game_object) => this.handleWordBlockSelection(game_object));
-        };
-
-        this.scene.input.on(Phaser.Input.Events.POINTER_DOWN, this._pointerDownHandler);        
-    }
-
-    destroy(fromScene) {
-        // Remove registered event handler
-        if (this._pointerDownHandler && this.scene && this.scene.input) {
-            this.scene.input.off(Phaser.Input.Events.POINTER_DOWN, this._pointerDownHandler);
-            this._pointerDownHandler = null;
-        }
-
-        // Destroy explicitly the WordBlocks stored in the array  
-        this.wordList.forEach(wordBlock => {
-            if (wordBlock && typeof wordBlock.destroy === 'function') wordBlock.destroy(fromScene);
-        });
-        
-        // Call the parent's destroy method to clean up the container's children
-        super.destroy(fromScene);
     }
 
     /**
@@ -257,15 +235,21 @@ export class WordBlockContainer extends Phaser.GameObjects.Container {
     }
 
     /**
-     * Gets a sentence highlighted if the user clicks on one `WordBlock` that forms part of the
-     * sentence.
-     * @param {Phaser.GameObjects} clickedObject 
+     * Selects all `WordBlock`s with the sentenceID.
+     * @param {number} sentenceID 
      */
-    handleWordBlockSelection(clickedObject) {
-        if(!(clickedObject instanceof WordBlock)) return;
-
+    selectSentence(sentenceID) {
         this.wordList.forEach((wordBlock) => {
-            wordBlock.setSelectionState(wordBlock.sentenceID == clickedObject.sentenceID);
+            wordBlock.setSelectionState(wordBlock.sentenceID == sentenceID);
+        });
+    }
+
+    /**
+     * Deselects all the contained `WordBlock`s.
+     */
+    deselectAllWordBlocks() {
+        this.wordList.forEach((wordBlock) => {
+            wordBlock.setSelectionState(false);
         });
     }
 }

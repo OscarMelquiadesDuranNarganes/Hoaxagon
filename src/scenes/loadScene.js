@@ -36,7 +36,11 @@ export default class LoadScene extends Phaser.Scene {
             // this.load.image(TextureKeys.Health, 'assets/item/health.png');
         this.load.image(IMAGE_KEYS.TEMP_POST_CONTAINER, './assets/images/temp_post_container.png');
         this.load.image(IMAGE_KEYS.TEMP_SPRITE, './assets/images/wigglytuff.png');
-        this.load.spritesheet(IMAGE_KEYS.ICOSAMUEL,"./assets/images/ICOSAMUEL/icosamuel_spritesheet.png",{frameWidth:540,frameHeight:540})
+        this.load.spritesheet(IMAGE_KEYS.ICOSAMUEL,"./assets/images/ICOSAMUEL/icosamuel_spritesheet.png",{frameWidth:540,frameHeight:540});
+        
+        this.load.image(IMAGE_KEYS.BACKGROUND_TRIANGLE, './assets/images/background_triangle.png');
+        this.load.image(IMAGE_KEYS.INSPECTOR_BUTTON, './assets/images/inspector_button.png');
+        this.load.image(IMAGE_KEYS.CHRONO_CLOCK, './assets/images/chrono_clock.png');
 
         this.load.json(JSON_KEYS.POST_LIST, './assets/objects/postList.json');
         this.load.json(JSON_KEYS.INFO_DB, './assets/objects/infoDatabase.json');

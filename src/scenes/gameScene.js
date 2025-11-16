@@ -83,7 +83,7 @@ export default class GameScene extends Phaser.Scene{
         this.addFallacy(element);
         });
 
-        this.inspectorManager = new InspectorManager(this, this.infoPanel, this.postManager, null);
+        this.inspectorManager = new InspectorManager(this, this.infoPanel, this.postManager);
 
         this.cameras.main.setBackgroundColor( PALETTE_HEX.DarkGrey);
 
