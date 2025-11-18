@@ -208,7 +208,7 @@ export default class GameScene extends Phaser.Scene{
      * Awards points upon correctly evaluating a message.
      */
     success() {
-        if (this.boost) {
+        if (this.scoreManager.boost) {
             this.scoreManager.addPoints(200);
             this.scoreManager.setBoost(false);
             

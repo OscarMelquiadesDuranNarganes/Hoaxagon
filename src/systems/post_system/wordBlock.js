@@ -1,3 +1,5 @@
+import { PALETTE_RGBA } from "../../utils/Palette.js";
+
 export class WordBlock extends Phaser.GameObjects.Text {
     
     /**
@@ -42,8 +44,8 @@ export class WordBlock extends Phaser.GameObjects.Text {
         this.isSelected = value;
         
         if(this.isSelected)
-            this.setBackgroundColor('#c3c327ff');
+            this.setBackgroundColor(PALETTE_RGBA.YellowAlert);
         else
-            this.setBackgroundColor('#00000000');
+            this.setBackgroundColor(PALETTE_RGBA.Void);
     }
 }

@@ -75,5 +75,17 @@ export default class MainMenu extends Phaser.Scene{
             textConfig:TEXT_CONFIG.Heading,
             textColor: PALETTE_RGBA.DarkerGrey
         });
+        this.trainingButton = new Button({
+            scene:this,
+            x:width/2,y:height/2+200,
+            width: 300, height: 60,
+            color: PALETTE_HEX.White,
+            clickCallback: () => {
+                this.scene.start(SCENE_KEYS.TRAINING_MENU_SCENE)
+            },
+            text: "TRAINING",
+            textConfig:TEXT_CONFIG.SubHeading,
+            textColor: PALETTE_RGBA.DarkerGrey
+        })
     }
 }

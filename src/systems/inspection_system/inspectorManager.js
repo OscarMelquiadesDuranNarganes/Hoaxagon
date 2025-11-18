@@ -3,6 +3,7 @@ import { FallacyInfoPanel } from "../ui_system/fallacyInfoPanel.js";
 import { InfoBox } from "../../utils/infoBox.js";
 import { IMAGE_KEYS } from "../../utils/CommonKeys.js";
 import { WordBlock } from "../post_system/wordBlock.js";
+import { PALETTE_HEX } from "../../utils/Palette.js";
 
 export class InspectorManager {
 
@@ -117,9 +118,9 @@ export class InspectorManager {
         this.inspectionActive = !this.inspectionActive;
 
         if(this.inspectionActive)
-            this.inspectorModeButton.setTint(0xc3c327);
+            this.inspectorModeButton.setTint(PALETTE_HEX.YellowAlert);
         else
-            this.inspectorModeButton.setTint(0xffffff);
+            this.inspectorModeButton.setTint(PALETTE_HEX.White);
 
         // Deselect all info boxes
         this.infoPanel.infoBoxes.forEach((infoBox) => {
