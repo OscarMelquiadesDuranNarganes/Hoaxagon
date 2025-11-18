@@ -19,8 +19,28 @@ export default class InfoScene extends Phaser.Scene {
     create(infoEntry, infoType = INFO_TYPE.FLASH_CARD) {
         console.assert(infoType in INFO_TYPE, "infoType must be a INFO_TYPE");
 
-        this.cameras.main.setBackgroundColor(PALETTE_RGBA.TranslucentGrey);
+        this.cameras.main.setBackgroundColor(PALETTE_HEX.DarkGrey);
+        this.cameras.main.backgroundColor.alpha = 0;
 
+        this.tweens.add({
+            targets: this.cameras.main.backgroundColor, 
+    
+            alpha: {
+                from: 0,    // Transparente (0)
+                to: 140     // Opaco (255)
+            },
+            
+            duration: 200,
+            repeat: 0,
+            onComplete: () => {
+                this.buildInfoBox(infoEntry, infoType);
+            },
+        });
+        
+        
+    }
+
+    buildInfoBox(infoEntry, infoType) {
         const width = this.sys.game.canvas.width;
         const height = this.sys.game.canvas.height;
 
@@ -47,11 +67,12 @@ export default class InfoScene extends Phaser.Scene {
         if(infoType === INFO_TYPE.NEW_TYPE_INFO) {
 
             this.add.text(
-                width / 2 - 300, height / 2 - 250,
+                width / 2, height / 2 - 270,
                 "NUEVA FALACIA",
-                TEXT_CONFIG.SubHeading
+                TEXT_CONFIG.Heading2
             )
-            .setColor(PALETTE_RGBA.White);
+            .setColor(PALETTE_RGBA.White)
+            .setOrigin(0.5, 0);
 
             new InfoBox({
                 scene: this,
@@ -62,9 +83,9 @@ export default class InfoScene extends Phaser.Scene {
             });
 
             const confirmButton = this.add.text(
-                width / 2 - 20, height / 2 + 240,
-                "VALE",
-                TEXT_CONFIG.SubHeading2
+                width / 2 - 290, height / 2 + 230,
+                "¡VALE!",
+                TEXT_CONFIG.SubHeading
             )
             .setColor(PALETTE_RGBA.White);
 

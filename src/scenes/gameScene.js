@@ -80,6 +80,26 @@ export default class GameScene extends Phaser.Scene{
             PALETTE_HEX.MiddleGrey
         )
         .setOrigin(0, 0);
+
+        /*new ChainState()
+            .setTag("Timer Alpha Animation")
+            .setStart(
+                () => {
+                    this.add.tween({
+                        target: this.infoDatabase,
+                        duration: 50,
+                        onComplete: () => {
+                            stateChainManager.endCurrentState();
+                        }
+                    });
+                }
+            )
+            .setUpdate(
+                (t, dt) => {
+
+                }
+            );*/
+        
         
         this.timerManager = new TimerManager(this, 180000);
 

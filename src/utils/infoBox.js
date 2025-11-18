@@ -35,7 +35,7 @@ export class InfoBox extends Phaser.GameObjects.Container {
         this.scene.add.existing(this);
 
         // Shadow rectangle
-        this.add(this.scene.add.rectangle(10, 10, config.width, config.height, PALETTE_HEX.DarkerGrey, 1));
+        this.add(this.scene.add.rectangle(10, 10, config.width, config.height, PALETTE_HEX.DarkerGrey, 0.5));
 
         // Main rectangle
         this.boxRectangle = this.scene.add.rectangle(0, 0, config.width, config.height, PALETTE_HEX.White, 1);
