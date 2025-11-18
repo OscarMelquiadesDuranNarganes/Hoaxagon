@@ -14,7 +14,6 @@ export default class Button extends Phaser.GameObjects.Container{
             textColor?}
      */
     constructor(config){
-        console.log(config.text);
         super(config.scene,config.x,config.y);
         this.setSize(config.width,config.height);
         this.scene.add.existing(this);
