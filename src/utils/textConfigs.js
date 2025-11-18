@@ -11,6 +11,10 @@ export const TEXT_CONFIG = {
         fontSize:"48px",
         fontFamily:"Horizon"
     },
+    Heading3:{
+        fontSize:"36px",
+        fontFamily:"Horizon"
+    },
     SubHeading:{
         fontSize:"24px",
         fontFamily:"Horizon"

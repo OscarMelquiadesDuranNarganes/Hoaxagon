@@ -53,7 +53,7 @@ export default class TrainingMenu extends Phaser.Scene{
     }
     createNewButton(fallacy){
         return new Button({scene:this, x:this.width/2,y:250,width:this.buttonWidth,height:this.buttonHeight,color:PALETTE_HEX.White,
-            text:fallacy.name,textConfig:TEXT_CONFIG.SubHeading,textColor:PALETTE_RGBA.DarkerGrey,
+            text:fallacy.name,textConfig:TEXT_CONFIG.Heading3,textColor:PALETTE_RGBA.DarkerGrey,
             clickCallback:()=>{this.scene.start(SCENE_KEYS.GAME_SCENE,{fallacies:[fallacy]})}});
     }
 }
