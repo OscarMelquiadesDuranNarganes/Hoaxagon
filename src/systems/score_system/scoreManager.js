@@ -105,7 +105,8 @@ export class ScoreManager {
         )
         .setVisible(false)
         .setScale(0.1, 0.1)
-        .setDepth(1).setTint(PALETTE_HEX.AmberAlert);
+        .setDepth(1)
+        .setTint(PALETTE_HEX.AmberAlert);
 
         // Create streak display
         this.streakDisplay = this.scene.add.text(

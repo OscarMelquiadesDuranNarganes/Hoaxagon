@@ -106,7 +106,7 @@ export class InfoBox extends Phaser.GameObjects.Container {
         this.isSelected = value;
         
         if(this.isSelected)
-            this.boxRectangle.setFillStyle(0xc3c327);
+            this.boxRectangle.setFillStyle(PALETTE_HEX.YellowAlert);
         else
             this.boxRectangle.setFillStyle(PALETTE_HEX.White);
     }
