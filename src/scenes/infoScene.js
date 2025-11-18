@@ -19,6 +19,15 @@ export default class InfoScene extends Phaser.Scene {
     create(infoEntry, infoType = INFO_TYPE.FLASH_CARD) {
         console.assert(infoType in INFO_TYPE, "infoType must be a INFO_TYPE");
 
+        const { width, height } = this.scale; 
+
+        const blocker = this.add.rectangle(
+            width / 2, height / 2,
+            width, height
+        );
+
+        blocker.setInteractive();
+
         this.cameras.main.setBackgroundColor(PALETTE_HEX.DarkGrey);
         this.cameras.main.backgroundColor.alpha = 0;
 
@@ -36,8 +45,6 @@ export default class InfoScene extends Phaser.Scene {
                 this.buildInfoBox(infoEntry, infoType);
             },
         });
-        
-        
     }
 
     buildInfoBox(infoEntry, infoType) {
