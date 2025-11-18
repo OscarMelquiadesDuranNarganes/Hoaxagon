@@ -59,20 +59,33 @@ export default class GameScene extends Phaser.Scene{
      */
     postUserInfo;
 
+    /**
+     * @type {Array<number>}
+     */
+    levelThresholds = [1000,5000,15000,30000,50000,-1];
+
+    /**
+     * @type {boolean}
+     */
+    arcade = false;
+
+    /**
+     * @type {number}
+     */
+    level;
+
     constructor() {
         super(SCENE_KEYS.GAME_SCENE);
     }
 
-    init(){
-
-    }
     create(config) {
-        this.infoDatabase = this.cache.json.get(JSON_KEYS.INFO_DB);
+        this.level = 0;
 
         this.add.image(0, 0, IMAGE_KEYS.BACKGROUND_TRIANGLES)
             .setOrigin(0, 0)
             .setTint(PALETTE_HEX.MiddleGrey)
             .setAlpha(0.15);
+
 
         this.add.rectangle(
             890, 0,
@@ -101,6 +114,20 @@ export default class GameScene extends Phaser.Scene{
             );*/
         
         
+        this.infoDatabase = this.cache.json.get(JSON_KEYS.INFO_DB);
+        this.infoPanel = new FallacyInfoPanel(this, 900, 300, 400, 350);
+
+        this.fallacyPool = [];
+        this.infoDatabase.FALLACIES.forEach(element => {
+            this.fallacyPool.push(element);
+        });
+        // this.fallacyPool = this.infoDatabase.FALLACIES;
+
+        this.arcade = config.fallacies.length == 0
+        if (this.arcade){ 
+            this.addFallacy(this.rollNewFallacy());
+        }
+
         this.timerManager = new TimerManager(this, 180000);
 
         this.scoreManager = new ScoreManager(this);
@@ -109,11 +136,12 @@ export default class GameScene extends Phaser.Scene{
 
         this.KEYS = this.input.keyboard.addKeys(KEYBINDS);
 
-        this.infoPanel = new FallacyInfoPanel(this, 900, 300, 400, 350);
 
         config.fallacies.forEach(element => {
         this.addFallacy(element);
         });
+
+
 
         this.inspectorManager = new InspectorManager(this, this.infoPanel, this.postManager);
 
@@ -148,6 +176,7 @@ export default class GameScene extends Phaser.Scene{
             }
         });
     }
+    
 
     update(time, dt) {
         //#region timer
@@ -179,7 +208,10 @@ export default class GameScene extends Phaser.Scene{
 
 
     }
-
+    /**
+     * Adds the provided fallacy's infobox to the panel.
+     * @param {Object} fallacy 
+     */
     addFallacy(fallacy){
         this.infoPanel.addInfoBox(
             new InfoBox({
@@ -217,6 +249,9 @@ export default class GameScene extends Phaser.Scene{
 
         this.scoreManager.addPoints(100);
         this.scoreManager.streakUp();
+
+        if (this.arcade && this.levelThresholds[this.level] != -1 && this.scoreManager.getScore()>this.levelThresholds[this.level]) 
+            this.levelUp();
             
         this.postManager.loadNextPostInUI(POST_VEREDICT.SUCCESSFUL);
 
@@ -235,5 +270,28 @@ export default class GameScene extends Phaser.Scene{
         this.postManager.loadNextPostInUI(POST_VEREDICT.FAILURE);
 
         console.log("BAD CHOICE");
+    }
+    /**
+     * Selects a fallacy at random from the remaining candidates.
+     * @returns The selected fallacy.
+     */
+    rollNewFallacy(){
+        let size = this.fallacyPool.length;
+        let index = Math.floor(Math.random()*size);
+        
+        var newFallacy = this.fallacyPool[index];
+        this.fallacyPool.splice(index,1);
+        return newFallacy;
+    }
+    /**
+     * Raises the current level by 1, adding a new fallacy to the list.
+     */
+    levelUp(){
+        console.log(this.level);
+        this.level++;
+        let newFallacy = this.rollNewFallacy()
+        this.addFallacy(newFallacy);
+        //TODO: Pantalla explicativa de la nueva falacia
+
     }
 }

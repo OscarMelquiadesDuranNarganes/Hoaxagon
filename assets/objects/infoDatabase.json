@@ -14,36 +14,36 @@
         "description": "Description Description Description Description Description Description Description Description Description ",
         "long_desc": "Even Longer Description"
     },
-    "FALLACIES":{
-        "AD_IGNORANTIAM":{
+    "FALLACIES":[
+        {
             "name": "Ad Ignorantiam",
             "description": "¡Pero a que no me demuestras lo contrario!",
             "long_desc": "Erróneamente concluir que algo es cierto por no poder demostrar su falsedad."
         },
-        "AD_VERECUNDIAM":{
+        {
             "name": "Ad Verecundiam",
             "description": "¡Pero si este es de fiar!",
             "long_desc": "Erróneamente concluir que algo es cierto al ser dicho por una figura de autoridad."
         },
-        "AD_CONSEQUENTIAM":{
+        {
             "name": "Ad Consequentiam",
             "description": "¡Pero qué mal si no es cierto!",
             "long_desc": "Erróneamente concluir que algo es cierto porque es deseable que lo sea."
         },
-        "POST_HOC":{
+        {
             "name": "Post Hoc",
             "description": "¡Pero si esto ocurre después de lo otro, esto debe ocurrir por lo otro!",
             "long_desc": "Erróneamente concluir que dos sucesos que ocurren en secuencia están necesariamente relacionados."
         },
-        "AD_HOMINEM":{
+        {
             "name": "Ad Hominem",
             "description": "¡Pero si tú eres tal!",
             "long_desc": "Atacar al defensor de cierto punto de vista en base a una característica o comportamiento irrelevante."
         },
-        "AD_POPULUM":{
+        {
             "name": "Ad Populum",
             "description": "¡Pero si todos lo dicen!",
             "long_desc": "Erróneamente asumir que also es cierto al ser dicho por un gran número de personas."
         }
-    }
+    ]
 }

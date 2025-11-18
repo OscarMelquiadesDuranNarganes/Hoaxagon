@@ -32,6 +32,11 @@ export class ScoreManager {
      */
     points = 0;
 
+        /**
+     * @type {number}
+     */
+    levelUpThreshold = 0;
+
     /**
         * @type {number}
         */
@@ -110,11 +115,11 @@ export class ScoreManager {
 
         // Create streak display
         this.streakDisplay = this.scene.add.text(
-            10, 50,
+            10, -50,
             "Combo",
             TEXT_CONFIG.SubHeading2
         )
-        .setColor(PALETTE_RGBA.YellowAlert)
+        .setColor(PALETTE_RGBA.AmberAlert)
         .setOrigin(0, 1)
         .setVisible(false);
 
@@ -221,5 +226,9 @@ export class ScoreManager {
         
         if (this.boost) this.boostDisplay.setVisible(true);
         else this.boostDisplay.setVisible(false);
+    }
+
+    getScore(){
+        return this.points;
     }
 }

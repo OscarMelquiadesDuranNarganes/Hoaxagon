@@ -64,9 +64,6 @@ export default class MainMenu extends Phaser.Scene{
                     SCENE_KEYS.GAME_SCENE,
                     {
                         fallacies:[
-                            this.infoDatabase.FALLACIES.POST_HOC,
-                            this.infoDatabase.FALLACIES.AD_VERECUNDIAM,
-                            this.infoDatabase.FALLACIES.AD_CONSEQUENTIAM
                         ]
                     }
                 )
