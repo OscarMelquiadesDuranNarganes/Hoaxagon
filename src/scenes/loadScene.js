@@ -35,6 +35,7 @@ export default class LoadScene extends Phaser.Scene {
             // Main Menu
             // this.load.image(TextureKeys.Health, 'assets/item/health.png');
         this.load.image(IMAGE_KEYS.TEMP_POST_CONTAINER, './assets/images/temp_post_container.png');
+        this.load.image(IMAGE_KEYS.BOOST_STAR, './assets/images/boost_star.png');
         this.load.image(IMAGE_KEYS.TEMP_SPRITE, './assets/images/wigglytuff.png');
         this.load.spritesheet(IMAGE_KEYS.ICOSAMUEL,"./assets/images/ICOSAMUEL/icosamuel_spritesheet.png",{frameWidth:540,frameHeight:540});
         

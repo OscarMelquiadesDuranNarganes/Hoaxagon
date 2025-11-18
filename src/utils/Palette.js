@@ -4,7 +4,7 @@ export const PALETTE_HEX = {
     LightGrey: 0xc3c3c3,
     MiddleGrey: 0x969696,
     DarkGrey: 0x505050,
-    DarkerGrey:  0x232323,
+    DarkerGrey: 0x232323,
     Black: 0x000000,
     YellowAlert: 0xd3ac1f,
     AmberAlert: 0xd47d3b,

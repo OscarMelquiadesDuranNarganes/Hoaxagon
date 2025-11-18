@@ -1,6 +1,6 @@
 import { IMAGE_KEYS } from "../../utils/CommonKeys.js";
 import { TEXT_CONFIG } from "../../utils/textConfigs.js";
-import { PALETTE_RGBA } from "../../utils/Palette.js";
+import { PALETTE_HEX, PALETTE_RGBA } from "../../utils/Palette.js";
 
 class Streak {
 
@@ -100,12 +100,12 @@ export class ScoreManager {
 
         // Create boost display
         this.boostDisplay = this.scene.add.image(
-            320, 350, 
-            IMAGE_KEYS.TEMP_SPRITE
+            325, 355, 
+            IMAGE_KEYS.BOOST_STAR
         )
         .setVisible(false)
-        .setScale(0.5, 0.5)
-        .setDepth(1);
+        .setScale(0.1, 0.1)
+        .setDepth(1).setTint(PALETTE_HEX.AmberAlert);
 
         // Create streak display
         this.streakDisplay = this.scene.add.text(
