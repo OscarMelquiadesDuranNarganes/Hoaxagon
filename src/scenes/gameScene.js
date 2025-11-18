@@ -64,16 +64,22 @@ export default class GameScene extends Phaser.Scene{
      */
     levelThresholds = [1000,5000,15000,30000,50000,-1];
 
-        /**
+    /**
      * @type {boolean}
      */
     arcade = false;
+
+    /**
+     * @type {number}
+     */
+    level;
 
     constructor() {
         super(SCENE_KEYS.GAME_SCENE);
     }
 
     create(config) {
+        this.level = 0;
 
         this.add.image(0, 0, IMAGE_KEYS.BACKGROUND_TRIANGLES)
             .setOrigin(0, 0)
@@ -116,9 +122,9 @@ export default class GameScene extends Phaser.Scene{
             this.fallacyPool.push(element);
         });
         // this.fallacyPool = this.infoDatabase.FALLACIES;
-        
-        arcade = config.fallacies.length == 0
-        if (arcade){ 
+
+        this.arcade = config.fallacies.length == 0
+        if (this.arcade){ 
             this.addFallacy(this.rollNewFallacy());
         }
 
@@ -240,6 +246,9 @@ export default class GameScene extends Phaser.Scene{
 
         this.scoreManager.addPoints(100);
         this.scoreManager.streakUp();
+
+        if (this.arcade && this.levelThresholds[this.level] != -1 && this.scoreManager.getScore()>this.levelThresholds[this.level]) 
+            this.levelUp();
             
         this.postManager.loadNextPostInUI(POST_VEREDICT.SUCCESSFUL);
 
@@ -266,5 +275,13 @@ export default class GameScene extends Phaser.Scene{
         var newFallacy = this.fallacyPool[index];
         this.fallacyPool.splice(index,1);
         return newFallacy;
+    }
+    levelUp(){
+        console.log(this.level);
+        this.level++;
+        let newFallacy = this.rollNewFallacy()
+        this.addFallacy(newFallacy);
+        //TODO: Pantalla explicativa de la nueva falacia
+
     }
 }

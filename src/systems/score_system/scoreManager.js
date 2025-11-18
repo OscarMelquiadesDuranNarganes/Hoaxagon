@@ -227,8 +227,8 @@ export class ScoreManager {
         if (this.boost) this.boostDisplay.setVisible(true);
         else this.boostDisplay.setVisible(false);
     }
-    setPointsThreshold(points){
-        if (points != -1)
-            this.levelUpThreshold+=points;
+
+    getScore(){
+        return this.points;
     }
 }
