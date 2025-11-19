@@ -195,7 +195,17 @@ export class ScoreManager {
 
         if (this.streak.count>=3) {
             this.streakDisplay.setVisible(true);
-            this.streakDisplay.text = this.streak.count + "x Combo! +"+streakPoints+" score."
+            this.streakDisplay.text = this.streak.count + "x Combo! +"+streakPoints+" score.";
+            this.scene.tweens.add({
+                targets:this.streakDisplay,
+                ease:'Linear',
+                loop: 0,
+                alpha: {
+                    from: 1.5,
+                    to: 0,
+                    duration:5000   
+                },
+            });
         }
 
         this.rollForBoost();
