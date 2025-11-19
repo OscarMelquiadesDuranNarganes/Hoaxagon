@@ -16,9 +16,7 @@ export default class InfoScene extends Phaser.Scene {
         super(SCENE_KEYS.INFO_SCENE);
     }
 
-    create(infoEntry, infoType = INFO_TYPE.FLASH_CARD) {
-        console.assert(infoType in INFO_TYPE, "infoType must be a INFO_TYPE");
-
+    create(config) {
         const { width, height } = this.scale; 
 
         const blocker = this.add.rectangle(
@@ -42,12 +40,12 @@ export default class InfoScene extends Phaser.Scene {
             duration: 200,
             repeat: 0,
             onComplete: () => {
-                this.buildInfoBox(infoEntry, infoType);
+                this.buildInfoBox(config.fallacyObj, config.infoType);
             },
         });
     }
 
-    buildInfoBox(infoEntry, infoType) {
+    buildInfoBox(fallacyObj, infoType) {
         const width = this.sys.game.canvas.width;
         const height = this.sys.game.canvas.height;
 
@@ -56,7 +54,7 @@ export default class InfoScene extends Phaser.Scene {
                 scene: this,
                 x: width / 2, y: height / 2,
                 width: 600, height: 400,
-                info: infoEntry,
+                info: fallacyObj,
                 expanded: true
             });
             
@@ -85,7 +83,7 @@ export default class InfoScene extends Phaser.Scene {
                 scene: this,
                 x: width / 2, y: height / 2,
                 width: 600, height: 400,
-                info: infoEntry,
+                info: fallacyObj,
                 expanded: true
             });
 

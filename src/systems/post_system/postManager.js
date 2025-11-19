@@ -32,6 +32,11 @@ export class PostManager {
     postDataBase;
 
     /**
+     * @type {Array<String>}
+     */
+    fallacyTipeNames = [];
+
+    /**
      * The object from the JSON that defines the current post that the PostManager has generated.
      * @type {PostDef}
      */
@@ -90,31 +95,40 @@ export class PostManager {
         .setColor(PALETTE_RGBA.White);
 
         this.postDataBase = scene.cache.json.get(JSON_KEYS.POST_LIST);
+        
+        const fallacyInfoDataBase = scene.cache.json.get(JSON_KEYS.INFO_DB);
+        this.fallacyTipeNames.map((fallacyType) => fallacyType.name);
 
         this.init(); // Set the initial state of the components the manager controls
     }
 
     init() {
-        this.loadPosts(["ALL"]);
+        this.loadPosts();
         this.loadNextPostInUI();
     }
 
     /**
-     * Fills the _postList array with the posts from the database that match the given fallacy types.
+     * Fills the _postList array with the posts from the database that match the given fallacy type names.
      * @param {Array<String>} fallacyTypes
      */
-    loadPosts(fallacyTypes) {
+    loadPosts(fallacyTypes = []) {
         
         // Ensuring the parameters are right
-        console.assert(fallacyTypes instanceof Array, "fallacyType must be an Array");
-        fallacyTypes.forEach((fallacyType) => {
-            console.assert(fallacyType in FALLACY_TYPE, "All fallacyTypes elements must be a FALLACY_TYPE");
-        });
+        if(fallacyTypes.length > 0) {
+            console.assert(fallacyTypes instanceof Array, "fallacyType must be an Array");
+            fallacyTypes.forEach((fallacyType) => {
+                console.assert(this.fallacyTipeNames.includes(fallacyType), "All fallacyTypes elements must be valid");
+            });            
+        }
 
         this._postList = []; // Clear
 
         this.postDataBase.posts.forEach((postDef) => {
-            if(fallacyTypes.includes(FALLACY_TYPE.ALL) || fallacyTypes.includes(postDef.fallacyType))
+            if(
+                fallacyTypes.length === 0 ||
+                fallacyTypes.includes(postDef.fallacyType) ||
+                postDef.fallacyType === "NONE"
+                )
                 this._postList.push(postDef);
         });
 

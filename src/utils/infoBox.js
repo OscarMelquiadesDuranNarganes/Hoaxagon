@@ -1,12 +1,13 @@
 import { PALETTE_HEX, PALETTE_RGBA } from "./Palette.js";
 import { TEXT_CONFIG } from "./textConfigs.js";
 import { IMAGE_KEYS, SCENE_KEYS, JSON_KEYS } from './CommonKeys.js'
+import { INFO_TYPE } from '../scenes/infoScene.js'
 
 export class InfoBox extends Phaser.GameObjects.Container {
     /**
     * @type {object}
     */
-    entry;
+    fallacyObj;
 
     /**
      * @type {Phaser.GameObjects.Rectangle}
@@ -29,7 +30,7 @@ export class InfoBox extends Phaser.GameObjects.Container {
      */
     constructor(config){
         super(config.scene, config.x, config.y);
-        this.entry = config.info;
+        this.fallacyObj = config.info;
         
         this.setSize(config.width, config.height);
         this.scene.add.existing(this);
@@ -47,7 +48,7 @@ export class InfoBox extends Phaser.GameObjects.Container {
         this.add(
             this.scene.add.text(
                 -this.width / 2 + 5, -this.height / 2 + 10,
-                this.entry.name,
+                this.fallacyObj.name,
                 TEXT_CONFIG.SubHeading
             )
             .setColor(PALETTE_RGBA.DarkerGrey)
@@ -59,7 +60,7 @@ export class InfoBox extends Phaser.GameObjects.Container {
         this.add(
             this.scene.add.text(
                 -this.width / 2 + 10, -this.height / 2 + 36,
-                config.expanded ? this.entry.long_desc : this.entry.description,
+                config.expanded ? this.fallacyObj.long_desc : this.fallacyObj.description,
                 TEXT_CONFIG.Paragraph
             )
             .setColor(PALETTE_RGBA.DarkerGrey)
@@ -95,7 +96,10 @@ export class InfoBox extends Phaser.GameObjects.Container {
     expandInfo() {
         let mousey = this.scene.game.input.mousePointer.y;
         if (!this.scene.scene.isActive(SCENE_KEYS.INFO_SCENE) && mousey > 360) 
-            this.scene.scene.launch(SCENE_KEYS.INFO_SCENE, this.entry);
+            this.scene.scene.launch(SCENE_KEYS.INFO_SCENE, {
+                fallacyObj: this.fallacyObj,
+                infoType: INFO_TYPE.FLASH_CARD
+            });
     }
 
     /**

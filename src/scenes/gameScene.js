@@ -3,8 +3,9 @@ import { IMAGE_KEYS, SCENE_KEYS, JSON_KEYS } from '../utils/CommonKeys.js'
 import { PALETTE_HEX, PALETTE_RGBA } from "../utils/Palette.js";
 import { InfoBox } from "../utils/infoBox.js";
 import { TEXT_CONFIG } from "../utils/textConfigs.js";
+import { INFO_TYPE } from './infoScene.js';
 
-import { PostManager, POST_VEREDICT } from '../systems/post_system/postManager.js'
+import { PostManager, POST_VEREDICT } from '../systems/post_system/postManager.js';
 import { TimerManager } from "../systems/time_system/timerManager.js";
 import { ScoreManager } from "../systems/score_system/scoreManager.js";
 import { InspectorManager } from "../systems/inspection_system/inspectorManager.js";
@@ -23,6 +24,17 @@ export default class GameScene extends Phaser.Scene{
     //TODO: Progresión de niveles
     //TODO: Variante para modo entrenamiento y arcade
     //TODO: Implementación de modo inspección, mensajes, barra de información.
+
+    /**
+     * @type {Fallacy: 
+     *   {
+     *      name: String,
+     *      description: String,
+     *      long_desc: String
+     *   }
+     * }
+     */
+    config;
 
     /**
      * @type {boolean}
@@ -50,14 +62,19 @@ export default class GameScene extends Phaser.Scene{
     inspectorManager;
 
     /**
-     * @type {PostBoxObject}
+     * @type {Phaser.GameObjects.Text}
      */
-    currentPostObject;
+    postUserInfo;
 
     /**
      * @type {Phaser.GameObjects.Text}
      */
-    postUserInfo;
+    acceptButton;
+
+    /**
+     * @type {Phaser.GameObjects.Text}
+     */
+    declineButton;
 
     /**
      * @type {Array<number>}
@@ -74,12 +91,21 @@ export default class GameScene extends Phaser.Scene{
      */
     level;
 
+    /**
+     * Pendent Fallacy objects to be released in the arcade mode.
+     * @type {Array<Object>}
+     */
+    fallacyPool;
+
     constructor() {
         super(SCENE_KEYS.GAME_SCENE);
     }
 
     create(config) {
+        this.config = config;
         this.level = 0;
+
+        this.cameras.main.setBackgroundColor( PALETTE_HEX.LightGrey);//LightGrey
 
         this.add.image(0, 0, IMAGE_KEYS.BACKGROUND_TRIANGLES)
             .setOrigin(0, 0)
@@ -93,20 +119,6 @@ export default class GameScene extends Phaser.Scene{
             PALETTE_HEX.MiddleGrey
         )
         .setOrigin(0, 0);
-        
-        this.infoDatabase = this.cache.json.get(JSON_KEYS.INFO_DB);
-        this.infoPanel = new FallacyInfoPanel(this, 900, 300, 400, 350);
-
-        this.fallacyPool = [];
-        this.infoDatabase.FALLACIES.forEach(element => {
-            this.fallacyPool.push(element);
-        });
-        // this.fallacyPool = this.infoDatabase.FALLACIES;
-
-        this.arcade = config.fallacies.length == 0;
-        if (this.arcade){
-            this.addFallacy(this.rollNewFallacy());
-        }
 
         this.timerManager = new TimerManager(this, 180000);
 
@@ -114,21 +126,22 @@ export default class GameScene extends Phaser.Scene{
 
         this.postManager = new PostManager(this);
 
-        this.KEYS = this.input.keyboard.addKeys(KEYBINDS);
-
-        config.fallacies.forEach(element => {
-        this.addFallacy(element);
-        });
+        this.infoPanel = new FallacyInfoPanel(this, 900, 300, 400, 350);
 
         this.inspectorManager = new InspectorManager(this, this.infoPanel, this.postManager);
+        
+        this.infoDatabase = this.cache.json.get(JSON_KEYS.INFO_DB);
 
-        this.cameras.main.setBackgroundColor( PALETTE_HEX.LightGrey);//LightGrey
+        this.fallacyPool = [];
+        this.infoDatabase.FALLACIES.forEach(element => {
+            this.fallacyPool.push(element);
+        });
 
-        const acceptButton = this.add.text(900, 250, "ACCEPT", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
-        const declineButton = this.add.text(1100, 250, "DECLINE", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
+        this.acceptButton = this.add.text(900, 250, "ACCEPT", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
+        this.declineButton = this.add.text(1100, 250, "DECLINE", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
 
-        acceptButton.setInteractive();
-        acceptButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
+        this.acceptButton.setInteractive();
+        this.acceptButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
 
             if(this.inspectorManager.inspectionActive) return;
 
@@ -140,8 +153,8 @@ export default class GameScene extends Phaser.Scene{
             }
         });
 
-        declineButton.setInteractive();
-        declineButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
+        this.declineButton.setInteractive();
+        this.declineButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
 
             if(this.inspectorManager.inspectionActive) return;
 
@@ -152,6 +165,26 @@ export default class GameScene extends Phaser.Scene{
                 this.fail();
             }
         });
+
+        this.KEYS = this.input.keyboard.addKeys(KEYBINDS);
+
+        this.arcade = config.fallacies.length == 0;
+
+        if (this.arcade){
+            const newFallacy = this.rollNewFallacy();
+
+            this.addFallacy(newFallacy);
+            this.scene.launch(SCENE_KEYS.INFO_SCENE, {
+                fallacyObj: newFallacy,
+                infoType: INFO_TYPE.NEW_TYPE_INFO
+            }); // Notification Window
+        }
+        else {
+            config.fallacies.forEach(element => {
+                this.addFallacy(element);
+            });
+            this.timerManager.enabled = false;
+        }
     }
     
 
@@ -185,6 +218,7 @@ export default class GameScene extends Phaser.Scene{
 
 
     }
+
     /**
      * Adds the provided fallacy's infobox to the panel.
      * @param {Object} fallacy 
@@ -248,6 +282,7 @@ export default class GameScene extends Phaser.Scene{
 
         console.log("BAD CHOICE");
     }
+
     /**
      * Selects a fallacy at random from the remaining candidates.
      * @returns The selected fallacy.
@@ -260,15 +295,19 @@ export default class GameScene extends Phaser.Scene{
         this.fallacyPool.splice(index,1);
         return newFallacy;
     }
+
     /**
      * Raises the current level by 1, adding a new fallacy to the list.
      */
     levelUp(){
         console.log(this.level);
         this.level++;
-        let newFallacy = this.rollNewFallacy()
-        this.addFallacy(newFallacy);
-        //TODO: Pantalla explicativa de la nueva falacia
+        let newFallacy = this.rollNewFallacy();
 
+        this.addFallacy(newFallacy);
+        this.scene.launch(SCENE_KEYS.INFO_SCENE, {
+            fallacyObj: newFallacy,
+            infoType: INFO_TYPE.NEW_TYPE_INFO
+        }); // Notification Window
     }
 }
