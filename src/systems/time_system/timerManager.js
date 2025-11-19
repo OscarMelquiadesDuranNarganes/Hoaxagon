@@ -10,6 +10,11 @@ export class TimerManager {
     scene;
 
     /**
+     * @type {boolean}
+     */
+    enabled = true;
+
+    /**
      * The variable that keeps track of the timer in milliseconds.
      * @type {number}
      */
@@ -66,7 +71,10 @@ export class TimerManager {
     }
 
     update(time, dt) {
-        this.addTimeMilliseconds(-dt);
+        if(this.enabled)
+            this.addTimeMilliseconds(-dt);
+
+        this.uiElementsConatiner.setVisible(this.enabled);
     }
     
     /**

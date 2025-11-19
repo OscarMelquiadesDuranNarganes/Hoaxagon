@@ -28,6 +28,11 @@ export class ScoreManager {
     scene;
 
     /**
+     * @type {boolean}
+     */
+    enabled = true;
+
+    /**
      * @type {number}
      */
     points = 0;
@@ -130,7 +135,10 @@ export class ScoreManager {
     }
 
     update(time, dt) {
-        this.updateStreak(dt);
+        if(this.enabled)
+            this.updateStreak(dt);
+
+        this.uiElementsConatiner.setVisible(this.enabled);
     }
 
     /**

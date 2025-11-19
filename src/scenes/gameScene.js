@@ -93,26 +93,6 @@ export default class GameScene extends Phaser.Scene{
             PALETTE_HEX.MiddleGrey
         )
         .setOrigin(0, 0);
-
-        /*new ChainState()
-            .setTag("Timer Alpha Animation")
-            .setStart(
-                () => {
-                    this.add.tween({
-                        target: this.infoDatabase,
-                        duration: 50,
-                        onComplete: () => {
-                            stateChainManager.endCurrentState();
-                        }
-                    });
-                }
-            )
-            .setUpdate(
-                (t, dt) => {
-
-                }
-            );*/
-        
         
         this.infoDatabase = this.cache.json.get(JSON_KEYS.INFO_DB);
         this.infoPanel = new FallacyInfoPanel(this, 900, 300, 400, 350);
@@ -123,8 +103,8 @@ export default class GameScene extends Phaser.Scene{
         });
         // this.fallacyPool = this.infoDatabase.FALLACIES;
 
-        this.arcade = config.fallacies.length == 0
-        if (this.arcade){ 
+        this.arcade = config.fallacies.length == 0;
+        if (this.arcade){
             this.addFallacy(this.rollNewFallacy());
         }
 
@@ -136,12 +116,9 @@ export default class GameScene extends Phaser.Scene{
 
         this.KEYS = this.input.keyboard.addKeys(KEYBINDS);
 
-
         config.fallacies.forEach(element => {
         this.addFallacy(element);
         });
-
-
 
         this.inspectorManager = new InspectorManager(this, this.infoPanel, this.postManager);
 
