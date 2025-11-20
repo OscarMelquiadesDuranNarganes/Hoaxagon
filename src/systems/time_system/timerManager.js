@@ -72,9 +72,7 @@ export class TimerManager {
 
     update(time, dt) {
         if(this.enabled)
-            this.addTimeMilliseconds(-dt);
-
-        this.uiElementsConatiner.setVisible(this.enabled);
+            this.addTimeMilliseconds(-dt);    
     }
     
     /**
@@ -139,5 +137,14 @@ export class TimerManager {
     addTimeSeconds(time) {
         this.timer = Math.max(0, this.timer += (time * 1000));
         this.updateTimer();
+    }
+
+    /**
+     * Enables or disables the timer's function and display.
+     * @param {boolean} enabled
+     */
+    setEnabled(enabled){
+        this.enabled = enabled;
+        this.uiElementsConatiner.setVisible(this.enabled);
     }
 }

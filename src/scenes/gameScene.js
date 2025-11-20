@@ -179,6 +179,7 @@ export default class GameScene extends Phaser.Scene{
             const newFallacy = this.rollNewFallacy();
 
             this.addFallacy(newFallacy);
+
             this.scene.launch(SCENE_KEYS.INFO_SCENE, {
                 fallacyObj: newFallacy,
                 infoType: INFO_TYPE.NEW_TYPE_INFO
@@ -191,9 +192,15 @@ export default class GameScene extends Phaser.Scene{
                 this.addFallacy(fallacyObj);
                 this.loadedFallacyNames.push(fallacyObj.name);
             });
-            this.timerManager.enabled = false;
             
             this.postManager.loadPosts(this.loadedFallacyNames);
+
+            this.timerManager.setEnabled(false);
+            
+            this.scene.launch(SCENE_KEYS.INFO_SCENE, {
+                fallacyObj: config.fallacies[0],
+                infoType: INFO_TYPE.NEW_TYPE_INFO
+            }); // Notification Window
         }
     }
     
@@ -271,7 +278,7 @@ export default class GameScene extends Phaser.Scene{
         this.scoreManager.addPoints(100);
         this.scoreManager.streakUp();
 
-        if (this.arcade && this.levelThresholds[this.level] != -1 && this.scoreManager.getScore()>this.levelThresholds[this.level]) 
+        if (this.arcade && this.levelThresholds[this.level] != -1 && this.scoreManager.getScore()>=this.levelThresholds[this.level]) 
             this.levelUp();
             
         this.postManager.loadNextPostInUI(POST_VEREDICT.SUCCESSFUL);
