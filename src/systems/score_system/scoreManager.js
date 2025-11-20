@@ -1,6 +1,7 @@
 import { IMAGE_KEYS } from "../../utils/CommonKeys.js";
 import { TEXT_CONFIG } from "../../utils/textConfigs.js";
 import { PALETTE_HEX, PALETTE_RGBA } from "../../utils/Palette.js";
+import ScoreScreen, { MESSAGE_TYPE } from "../../utils/scoreScreen.js";
 
 class Streak {
 
@@ -79,6 +80,11 @@ export class ScoreManager {
     uiElementsConatiner;
 
     /**
+     * @type {ScoreScreen}
+     */
+    scoreLog;
+
+    /**
      * @param {Phaser.Scene} scene
      * @param {Phaser.GameObjects.Text} pointsDisplay 
      * @param {Phaser.GameObjects.Image} boostDisplay 
@@ -90,7 +96,9 @@ export class ScoreManager {
         this.scene = scene;
 
         const SCREEN_HEIGHT = this.scene.sys.game.canvas.height;
+        const SCREEN_WIDTH = this.scene.sys.game.canvas.width;
 
+        this.scoreLog = new ScoreScreen(this.scene,SCREEN_WIDTH/2,SCREEN_HEIGHT/2,400,600);
         // Create score display
         this.pointsDisplayShadow = this.scene.add.text(
             5, 5,
@@ -120,17 +128,17 @@ export class ScoreManager {
 
         // Create streak display
         this.streakDisplay = this.scene.add.text(
-            10, -50,
+            SCREEN_WIDTH/2-350, SCREEN_HEIGHT/2+50,
             "Combo",
-            TEXT_CONFIG.SubHeading2
+            TEXT_CONFIG.Heading2
         )
         .setColor(PALETTE_RGBA.AmberAlert)
-        .setOrigin(0, 1)
+        .setOrigin(1, 0.5)
         .setVisible(false);
 
         this.uiElementsConatiner = this.scene.add.container(
             60, SCREEN_HEIGHT - 40, 
-            [ this.pointsDisplayShadow, this.pointsDisplay, this.streakDisplay ]
+            [ this.pointsDisplayShadow, this.pointsDisplay]
         );
     }
 
@@ -139,6 +147,7 @@ export class ScoreManager {
             this.updateStreak(dt);
 
         this.uiElementsConatiner.setVisible(this.enabled);
+        this.scoreLog.update(time,dt);
     }
 
     /**
@@ -147,6 +156,7 @@ export class ScoreManager {
      */
     addPoints(points) {
         this.points += points;
+        this.scoreLog.addNewMessage(MESSAGE_TYPE.POINTS,points);
         this.updateScore();
     }
 
@@ -191,11 +201,11 @@ export class ScoreManager {
 
         let streakPoints = Math.min(150,50*Math.floor(this.streak.count/3));
 
-        this.addPoints(streakPoints);
+        if (streakPoints>0) this.addPoints(streakPoints);
 
         if (this.streak.count>=3) {
             this.streakDisplay.setVisible(true);
-            this.streakDisplay.text = this.streak.count + "x Combo! +"+streakPoints+" score.";
+            this.streakDisplay.text = `${this.streak.count}x!`;
             this.scene.tweens.add({
                 targets:this.streakDisplay,
                 ease:'Linear',
@@ -206,6 +216,16 @@ export class ScoreManager {
                     duration:5000   
                 },
             });
+            this.scene.tweens.chain({
+                targets: this.streakDisplay,
+                ease: 'Power1',
+                duration: 20,
+                loop: 0,
+                tweens: [
+                    { scaleY: 1.5, scaleX: 1.5, duration: 100 },
+                    { scaleY: 1,   scaleX: 1,   duration: 100 }
+                ]
+            })
         }
 
         this.rollForBoost();
