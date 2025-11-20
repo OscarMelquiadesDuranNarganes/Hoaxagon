@@ -106,9 +106,17 @@ export default class GameScene extends Phaser.Scene{
         super(SCENE_KEYS.GAME_SCENE);
     }
 
+    init(data) {
+        // Reset the containers and values, as the Scene instance is permanent an data reamins between 
+        // scene changes
+        this.loadedFallacyNames = [];
+        this.fallacyPool = [];
+        this.level = 0;
+    }
+
     create(config) {
         this.config = config;
-        this.level = 0;
+        //this.level = 0;
 
         this.cameras.main.setBackgroundColor( PALETTE_HEX.LightGrey);//LightGrey
 
@@ -196,7 +204,7 @@ export default class GameScene extends Phaser.Scene{
             this.postManager.loadPosts(this.loadedFallacyNames);
 
             this.timerManager.setEnabled(false);
-            
+
             this.scene.launch(SCENE_KEYS.INFO_SCENE, {
                 fallacyObj: config.fallacies[0],
                 infoType: INFO_TYPE.NEW_TYPE_INFO
@@ -311,7 +319,7 @@ export default class GameScene extends Phaser.Scene{
         var newFallacy = this.fallacyPool[index];
         this.fallacyPool.splice(index,1);
         this.loadedFallacyNames.push(newFallacy.name);
-console.log(this.loadedFallacyNames);
+
         return newFallacy;
     }
 
@@ -329,6 +337,6 @@ console.log(this.loadedFallacyNames);
             infoType: INFO_TYPE.NEW_TYPE_INFO
         }); // Notification Window
 
-        this.postManager.loadPosts(this.loadedFallacyNames)
+        this.postManager.loadPosts(this.loadedFallacyNames);
     }
 }
