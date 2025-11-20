@@ -98,13 +98,6 @@ export class PostManager {
         
         const fallacyInfoDataBase = scene.cache.json.get(JSON_KEYS.INFO_DB);
         this.fallacyTipeNames.map((fallacyType) => fallacyType.name);
-
-        this.init(); // Set the initial state of the components the manager controls
-    }
-
-    init() {
-        this.loadPosts();
-        this.loadNextPostInUI();
     }
 
     /**
@@ -133,6 +126,8 @@ export class PostManager {
         });
 
         this.shufflePostList();
+
+        console.log(this._postList);
 
         this._postListPosition = 0;
     }

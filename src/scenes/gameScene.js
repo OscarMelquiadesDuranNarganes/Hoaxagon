@@ -210,6 +210,8 @@ export default class GameScene extends Phaser.Scene{
                 infoType: INFO_TYPE.NEW_TYPE_INFO
             }); // Notification Window
         }
+
+        this.postManager.loadNextPostInUI();
     }
     
 
