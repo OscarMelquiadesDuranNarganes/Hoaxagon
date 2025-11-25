@@ -130,7 +130,7 @@ export class ScoreManager {
 
         this.uiElementsConatiner = this.scene.add.container(
             60, SCREEN_HEIGHT - 40, 
-            [ this.pointsDisplayShadow, this.pointsDisplay, this.streakDisplay ]
+            [ this.pointsDisplayShadow, this.pointsDisplay ]
         );
     }
 
