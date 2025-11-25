@@ -219,6 +219,9 @@ export default class GameScene extends Phaser.Scene{
         //#region timer
         this.timerManager.update(time, dt);
         this.scoreManager.update(time, dt);
+
+        if(this.timerManager.enabled && this.timerManager.timer === 0)
+            this.scene.start(SCENE_KEYS.PUNCTUATION_SCENE, {punctuation: this.scoreManager.points});
         //#endregion
 
         //#region input
