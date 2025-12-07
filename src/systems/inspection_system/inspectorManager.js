@@ -93,13 +93,7 @@ export class InspectorManager {
             return;
         }
 
-        // Deselect all info boxes
-       /* this.infoPanel.infoBoxes.forEach((infoBox) => {
-            infoBox.setSelectionState(false);
-        });
-
         // Select clicked info box
-        infoBox.setSelectionState(!infoBox.isSelected);*/
         this.infoPanel.setInfoBoxSelected(infoBox, !infoBox.isSelected);
     }
 
@@ -125,9 +119,6 @@ export class InspectorManager {
             this.inspectorModeButton.setTint(PALETTE_HEX.White);
 
         // Deselect all info boxes
-        /*this.infoPanel.infoBoxes.forEach((infoBox) => {
-            infoBox.setSelectionState(false);
-        });*/
         this.infoPanel.clearBoxesSeleciton();
 
         this.postManager.currentPostObject.wordBlockContainer.deselectAllWordBlocks();

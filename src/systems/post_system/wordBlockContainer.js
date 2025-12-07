@@ -1,4 +1,5 @@
 import { WordBlock } from './wordBlock.js'
+import { PALETTE_RGBA } from '../../utils/Palette.js';
 
 /**
  * Container that keeps a list of `WordBlock` that form part of a sencence (the words contain
@@ -242,12 +243,14 @@ export class WordBlockContainer extends Phaser.GameObjects.Container {
 
     /**
      * Selects all `WordBlock`s with the sentenceID.
-     * @param {number} sentenceID 
+     * @param {number} sentenceID
+     * @param {PALETTE_RGBA} selectionColor
      */
-    selectSentence(sentenceID) {
+    selectSentence(sentenceID, selectionColor = PALETTE_RGBA.YellowAlert) {
 
         this.wordList.forEach((wordBlock) => {
-            wordBlock.setSelectionState(wordBlock.sentenceID == sentenceID);
+            if(wordBlock.sentenceID === sentenceID)
+                wordBlock.setSelectionState(true, selectionColor);
         });
         
         this._selectedSentencesIds.push(sentenceID);

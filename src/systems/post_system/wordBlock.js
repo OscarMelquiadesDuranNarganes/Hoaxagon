@@ -38,13 +38,14 @@ export class WordBlock extends Phaser.GameObjects.Text {
 
     /**
      * Sets the WordBlock as selected or not, if the object is selected it gets highlighted.
-     * @param {boolean} value 
+     * @param {boolean} value
+     * @param {PALETTE_RGBA} selectionColor 
      */
-    setSelectionState(value) {
+    setSelectionState(value, selectionColor = PALETTE_RGBA.YellowAlert) {
         this.isSelected = value;
         
         if(this.isSelected)
-            this.setBackgroundColor(PALETTE_RGBA.YellowAlert);
+            this.setBackgroundColor(selectionColor);
         else
             this.setBackgroundColor(PALETTE_RGBA.Void);
     }
