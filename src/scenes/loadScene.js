@@ -46,6 +46,7 @@ export default class LoadScene extends Phaser.Scene {
 
         this.load.json(JSON_KEYS.POST_LIST, './assets/objects/postList.json');
         this.load.json(JSON_KEYS.INFO_DB, './assets/objects/infoDatabase.json');
+        this.load.json(JSON_KEYS.DIALOGUE_DB, './assets/objects/IcosamDialogues.json');
     }
 
     /**
