@@ -9,11 +9,6 @@ import { TEXT_CONFIG } from "../../utils/textConfigs.js";
 export class CorrectionFeedbackBox extends Phaser.GameObjects.Container {
 
     /**
-     * @type {Phaser.GameObjects.Rectangle}
-     */
-    backgroundBox;
-
-    /**
      * @type {EvaluatedPostInfo}
      */
     evaluatedPostInfo;
@@ -38,11 +33,10 @@ export class CorrectionFeedbackBox extends Phaser.GameObjects.Container {
      * @param {Phaser.Scene} scene 
      * @param {number} x 
      * @param {number} y 
-     * @param {number} width 
-     * @param {number} height 
+     * @param {number} width
      * @param {EvaluatedPostInfo} evaluatedPostInfo 
      */
-    constructor(scene, x, y, width, height, evaluatedPostInfo) {
+    constructor(scene, x, y, width, evaluatedPostInfo) {
         console.assert(evaluatedPostInfo instanceof EvaluatedPostInfo, "CorrectionFeedbackBox: evaluatedPostInfo must ba a EvaluatedPostInfo object");
         
         super(scene, x, y);
@@ -51,7 +45,7 @@ export class CorrectionFeedbackBox extends Phaser.GameObjects.Container {
         this.evaluatedPostInfo = evaluatedPostInfo;
 
         // Shadow rectangle
-        this._shadowRectangle = this.scene.add.rectangle(10, 10, width, height, PALETTE_HEX.DarkerGrey, 0.5)
+        this._shadowRectangle = this.scene.add.rectangle(10, 10, width, 0, PALETTE_HEX.DarkerGrey, 0.5)
             .setOrigin(0, 0);
             
         this.add(this._shadowRectangle);
@@ -59,7 +53,7 @@ export class CorrectionFeedbackBox extends Phaser.GameObjects.Container {
         // Main rectangle
         const boxColor = this.evaluatedPostInfo.playerSuccessed ? PALETTE_HEX.LightGreen : PALETTE_HEX.LightRed;
 
-        this._mainRectangle = this.scene.add.rectangle(0, 0, width, height, boxColor, 1);
+        this._mainRectangle = this.scene.add.rectangle(0, 0, width, 0, boxColor, 1);
         this._mainRectangle.setOrigin(0, 0);
         this.add(this._mainRectangle);
 
@@ -85,13 +79,13 @@ export class CorrectionFeedbackBox extends Phaser.GameObjects.Container {
         // PostBoxObject
         this.postBoxObject = new PostBoxObject(
             scene,
-            10, contentHeight,
+            width * 0.1, contentHeight,
             this.evaluatedPostInfo.postObjectDef.text,
-            width - 20
+            width * 0.8
         );
         this.add(this.postBoxObject);
 
-        if(this.evaluatedPostInfo.playerSuccessed) {
+        if(this.evaluatedPostInfo.playerSuccessed) {        // What did the player mark?
             this.postBoxObject.wordBlockContainer.selectSentence(this.evaluatedPostInfo.sentenceSelectedID);
         }
         else {
@@ -133,6 +127,7 @@ export class CorrectionFeedbackBox extends Phaser.GameObjects.Container {
 
         contentHeight += aclarationTextBox.getBounds().height + 10;
 
+        // Adjusting the box to its content
         this._mainRectangle.setSize(this._mainRectangle.width, contentHeight);
         this._shadowRectangle.setSize(this._mainRectangle.width, contentHeight);
     }

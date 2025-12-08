@@ -1,8 +1,10 @@
-import { ScoreManager } from "../systems/score_system/scoreManager.js";
 import { IMAGE_KEYS, SCENE_KEYS } from "../utils/CommonKeys.js";
 import { PALETTE_HEX, PALETTE_RGBA } from "../utils/Palette.js";
 import { CorrectionFeedbackBox } from "../systems/ui_system/correctionFeedbackBox.js";
 import { PostManager } from "../systems/post_system/postManager.js";
+import { TimerManager } from "../systems/time_system/timerManager.js";
+import { TEXT_CONFIG } from "../utils/textConfigs.js";
+import { ScrollAreaContainer } from "../systems/scroll_system/scrollAreaContainer.js";
 
 export default class PunctuationScene extends Phaser.Scene {
 
@@ -12,30 +14,14 @@ export default class PunctuationScene extends Phaser.Scene {
     punctuation;
 
     /**
-     * @type {ScoreManager}
+     * @type {String}
      */
-    scoreManager;
+    timeInGame;
 
     /**
      * @type {PostManager}
      */
     postManager;
-
-    /**
-     * Whether the score has been fully displayed or not.
-     * @type {bool}
-     */
-    fullScoreShown = false;
-
-    /**
-     * @type {number}
-     */
-    timeBetweenScoreUpdates = 10;
-
-    /**
-     * @type {number}
-     */
-    countDown;
 
     /**
      * @type {Phaser.GameObjects.Sprite}
@@ -58,6 +44,11 @@ export default class PunctuationScene extends Phaser.Scene {
     icosamuelFrameTimer = 0;
 
     /**
+     * @type {ScrollAreaContainer}
+     */
+    scrollArea;
+
+    /**
      * 
      */
 
@@ -70,6 +61,7 @@ export default class PunctuationScene extends Phaser.Scene {
      * @param {
      *     {
      *         punctuation: number
+     *         timeInGame: String
      *         postManager: PostManager
      *     }
      * } data 
@@ -80,41 +72,61 @@ export default class PunctuationScene extends Phaser.Scene {
 
         this.cameras.main.setBackgroundColor(PALETTE_HEX.LightGrey);
 
-        this.icosamuelSprite = this.add.sprite(SCREEN_WIDTH * 0.75, SCREEN_HEIGHT / 2, IMAGE_KEYS.ICOSAMUEL, 0);
-        this.icosamuelSprite.setScale(1.2, 1.2);
+        // Icosamuel
+        this.icosamuelSprite = this.add.sprite(SCREEN_WIDTH * 0.70, SCREEN_HEIGHT * 0.45, IMAGE_KEYS.ICOSAMUEL, 0);
+        this.icosamuelSprite.setScale(1, 1);
 
-        this.punctuation = data.punctuation;
+        this.add.text(SCREEN_WIDTH * 0.60, SCREEN_HEIGHT * 0.10, "Icosamuel", TEXT_CONFIG.SubHeading);
 
-        this.scoreManager = new ScoreManager(this);
+        // Click to continue
+        const continueButton = this.add.text(SCREEN_WIDTH * 0.60, SCREEN_HEIGHT * 0.9, "Volver al menú", TEXT_CONFIG.SubHeading2)
+            //.setOrigin(0.5, 0.5)
+            .setColor(PALETTE_RGBA.DarkerGrey)
+            .setInteractive();
 
-        this.scoreManager.uiElementsConatiner.setPosition(100, SCREEN_HEIGHT / 2);
-
-        this.timeBetweenScoreUpdates = 1000 / data.punctuation;
-
-        this.countDown = this.timeBetweenScoreUpdates;
-
-        this.fullScoreShown = false;
-
-        this.input.on(Phaser.Input.Events.POINTER_DOWN, () => {
-            if(this.fullScoreShown)
-                this.scene.start(SCENE_KEYS.MAIN_MENU_SCENE);
+        continueButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
+            this.scene.start(SCENE_KEYS.MAIN_MENU_SCENE);
         });
 
+        // Information Panel
+        
+        this.punctuation = data.punctuation;
+        this.timeInGame = data.timeInGame;
         this.postManager = data.postManager;
 
-        let lastElementHeigjht = 0;
+        const panel = this.add.rectangle(
+            10, 0,
+            SCREEN_WIDTH * 0.395, this.cameras.main.height,
+            PALETTE_HEX.MiddleGrey
+        )
+        .setOrigin(0, 0);
+
+        const panelCenterX  = panel.width * 0.5 + panel.x;
+
+        this.add.text(panelCenterX, 60, `Score: ${this.punctuation}`, TEXT_CONFIG.Heading2)
+            .setOrigin(0.5, 0);
+
+        this.add.text(panelCenterX, 140, `Tiempo jugado:`, TEXT_CONFIG.SubHeading2)
+            .setOrigin(0.5, 0);
+
+        this.add.text(panelCenterX, 170, `${this.timeInGame}`, TEXT_CONFIG.SubHeading)
+            .setOrigin(0.5, 0);
+        
+        if(this.postManager.evaluatedPostsInfo.length > 0) {
+            this.add.text(panel.x + 10, 240, `Correcciones:`, TEXT_CONFIG.SubHeading2)
+                .setOrigin(0, 0);
+        }
+
+        this.scrollArea = new ScrollAreaContainer(this, panel.x + 10, SCREEN_HEIGHT * 0.38, SCREEN_WIDTH * 0.38, SCREEN_HEIGHT * 0.6);
+
         this.postManager.evaluatedPostsInfo.forEach((evaluatedPostInfo, index) => {
             const feedbackBox = new CorrectionFeedbackBox(
                 this,
-                SCREEN_WIDTH * 0.1,
-                lastElementHeigjht,
-                SCREEN_WIDTH * 0.4,
-                140,
+                0, 0,
+                SCREEN_WIDTH * 0.39,
                 evaluatedPostInfo
             );
-            this.add.existing(feedbackBox);
-
-            lastElementHeigjht += feedbackBox.getBounds().height + 10;
+            this.scrollArea.addGameObject(feedbackBox);
         });
     }
 
@@ -127,15 +139,5 @@ export default class PunctuationScene extends Phaser.Scene {
 
             this.icosamuelFrameTimer = 0;
         }
-
-        this.countDown -= dt;
-
-        if(this.countDown <= 0 && !this.fullScoreShown) {
-            this.countDown = this.timeBetweenScoreUpdates;
-            this.scoreManager.addPoints(1);
-        }
-
-        if(this.scoreManager.points === this.punctuation)
-            this.fullScoreShown = true;
     }
 }

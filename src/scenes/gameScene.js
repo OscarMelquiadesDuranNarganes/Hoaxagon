@@ -225,7 +225,8 @@ export default class GameScene extends Phaser.Scene{
                 SCENE_KEYS.PUNCTUATION_SCENE, 
                 {
                     punctuation: this.scoreManager.points,
-                    postManager: this.postManager
+                    postManager: this.postManager,
+                    timeInGame: this.timerManager.getTimeInGameText()
                 }
             );
         }
