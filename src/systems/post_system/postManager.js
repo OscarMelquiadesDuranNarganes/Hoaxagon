@@ -101,7 +101,11 @@ export class PostManager {
         this.innocentPosts = this.postDataBase.innocentPosts;
         this.fallaciousPosts = this.postDataBase.fallaciousPosts;
         this.postsList = this.innocentPosts.concat(this.fallaciousPosts);
-        this.innocentIndexes = [1,2,4,4,4];
+        this.innocentIndexes = [];
+        for (let i = 0; i<5;i++){
+            this.innocentIndexes.push(Math.floor(this.innocentPosts.length/5*i));
+        }
+
         console.log(this.innocentPosts);
         console.log(this.fallaciousPosts);
         
