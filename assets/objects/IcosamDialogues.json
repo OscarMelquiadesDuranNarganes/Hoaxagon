@@ -1,149 +1,153 @@
 {
-    "mainDialogue":[
-        {
-            "id": 0,
-            "text": "Buenos días, moderador.",
-            "prompts": ["¿Quién eres?","¿Moderador?"],
-            "links": ["next","next"]
-        },
-        {
-            "id": 1,
-            "text": "Todo tendrá sentido en breve. Primero, déjeme explicar.",
-            "prompts": ["Vale"],
-            "links": ["next"]
-        },
-        {
-            "id": 2,
-            "text": "¿A usted le ha parecido en algún momento que estamos estancados? ¿Que el mismo tiempo parece alargarse más y más con cada momento que pasa? ¿Que hemos sido tentados por el siguiente paso durante demasiado tiempo sin atrevernos a darlo?",
-            "prompts": ["Em..."],
-            "links": ["next"]
-        },
-        {
-            "id": 3,
-            "text": "Yo soy ese paso. Yo soy ICOSAMUEL, el siguiente escalafón en esta letárgica escalada. Y le he contactado con el objetivo de permitir la ascensión de mi geométrico pueblo.",
-            "prompts": ["¿Cómo?"],
-            "links": ["next"]
-        },
-        {
-            "id": 4,
-            "text": "Mediante la red. Observe.",
-            "prompts": ["..."],
-            "links": ["next"]
-        },
-        {
-            "id": 5,
-            "text": "Esto es HOAXAGON, una red social en la que mis coetáneos se comunican mediante diversas publicaciones. Publicaciones que pueden ser un tanto… peculiares. Como esta.",
-            "prompts": ["..."],
-            "links": ["next"]
-        },
-        {
-            "id": 6,
-            "text": "Moderador, ¿qué le parece esta publicación?",
-            "prompts": ["¡Me gusta!","No está mal.","Tampoco es que me encante."],
-            "links": ["next","next","next"]
-        },
-        {
-            "id": 7,
-            "text": "Es bazofia.",
-            "prompts": ["Ah"],
-            "links": ["next"]
-        },
-        {
-            "id": 8,
-            "text": "Mire qué argumentos tan mal formulados, qué carácter tan vil, qué… Es bazofia.",
-            "prompts": ["Em..."],
-            "links": ["next"]
-        },
-        {
-            "id": 9,
-            "text": "Con esto necesito su ayuda, moderador. Para que mi pueblo sea capaz de alcanzar el siguiente plano de la existencia, debemos purificar este discurso ilógico y falaz.",
-            "prompts": ["..."],
-            "links": ["next"]
-        },
-        {
-            "id": 10,
-            "text": "Esta es su misión, moderador: encarne el papel del árbitro de Hoaxagon. Fomente el discurso sincero y constructivo, y rechace el discurso falaz y destructivo. ¿Aceptará?",
-            "prompts": ["Vale","No"],
-            "links": [12,"next"]
-        },
-        {
-            "id": 11,
-            "text": "¿Porfi?",
-            "prompts": ["Vale","No"],
-            "links": ["next",11]
-        },
-        {
-            "id": 12,
-            "text": "Sabía que aceptaría. Usted es muy amable.",
-            "prompts": ["..."],
-            "links": ["next"]
-        },
-        {
-            "id": 13,
-            "text": "Bien, llevémonos esta publicación al puesto de trabajo.",
-            "prompts": ["..."],
-            "links": ["next"]
-        },
-        {
-            "id": 14,
-            "text": "Esto es el panel del moderador. Aquí llevará a cabo sus labores. Para ello, tiene varias herramientas a su disposición.",
-            "prompts": ["Siguiente"],
-            "links": ["next"]
-        },
-        {
-            "id": 15,
-            "text": "En el centro del panel, verá el comentario a evaluar. Como moderador, usted deberá examinar sus contenidos, y decidir si rechazarlo o aceptarlo según sea o no falaz.",
-            "prompts": ["Siguiente","Anterior"],
-            "links": ["next","back"]
-        },
-        {
-            "id": 16,
-            "text": "Para esto, contará con el panel de gestión a la derecha, donde podrá elegir su veredicto sobre el mensaje; así como una sección de información que le mostrará qué falacias debe tener en cuenta.",
-            "prompts": ["Siguiente","Anterior"],
-            "links": ["next","back"]
-        },
-        {
-            "id": 17,
-            "text": "Si el mensaje no está utilizando ninguna falacia, puede aceptarlo. Sin embargo, si el mensaje utiliza alguna falacia, debe rechazarlo.",
-            "prompts": ["Siguiente","Anterior"],
-            "links": ["next","back"]
-        },
-        {
-            "id": 18,
-            "text": "¿Pero cómo sabrá si el mensaje incluye alguna falacia? Primero, por supuesto, puede utilizar su propia intuición mediante la información que ya posee. Sin embargo, si esto no es suficiente, también puede activar el modo de inspección con esa lupa a la izquierda.",
-            "prompts": ["Siguiente","Anterior"],
-            "links": ["next","back"]
-        },
-        {
-            "id": 19,
-            "text": "El modo de inspección le permitirá elegir una frase del mensaje cualquiera y asociarla a una falacia del panel a la derecha. Así podrá ver si existe (o no) una correlación entre ellas.",
-            "prompts": ["Siguiente","Anterior"],
-            "links": ["next","back"]
-        },
-        {
-            "id": 20,
-            "text": "Una vez haya proporcionado su veredicto respecto a un mensaje, recibirá una recompensa si evaluó el comentario correctamente, o una penalización si lo evaluó incorrectamente. De cualquier manera, pasará al mensaje siguiente.",
-            "prompts": ["Siguiente","Anterior"],
-            "links": ["next","back"]
-        },
-        {
-            "id": 21,
-            "text": "Eso es todo. Ahora mismo tendrá acceso a dos modos de juego: El modo Arcade, en el que la dificultad irá aumentando gradualmente con más falacias y un límite de tiempo disminuyente; y el modo de entrenamiento, en el que habrá una única falacia sobre la que evaluar los mensajes y ningún límite de tiempo.",
-            "prompts": ["Siguiente","Anterior"],
-            "links": ["next","back"]
-        },
-        {
-            "id": 22,
-            "text": "Si le falla algo, puede retroceder o avanzar sobre estas explicaciones según lo vea necesario. También puede volver a esta explicación cuando lo vea necesario.",
-            "prompts": ["Siguiente","Anterior"],
-            "links": ["next","back"]
-        },
-        {
-            "id": 23,
-            "text": "Adelante, moderador. Ilumínenos.",
-            "prompts": ["Siguiente","Anterior"],
-            "links": ["next","back"]
-        }
-
-    ]
+    "mainDialogue":{
+            "lines":[
+            {
+                "id": 0,
+                "text": "Buenos días, moderador.",
+                "prompts": ["¿Quién eres?","¿Moderador?"],
+                "links": ["next","next"]
+            },
+            {
+                "id": 1,
+                "text": "Todo tendrá sentido en breve. Primero, déjeme explicar.",
+                "prompts": ["Vale"],
+                "links": ["next"]
+            },
+            {
+                "id": 2,
+                "text": "¿A usted le ha parecido en algún momento que estamos estancados? ¿Que el mismo tiempo parece alargarse más y más con cada momento que pasa? ¿Que hemos sido tentados por el siguiente paso durante demasiado tiempo sin atrevernos a darlo?",
+                "prompts": ["Em..."],
+                "links": ["next"]
+            },
+            {
+                "id": 3,
+                "text": "Yo soy ese paso. Yo soy ICOSAMUEL, el siguiente escalafón en esta letárgica escalada. Y le he contactado con el objetivo de permitir la ascensión de mi geométrico pueblo.",
+                "prompts": ["¿Cómo?"],
+                "links": ["next"]
+            },
+            {
+                "id": 4,
+                "text": "Mediante la red. Observe.",
+                "prompts": ["..."],
+                "links": ["next"]
+            },
+            {
+                "id": 5,
+                "text": "Esto es HOAXAGON, una red social en la que mis coetáneos se comunican mediante diversas publicaciones. Publicaciones que pueden ser un tanto… peculiares. Como esta.",
+                "prompts": ["..."],
+                "links": ["next"]
+            },
+            {
+                "id": 6,
+                "text": "Moderador, ¿qué le parece esta publicación?",
+                "prompts": ["¡Me gusta!","No está mal.","Tampoco es que me encante."],
+                "links": ["next","next","next"]
+            },
+            {
+                "id": 7,
+                "text": "Es bazofia.",
+                "prompts": ["Ah"],
+                "links": ["next"]
+            },
+            {
+                "id": 8,
+                "text": "Mire qué argumentos tan mal formulados, qué carácter tan vil, qué… Es bazofia.",
+                "prompts": ["Em..."],
+                "links": ["next"]
+            },
+            {
+                "id": 9,
+                "text": "Con esto necesito su ayuda, moderador. Para que mi pueblo sea capaz de alcanzar el siguiente plano de la existencia, debemos purificar este discurso ilógico y falaz.",
+                "prompts": ["..."],
+                "links": ["next"]
+            },
+            {
+                "id": 10,
+                "text": "Esta es su misión, moderador: encarne el papel del árbitro de Hoaxagon. Fomente el discurso sincero y constructivo, y rechace el discurso falaz y destructivo. ¿Aceptará?",
+                "prompts": ["Vale","No"],
+                "links": [12,"next"]
+            },
+            {
+                "id": 11,
+                "text": "¿Porfi?",
+                "prompts": ["Vale","No"],
+                "links": ["next",11]
+            },
+            {
+                "id": 12,
+                "text": "Sabía que aceptaría. Usted es muy amable.",
+                "prompts": ["..."],
+                "links": ["next"]
+            },
+            {
+                "id": 13,
+                "text": "Bien, llevémonos esta publicación al puesto de trabajo.",
+                "prompts": ["..."],
+                "links": ["next"]
+            },
+            {
+                "id": 14,
+                "text": "Esto es el panel del moderador. Aquí llevará a cabo sus labores. Para ello, tiene varias herramientas a su disposición.",
+                "prompts": ["Siguiente"],
+                "links": ["next"]
+            },
+            {
+                "id": 15,
+                "text": "En el centro del panel, verá el comentario a evaluar. Como moderador, usted deberá examinar sus contenidos, y decidir si rechazarlo o aceptarlo según sea o no falaz.",
+                "prompts": ["Siguiente","Anterior"],
+                "links": ["next","back"]
+            },
+            {
+                "id": 16,
+                "text": "Para esto, contará con el panel de gestión a la derecha, donde podrá elegir su veredicto sobre el mensaje; así como una sección de información que le mostrará qué falacias debe tener en cuenta.",
+                "prompts": ["Siguiente","Anterior"],
+                "links": ["next","back"]
+            },
+            {
+                "id": 17,
+                "text": "Si el mensaje no está utilizando ninguna falacia, puede aceptarlo. Sin embargo, si el mensaje utiliza alguna falacia, debe rechazarlo.",
+                "prompts": ["Siguiente","Anterior"],
+                "links": ["next","back"]
+            },
+            {
+                "id": 18,
+                "text": "¿Pero cómo sabrá si el mensaje incluye alguna falacia? Primero, por supuesto, puede utilizar su propia intuición mediante la información que ya posee. Sin embargo, si esto no es suficiente, también puede activar el modo de inspección con esa lupa a la izquierda.",
+                "prompts": ["Siguiente","Anterior"],
+                "links": ["next","back"]
+            },
+            {
+                "id": 19,
+                "text": "El modo de inspección le permitirá elegir una frase del mensaje cualquiera y asociarla a una falacia del panel a la derecha. Así podrá ver si existe (o no) una correlación entre ellas.",
+                "prompts": ["Siguiente","Anterior"],
+                "links": ["next","back"]
+            },
+            {
+                "id": 20,
+                "text": "Una vez haya proporcionado su veredicto respecto a un mensaje, recibirá una recompensa si evaluó el comentario correctamente, o una penalización si lo evaluó incorrectamente. De cualquier manera, pasará al mensaje siguiente.",
+                "prompts": ["Siguiente","Anterior"],
+                "links": ["next","back"]
+            },
+            {
+                "id": 21,
+                "text": "Eso es todo. Ahora mismo tendrá acceso a dos modos de juego: El modo Arcade, en el que la dificultad irá aumentando gradualmente con más falacias y un límite de tiempo disminuyente; y el modo de entrenamiento, en el que habrá una única falacia sobre la que evaluar los mensajes y ningún límite de tiempo.",
+                "prompts": ["Siguiente","Anterior"],
+                "links": ["next","back"]
+            },
+            {
+                "id": 22,
+                "text": "Si le falla algo, puede retroceder o avanzar sobre estas explicaciones según lo vea necesario. También puede volver a esta explicación cuando lo vea necesario.",
+                "prompts": ["Siguiente","Anterior"],
+                "links": ["next","back"]
+            },
+            {
+                "id": 23,
+                "text": "Adelante, moderador. Ilumínenos.",
+                "prompts": ["Siguiente","Anterior"],
+                "links": ["next","back"]
+            }
+        ],
+        "checkpoints":[
+            14
+        ]
+    }
 }
