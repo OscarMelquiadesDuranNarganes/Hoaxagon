@@ -103,6 +103,16 @@ export default class TutorialScene extends Phaser.Scene{
      * @type {number}
      */
     correctEvaluatedPostNum = 0;
+    
+    /**
+     * @type {boolean}
+     */
+    isIspectorModeIntruduced = false;
+
+    /**
+     * @type {boolean}
+     */
+    hasUsedInspectorMode = false;
 
     constructor() {
         super(SCENE_KEYS.TUTORIAL_SCENE);
@@ -115,6 +125,9 @@ export default class TutorialScene extends Phaser.Scene{
         this.fallacyPool = [];
         this.level = 0;
         this.correctEvaluatedPostNum = 0;
+        
+        this.isIspectorModeIntruduced = false;
+        this.hasUsedInspectorMode = false;
     }
 
     create(config) {
@@ -175,7 +188,7 @@ export default class TutorialScene extends Phaser.Scene{
         this.KEYS = this.input.keyboard.addKeys(KEYBINDS);
 
         // Setting the tutorial phases
-
+        
         this.tutorialPhaseQueue = new TutorialPhaseQueue(this);
 
         this.buildTutorialEvents();
@@ -187,11 +200,12 @@ export default class TutorialScene extends Phaser.Scene{
     update(time, dt) {
         this.scoreManager.update(time, dt);
 
-        if(this.correctEvaluatedPostNum === 5) { // End phase without phallacies
-            this.tutorialPhaseQueue.pop();
-            this.tutorialPhaseQueue.execCurrentPhase(); // Executes the next phase
-        }
         //this.scene.start(SCENE_KEYS.GAME_SCENE, { fallacies:[] });
+        //this.postManager.currentPostObject.
+
+        if (Phaser.Input.Keyboard.JustDown(this.KEYS.PAUSE)){
+            this.pauseGame();
+        }
     }
 
     textActionPhase(positionX, positionY, text, actionAfterClick) {
@@ -264,10 +278,13 @@ export default class TutorialScene extends Phaser.Scene{
                 "Pulsa el botón verde si crees que el comentario es correcto.\n"+
                 "Si no lo ves correcto pulsa el rojo para eliminarlo de la red.",
                 () => {
-                    // The change is handled by the update and the number of posts successed
+                    // The change is handled by the number of posts successed in the success function
                 }
             );            
         });
+
+        // Short pause
+        this.tutorialPhaseQueue.pushPhaseDelay(300); 
 
         // Appears the first phallacy
         this.tutorialPhaseQueue.pushPhase(() => {
@@ -278,20 +295,91 @@ export default class TutorialScene extends Phaser.Scene{
                 fallacyObj: newFallacy,
                 infoType: INFO_TYPE.NEW_TYPE_INFO
             });     
+
+            this.postManager.loadPosts(this.loadedFallacyNames);
+
+            this.tutorialPhaseQueue.pop();
+            this.tutorialPhaseQueue.execCurrentPhase(); // Executes the next phase
         });
 
-      /*  this.tutorialPhaseQueue.pushPhase(() => {
+        // Fallacy classification
+        this.tutorialPhaseQueue.pushPhase(() => {
             this.textActionPhase(
                 this.SCREEN_WIDTH * 0.4, 
                 this.SCREEN_HEIGHT * 0.3,
                 "A partir de aquí ándate con mucho ojo, no todos los usuarios de "+
                 "Hoaxagon tienen buenas intenciones",
                 () => {
+                    // The change is handled by the number of posts successed in the success function
+                }
+            );            
+        });
+
+        // Inspector Mode introduction
+       this.tutorialPhaseQueue.pushPhase(() => {
+            this.textActionPhase(
+                this.SCREEN_WIDTH * 0.4, 
+                this.SCREEN_HEIGHT * 0.3,
+                "Clasifica la falacia para ganar más puntos. Para ello pulsa la lupa de la izquierda",
+                () => {
+                    // The change is handled by the action of clicking the inpector mode button
+                }
+            );
+            
+            this.inspectorManager.inspectorModeButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
+                this.isIspectorModeIntruduced = true;
+                this.tutorialPhaseQueue.pop();
+                this.tutorialPhaseQueue.execCurrentPhase(); // Executes the next phase
+            });
+
+        });
+
+        // Inspector Mode explanation
+        this.tutorialPhaseQueue.pushPhase(() => {
+            this.textActionPhase(
+                this.SCREEN_WIDTH * 0.4, 
+                this.SCREEN_HEIGHT * 0.3,
+                "Bienvenido al modo inspector, ahora haz click en la frase falaz del comentario y " +
+                "en el recuadro de la falacia en el panel de información",
+                () => {
+                    // The change is handled by the action of classifying the fallacies
+                    
+                    // TODO: change handled by the action of classifying the fallacies
                     this.tutorialPhaseQueue.pop();
                     this.tutorialPhaseQueue.execCurrentPhase(); // Executes the next phase
                 }
             );            
-        });*/
+        });
+
+        // Switching to normal game mode
+        this.tutorialPhaseQueue.pushPhase(() => {
+            this.postManager.currentPostObject.destroy();
+
+            this.textActionPhase(
+                this.SCREEN_WIDTH * 0.4, 
+                this.SCREEN_HEIGHT * 0.3,
+                "Buen trabajo. Pasemos al modo de juego normal",
+                () => {
+                    this.tutorialPhaseQueue.pop();
+                    this.tutorialPhaseQueue.execCurrentPhase(); // Executes the next phase
+                }
+            );            
+        });
+
+        // Short pause
+        this.tutorialPhaseQueue.pushPhaseDelay(200); 
+
+        this.tutorialPhaseQueue.pushPhase(() => {
+            this.textActionPhase(
+                this.SCREEN_WIDTH * 0.5, 
+                this.SCREEN_HEIGHT * 0.45,
+                "CONTINUAR",
+                () => {
+                    // Change to the main game
+                    this.scene.start(SCENE_KEYS.GAME_SCENE, { fallacies:[] });
+                }
+            );            
+        });
     }
 
     /**
@@ -337,9 +425,6 @@ export default class TutorialScene extends Phaser.Scene{
         this.scoreManager.addPoints(100);
         this.scoreManager.streakUp();
 
-        if (this.levelThresholds[this.level] != -1 && this.scoreManager.getScore()>=this.levelThresholds[this.level]) 
-            this.levelUp();
-
         const selectedFallacyObj =  this.infoPanel.selectedInfoBox ? this.infoPanel.selectedInfoBox.fallacyObj : null; // Null if none selected
         this.postManager.savePostEvaluation(postAccepted, true, selectedFallacyObj);
             
@@ -349,6 +434,14 @@ export default class TutorialScene extends Phaser.Scene{
             this.inspectorManager.handleInspectorButtonClick();
 
         this.correctEvaluatedPostNum++; // To control the progress in the tutorial
+
+        // Tutorial progress
+        if(this.correctEvaluatedPostNum ===  5 ||
+            this.correctEvaluatedPostNum ===  15
+        ) { 
+            this.tutorialPhaseQueue.pop();
+            this.tutorialPhaseQueue.execCurrentPhase(); // Executes the next phase
+        }
     }
 
     /**
