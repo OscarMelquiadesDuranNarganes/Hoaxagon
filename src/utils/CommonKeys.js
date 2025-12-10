@@ -11,7 +11,9 @@ export const IMAGE_KEYS = {
     CUADRICIO: 'Cuadricio',
     PENTADEO:'Pentadeo',
     HEXANDRA: 'Hexandra',
-    TRICTORIA: 'Trictoria'
+    TRICTORIA: 'Trictoria',
+    ACCEPT: 'ACCEPT',
+    DECLINE: 'DECLINE'
 };
 
 export const SCENE_KEYS = {

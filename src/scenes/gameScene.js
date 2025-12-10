@@ -12,6 +12,7 @@ import { InspectorManager } from "../systems/inspection_system/inspectorManager.
 
 import { FallacyInfoPanel } from '../systems/ui_system/fallacyInfoPanel.js'
 import { PostBoxObject } from '../systems/post_system/postBoxObject.js';
+import ImageButton from "../utils/imageButton.js";
 
 export const GAMEMODES = 
 {
@@ -150,34 +151,53 @@ export default class GameScene extends Phaser.Scene{
             this.fallacyPool.push(element);
         });
 
-        this.acceptButton = this.add.text(900, 250, "ACCEPT", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
-        this.declineButton = this.add.text(1100, 250, "DECLINE", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
-
-        this.acceptButton.setInteractive();
-        this.acceptButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
-
-            //if(this.inspectorManager.inspectionActive) return;
-
+        this.acceptButton = new ImageButton({scene:this,x:1000,y:240,width:200,height:200,color:PALETTE_HEX.White,imageKey:IMAGE_KEYS.ACCEPT,clickCallback:()=>{ 
             if (this.postManager.currentPostDefinition.fallacyType === "NONE") {
                 this.success(true);
             }
             else {
                 this.fail(true);
             }
-        });
-
-        this.declineButton.setInteractive();
-        this.declineButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
-
-            // if(this.inspectorManager.inspectionActive) return;
-
+            } });
+        this.declineButton = new ImageButton({scene:this,x:1200,y:240,width:200,height:200,color:PALETTE_HEX.White,imageKey:IMAGE_KEYS.DECLINE,clickCallback:()=>{ 
             if (this.postManager.currentPostDefinition.fallacyType !== "NONE") {
                 this.success(false);
             } 
             else {
                 this.fail(false);
             }
-        });
+        }});
+        this.acceptButton.setImageScale(0.5);
+        this.declineButton.setImageScale(0.5);
+
+        // this.acceptButton = this.add.text(900, 250, "ACCEPT", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
+        // this.declineButton = this.add.text(1100, 250, "DECLINE", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
+
+        // this.acceptButton.setInteractive();
+        // this.acceptButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
+
+        //     //if(this.inspectorManager.inspectionActive) return;
+
+        //     if (this.postManager.currentPostDefinition.fallacyType === "NONE") {
+        //         this.success(true);
+        //     }
+        //     else {
+        //         this.fail(true);
+        //     }
+        // });
+
+        // this.declineButton.setInteractive();
+        // this.declineButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
+
+        //     // if(this.inspectorManager.inspectionActive) return;
+
+        //     if (this.postManager.currentPostDefinition.fallacyType !== "NONE") {
+        //         this.success(false);
+        //     } 
+        //     else {
+        //         this.fail(false);
+        //     }
+        // });
 
         this.KEYS = this.input.keyboard.addKeys(KEYBINDS);
 

@@ -49,6 +49,9 @@ export default class LoadScene extends Phaser.Scene {
         this.load.image(IMAGE_KEYS.HEXANDRA, './assets/images/hexandra.png');
         this.load.image(IMAGE_KEYS.CIRCLAUDIA, './assets/images/circlaudia.png');
 
+        this.load.image(IMAGE_KEYS.ACCEPT, './assets/images/temp_accept_button.png');
+        this.load.image(IMAGE_KEYS.DECLINE, './assets/images/temp_decline_button.png');
+
         this.load.json(JSON_KEYS.POST_LIST, './assets/objects/postList.json');
         this.load.json(JSON_KEYS.INFO_DB, './assets/objects/infoDatabase.json');
 
