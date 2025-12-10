@@ -194,7 +194,7 @@ export default class TutorialScene extends Phaser.Scene{
 
         // Setting the tutorial phases
 
-        this.tutorialPhaseQueue = new TutorialPhaseQueue();
+        this.tutorialPhaseQueue = new TutorialPhaseQueue(this);
 
         this.buildTutorialEvents();
 
@@ -250,29 +250,16 @@ export default class TutorialScene extends Phaser.Scene{
             );            
         });
 
-        this.tutorialPhaseQueue.pushPhase(() => {
-            this.time.addEvent({
-                delay: 500, // ms
-                callback: () => {
-                    this.tutorialPhaseQueue.pop();
-                    this.tutorialPhaseQueue.execCurrentPhase(); // Executes the next phase
-                }
-            });
-        });
+        this.tutorialPhaseQueue.pushPhaseDelay(500);
 
         this.tutorialPhaseQueue.pushPhase(() => {
             this.textActionPhase(
                 this.SCREEN_WIDTH * 0.4, 
-                this.SCREEN_HEIGHT * 0.2,
+                this.SCREEN_HEIGHT * 0.3,
                 "Vamos a evaluar este post.",
                 () => {
-                    this.time.addEvent({
-                        delay: 500, // ms
-                        callback: () => {
-                            this.tutorialPhaseQueue.pop();
-                            this.tutorialPhaseQueue.execCurrentPhase(); // Executes the next phase
-                        }
-                    });
+                    this.tutorialPhaseQueue.pop();
+                    this.tutorialPhaseQueue.execCurrentPhase(); // Executes the next phase
                 }
             );            
         });

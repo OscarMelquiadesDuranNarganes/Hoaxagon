@@ -6,6 +6,16 @@ export class TutorialPhaseQueue {
     phaseEvents = new Array();
 
     /**
+     * @type {Phaser.Scene}
+     */
+    scene;
+
+    constructor(scene) {
+        console.assert(scene instanceof Phaser.Scene, "TutorialPhaseQueue: scene must be an scene");
+        this.scene = scene;
+    }
+
+    /**
      * Adds to the queue a function (set of actions and/or declarations of scene objects).
      * @param {function} phaseEvent 
      */
@@ -13,6 +23,18 @@ export class TutorialPhaseQueue {
         console.assert(typeof phaseEvent === 'function', "TutorialPhaseQueue: phaseEvent must be a function");
 
         this.phaseEvents.push(phaseEvent);
+    }
+
+    pushPhaseDelay(time) {
+        this.pushPhase(() => {
+            this.scene.time.addEvent({
+                delay: time, // ms
+                callback: () => {
+                    this.pop();
+                    this.execCurrentPhase(); // Executes the next phase
+                }
+            });
+        });
     }
 
     /**
@@ -37,7 +59,7 @@ export class TutorialPhaseQueue {
      * Executes the function in the head.
      */
     execCurrentPhase() {
-        if(this.phaseEvents.length === 0) return null;
+        if(this.phaseEvents.length === 0) return;
         this.phaseEvents[0]();
     }
 }
