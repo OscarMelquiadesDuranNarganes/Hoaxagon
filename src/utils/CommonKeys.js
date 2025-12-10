@@ -6,7 +6,12 @@ export const IMAGE_KEYS = {
     BACKGROUND_TRIANGLES: "BACKGROUND_TRIANGLES",
     INSPECTOR_BUTTON: "INSPECTOR_BUTTON",
     CHRONO_CLOCK: 'CHRONO_CLOCK',
-    BOOST_STAR: 'BOOST_STAR'
+    BOOST_STAR: 'BOOST_STAR',
+    CIRCLAUDIA: 'Circlaudia',
+    CUADRICIO: 'Cuadricio',
+    PENTADEO:'Pentadeo',
+    HEXANDRA: 'Hexandra',
+    TRICTORIA: 'Trictoria'
 };
 
 export const SCENE_KEYS = {

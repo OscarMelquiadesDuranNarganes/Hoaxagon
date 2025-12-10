@@ -1,4 +1,6 @@
 import { IMAGE_KEYS } from '../../utils/CommonKeys.js'
+import { PALETTE_RGBA } from '../../utils/Palette.js';
+import { TEXT_CONFIG } from '../../utils/textConfigs.js';
 import { WordBlockContainer } from './wordBlockContainer.js'
 
 const NINE_SLICE_DIMENSIONS = {
@@ -37,10 +39,11 @@ export class PostBoxObject extends Phaser.GameObjects.Container {
      * @param {String} text  
      * @param {number} width 
      */
-    constructor(scene, positionX, positionY, text, width) {
+    constructor(scene, positionX, positionY, text, width, name) {
         super(scene, positionX, positionY);
 
         scene.add.existing(this);
+
 
         this.boxNineSlice = scene.add.nineslice(
             0, 0, 
@@ -64,6 +67,9 @@ export class PostBoxObject extends Phaser.GameObjects.Container {
 
         this.add(this.boxNineSlice)
         this.add(this.wordBlockContainer);
+
+        this.add(scene.add.image(0,0,name).setScale(0.1,0.1));
+        this.add(scene.add.text(30,5,name,TEXT_CONFIG.SubHeading2).setColor(PALETTE_RGBA.Black));
 
         const height = NINE_SLICE_DIMENSIONS.BOTTOM_WIDTH + NINE_SLICE_DIMENSIONS.TOP_WIDTH 
             + REALATIVE_POSITIONS.WORD_BLOCK_CONTAINER_X*2 + this.wordBlockContainer.getBounds().height;

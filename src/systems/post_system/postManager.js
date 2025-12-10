@@ -173,7 +173,7 @@ export class PostManager {
 
         this.currentPostDefinition = this._postList[this._postListPosition];
 
-        return new PostBoxObject(this.scene, 0, 0, this.currentPostDefinition.text, POST_WIDTH);
+        return new PostBoxObject(this.scene, 0, 0, this.currentPostDefinition.text, POST_WIDTH,this.currentPostDefinition.user);
     }
 
     /**
