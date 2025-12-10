@@ -61,11 +61,12 @@ export default class MainMenu extends Phaser.Scene{
             color: PALETTE_HEX.White,
             clickCallback: () => {
                 this.scene.start(
-                    SCENE_KEYS.GAME_SCENE,
+                   /* SCENE_KEYS.GAME_SCENE,
                     {
                         fallacies:[
                         ]
-                    }
+                    }*/
+                   SCENE_KEYS.TUTORIAL_SCENE
                 )
             },
             text: "PLAY",
