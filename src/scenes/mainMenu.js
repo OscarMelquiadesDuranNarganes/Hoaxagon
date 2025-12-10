@@ -66,7 +66,7 @@ export default class MainMenu extends Phaser.Scene{
                         fallacies:[
                         ]
                     }*/
-                   SCENE_KEYS.TUTORIAL_SCENE
+                   SCENE_KEYS.ARCADE_SELECT_SCENE
                 )
             },
             text: "PLAY",

@@ -7,6 +7,7 @@ import InfoScene from "./scenes/infoScene.js";
 import TrainingMenu from "./scenes/trainingMenu.js";
 import PunctuationScene from "./scenes/punctuationScene.js";
 import TutorialScene from "./scenes/tutorialScene.js";
+import ArcadeSelectScreen from "./scenes/arcadeSelectScene.js";
 
 let config = {
     type: Phaser.AUTO,
@@ -32,7 +33,7 @@ let config = {
     scene: [
         LoadScene, GameScene, InfoScene, MainMenu, 
         PauseScene, TestScene, TrainingMenu, PunctuationScene,
-        TutorialScene
+        TutorialScene, ArcadeSelectScreen
     ],    // Decimos a Phaser cual es nuestra escena
 
     physics: { 

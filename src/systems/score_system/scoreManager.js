@@ -118,7 +118,7 @@ export class ScoreManager {
 
         // Create boost display
         this.boostDisplay = this.scene.add.image(
-            325, 355, 
+            275, 355, 
             IMAGE_KEYS.BOOST_STAR
         )
         .setVisible(false)
