@@ -5,7 +5,7 @@ import { INFO_TYPE } from '../scenes/infoScene.js'
 
 export class InfoBox extends Phaser.GameObjects.Container {
     /**
-    * @type {object}
+    * @type {Fallacy}
     */
     fallacyObj;
 

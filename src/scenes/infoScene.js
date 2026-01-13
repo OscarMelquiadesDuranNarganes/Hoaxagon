@@ -48,6 +48,7 @@ export default class InfoScene extends Phaser.Scene {
     }
 
     buildInfoBox(fallacyObj, infoType) {
+        console.log(fallacyObj);
         const width = this.sys.game.canvas.width;
         const height = this.sys.game.canvas.height;
 

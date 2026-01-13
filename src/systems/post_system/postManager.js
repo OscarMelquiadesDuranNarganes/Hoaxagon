@@ -2,6 +2,8 @@ import { JSON_KEYS } from "../../utils/CommonKeys.js";
 import { PostBoxObject } from "./postBoxObject.js";
 import { TEXT_CONFIG } from "../../utils/textConfigs.js";
 import { PALETTE_RGBA } from "../../utils/Palette.js";
+import { EvaluatedPostInfo } from "./evaluatedPostInfo.js";
+import { InfoBox } from "../../utils/infoBox.js";
 
 export const FALLACY_TYPE = {
     ALL: "ALL",
@@ -56,6 +58,11 @@ export class PostManager {
      * @type {Phaser.GameObjects.Image}
      */
     userPicture;
+
+    /**
+     * @type {Array<EvaluatedPostInfo>}
+     */
+    evaluatedPostsInfo = new Array();
 
     /**
      * @type {PostBoxObject}
@@ -177,7 +184,7 @@ export class PostManager {
 
         this.currentPostDefinition = this._postList[this._postListPosition];
 
-        return new PostBoxObject(this.scene, 0, 0, this.currentPostDefinition.text, POST_WIDTH);
+        return new PostBoxObject(this.scene, 0, 0, this.currentPostDefinition.text, POST_WIDTH,this.currentPostDefinition.user);
     }
 
     /**
@@ -300,6 +307,25 @@ export class PostManager {
         });
 
         this.postUserInfo.setText("Usuario: " + this.currentPostDefinition.user);
+    }
+
+    /**
+     * Registers a new `EvaluatedPostInfo` in the manager list of evaluated posts.
+     * @param {boolean} postAccepted
+     * @param {boolean} playerSuccessed 
+     * @param {InfoBox} selectedFallacyObj 
+     */
+    savePostEvaluation(postAccepted, playerSuccessed, selectedFallacyObj) {
+        let selectedSentenceID = -1;
+
+        // We check if the player has justified his veredict by selecting a sentence
+        if(this.currentPostObject.wordBlockContainer.getSelectedSentenceIDs().length > 0)
+            selectedSentenceID = this.currentPostObject.wordBlockContainer.getSelectedSentenceIDs()[0]; // We can ensure there is only one selected
+
+        this.evaluatedPostsInfo.push(
+            new EvaluatedPostInfo(postAccepted, this.currentPostDefinition, playerSuccessed, selectedSentenceID, selectedFallacyObj)
+        );
+        console.log(this.evaluatedPostsInfo);
     }
 
     /**

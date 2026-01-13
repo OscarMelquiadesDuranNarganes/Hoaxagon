@@ -12,6 +12,7 @@ import { InspectorManager } from "../systems/inspection_system/inspectorManager.
 
 import { FallacyInfoPanel } from '../systems/ui_system/fallacyInfoPanel.js'
 import { PostBoxObject } from '../systems/post_system/postBoxObject.js';
+import ImageButton from "../utils/imageButton.js";
 
 export const GAMEMODES = 
 {
@@ -150,34 +151,53 @@ export default class GameScene extends Phaser.Scene{
             this.fallacyPool.push(element);
         });
 
-        this.acceptButton = this.add.text(900, 250, "ACCEPT", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
-        this.declineButton = this.add.text(1100, 250, "DECLINE", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
-
-        this.acceptButton.setInteractive();
-        this.acceptButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
-
-            if(this.inspectorManager.inspectionActive) return;
-
+        this.acceptButton = new ImageButton({scene:this,x:1000,y:240,width:200,height:200,color:PALETTE_HEX.White,imageKey:IMAGE_KEYS.ACCEPT,clickCallback:()=>{ 
             if (this.postManager.currentPostDefinition.fallacyType === "NONE") {
-                this.success();
+                this.success(true);
             }
             else {
-                this.fail();
+                this.fail(true);
             }
-        });
-
-        this.declineButton.setInteractive();
-        this.declineButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
-
-            if(this.inspectorManager.inspectionActive) return;
-
+            } });
+        this.declineButton = new ImageButton({scene:this,x:1200,y:240,width:200,height:200,color:PALETTE_HEX.White,imageKey:IMAGE_KEYS.DECLINE,clickCallback:()=>{ 
             if (this.postManager.currentPostDefinition.fallacyType !== "NONE") {
-                this.success();
+                this.success(false);
             } 
             else {
-                this.fail();
+                this.fail(false);
             }
-        });
+        }});
+        this.acceptButton.setImageScale(0.5);
+        this.declineButton.setImageScale(0.5);
+
+        // this.acceptButton = this.add.text(900, 250, "ACCEPT", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
+        // this.declineButton = this.add.text(1100, 250, "DECLINE", TEXT_CONFIG.SubHeading).setColor(PALETTE_RGBA.White);
+
+        // this.acceptButton.setInteractive();
+        // this.acceptButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
+
+        //     //if(this.inspectorManager.inspectionActive) return;
+
+        //     if (this.postManager.currentPostDefinition.fallacyType === "NONE") {
+        //         this.success(true);
+        //     }
+        //     else {
+        //         this.fail(true);
+        //     }
+        // });
+
+        // this.declineButton.setInteractive();
+        // this.declineButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
+
+        //     // if(this.inspectorManager.inspectionActive) return;
+
+        //     if (this.postManager.currentPostDefinition.fallacyType !== "NONE") {
+        //         this.success(false);
+        //     } 
+        //     else {
+        //         this.fail(false);
+        //     }
+        // });
 
         this.KEYS = this.input.keyboard.addKeys(KEYBINDS);
 
@@ -220,8 +240,16 @@ export default class GameScene extends Phaser.Scene{
         this.timerManager.update(time, dt);
         this.scoreManager.update(time, dt);
 
-        if(this.timerManager.enabled && this.timerManager.timer === 0)
-            this.scene.start(SCENE_KEYS.PUNCTUATION_SCENE, {punctuation: this.scoreManager.points});
+        if(this.timerManager.enabled && this.timerManager.timer === 0){
+            this.scene.start(
+                SCENE_KEYS.PUNCTUATION_SCENE, 
+                {
+                    punctuation: this.scoreManager.points,
+                    postManager: this.postManager,
+                    timeInGame: this.timerManager.getTimeInGameText()
+                }
+            );
+        }
         //#endregion
 
         //#region input
@@ -278,9 +306,28 @@ export default class GameScene extends Phaser.Scene{
     }
 
     /**
-     * Awards points upon correctly evaluating a message.
+     * Awards points upon correctly evaluating a message and registers the evaluation.
+     * @param {boolean} postAccepted
      */
-    success() {
+    success(postAccepted) {
+        console.assert(typeof postAccepted === "boolean", "GameScene.success: postAccepted is not a boolean");
+
+        const selectedFallacyObj =  this.infoPanel.selectedInfoBox ? this.infoPanel.selectedInfoBox.fallacyObj : null; // Null if none selected
+        
+        this.postManager.savePostEvaluation(postAccepted, true, selectedFallacyObj);
+
+        // Give points if the fallacy is identified
+        let identified = selectedFallacyObj &&
+            this.postManager.currentPostDefinition.fallaciousSentenceID == this.postManager.currentPostObject.wordBlockContainer.getSelectedSentenceIDs()[0] &&
+            selectedFallacyObj.name == this.postManager.currentPostDefinition.fallacyType;
+        
+        console.log(identified); 
+        
+        if (identified){         
+            this.scoreManager.addPoints(50);
+        }
+
+        // Handle combo score
         if (this.scoreManager.boost) {
             this.scoreManager.addPoints(200);
             this.scoreManager.setBoost(false);
@@ -292,25 +339,35 @@ export default class GameScene extends Phaser.Scene{
         this.scoreManager.streakUp();
 
         if (this.arcade && this.levelThresholds[this.level] != -1 && this.scoreManager.getScore()>=this.levelThresholds[this.level]) 
-            this.levelUp();
-            
+            this.levelUp(); 
+
         this.postManager.loadNextPostInUI(POST_VEREDICT.SUCCESSFUL);
 
         console.log("GOOD CHOICE");
+        if(this.inspectorManager.inspectionActive)
+            this.inspectorManager.handleInspectorButtonClick();
     }
 
     /**
-     * Deducts time upon failing to evaluate a message.
+     * Deducts time upon failing to evaluate a message and registers the evaluation.
+     * @param {boolean} postAccepted
      */
-    fail() {    
+    fail(postAccepted) {
+        console.assert(typeof postAccepted === "boolean", "GameScene.success: postAccepted is not a boolean");
+
         this.scoreManager.setBoost(false);
         this.scoreManager.resetStreak();
 
         this.timerManager.addTimeSeconds(-30);
+
+        const selectedFallacyObj =  this.infoPanel.selectedInfoBox ? this.infoPanel.selectedInfoBox.fallacyObj : null; // Null if none selected
+        this.postManager.savePostEvaluation(postAccepted, false, selectedFallacyObj);
             
         this.postManager.loadNextPostInUI(POST_VEREDICT.FAILURE);
 
         console.log("BAD CHOICE");
+        if(this.inspectorManager.inspectionActive)
+            this.inspectorManager.handleInspectorButtonClick();
     }
 
     /**

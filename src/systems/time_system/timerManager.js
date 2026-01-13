@@ -36,6 +36,12 @@ export class TimerManager {
      */
     uiElementsConatiner;
 
+    /**
+     * The time the player has played in the run, in milliseconds.
+     * @type {number}
+     */
+    timeInGame = 0;
+
     constructor(scene, initialTimeMilliseconds) {
         console.assert(scene instanceof Phaser.Scene, "ScoreManager: scene is not a Phaser.Scene");
         
@@ -71,8 +77,10 @@ export class TimerManager {
     }
 
     update(time, dt) {
-        if(this.enabled)
-            this.addTimeMilliseconds(-dt);    
+        if(this.enabled) {
+            this.addTimeMilliseconds(-dt);
+            this.timeInGame += dt;
+        }
     }
     
     /**
@@ -146,5 +154,20 @@ export class TimerManager {
     setEnabled(enabled){
         this.enabled = enabled;
         this.uiElementsConatiner.setVisible(this.enabled);
+    }
+
+    /**
+     * Returns the time the player has been in the game as a string to display it in the UI.
+     * @returns {String}
+     */
+    getTimeInGameText() {
+        let timeInSecs = this.timeInGame / 1000;
+
+        const minutes = Math.floor(timeInSecs / 60);
+        const restSeconds = Math.floor(timeInSecs % 60);
+        
+        const seconds = (Math.floor(restSeconds / 10)).toString() + (restSeconds % 10).toString();
+
+        return `${minutes}:${seconds}`;
     }
 }

@@ -9,7 +9,9 @@ export const PALETTE_HEX = {
     YellowAlert: 0xd3ac1f,
     AmberAlert: 0xd47d3b,
     RedAlert: 0x952929,
-    Teal:0X53d08f
+    Teal:0X53d08f,
+    LightGreen: 0xcbf9cb,
+    LightRed: 0xf9cbcb
 }
 // Other cases
 export const PALETTE_RGBA = {
@@ -24,5 +26,7 @@ export const PALETTE_RGBA = {
     RedAlert: 'rgba(149, 41, 41, 1)',
     Teal: 'rgba(83, 208, 143, 1)',
     TranslucentGrey:  'rgba(35, 35, 35, 0.75)',
-    Void: 'rgba(0, 0, 0, 0)'
+    Void: 'rgba(0, 0, 0, 0)',
+    LightGreen: 'rgba(203, 249, 203, 1)',
+    LightRed: 'rgba(249, 203, 203, 1)'
 }

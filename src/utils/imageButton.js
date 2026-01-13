@@ -24,6 +24,10 @@ export default class ImageButton extends Button{
             hoverOutCallback: config.hoverOutCallback
         }
         super(super_config);
-        this.add(this.scene.add.image(0,0,config.imageKey).setOrigin(0.5,0.5));
+        this.buttonImage = this.add(this.scene.add.image(0,0,config.imageKey).setOrigin(0.5,0.5));
+    }
+    setImageScale(valuex,valuey){
+        if (!valuey) valuey = valuex
+        this.buttonImage.setScale(valuex,valuey);
     }
 }
