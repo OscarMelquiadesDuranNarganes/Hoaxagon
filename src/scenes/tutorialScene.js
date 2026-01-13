@@ -114,6 +114,11 @@ export default class TutorialScene extends Phaser.Scene{
      */
     hasUsedInspectorMode = false;
 
+    /**
+     * @type {boolean}
+     */
+    hasMachedFallacySelection = false;
+
     constructor() {
         super(SCENE_KEYS.TUTORIAL_SCENE);
     }
@@ -128,6 +133,7 @@ export default class TutorialScene extends Phaser.Scene{
         
         this.isIspectorModeIntruduced = false;
         this.hasUsedInspectorMode = false;
+        this.hasMachedFallacySelection = false;
     }
 
     create(config) {
@@ -205,6 +211,17 @@ export default class TutorialScene extends Phaser.Scene{
 
         if (Phaser.Input.Keyboard.JustDown(this.KEYS.PAUSE)){
             this.pauseGame();
+        }
+
+        if(
+            this.isIspectorModeIntruduced &&
+            !this.hasMachedFallacySelection &&
+            this.infoPanel.containsSelectedInfoBox() &&
+            this.postManager.currentPostObject.containsSelectedSentences()
+        ){
+            this.hasMachedFallacySelection = true; 
+            this.tutorialPhaseQueue.pop();
+            this.tutorialPhaseQueue.execCurrentPhase(); // Executes the next phase
         }
     }
 
@@ -327,6 +344,8 @@ export default class TutorialScene extends Phaser.Scene{
             );
             
             this.inspectorManager.inspectorModeButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
+                if(this.isIspectorModeIntruduced) return;
+                
                 this.isIspectorModeIntruduced = true;
                 this.tutorialPhaseQueue.pop();
                 this.tutorialPhaseQueue.execCurrentPhase(); // Executes the next phase
@@ -344,16 +363,15 @@ export default class TutorialScene extends Phaser.Scene{
                 () => {
                     // The change is handled by the action of classifying the fallacies
                     
-                    // TODO: change handled by the action of classifying the fallacies
-                    this.tutorialPhaseQueue.pop();
-                    this.tutorialPhaseQueue.execCurrentPhase(); // Executes the next phase
+                    // Change Handled in the update function
+                    //this.tutorialPhaseQueue.pop();
+                    //this.tutorialPhaseQueue.execCurrentPhase(); // Executes the next phase
                 }
             );            
         });
 
         // Switching to normal game mode
         this.tutorialPhaseQueue.pushPhase(() => {
-            this.postManager.currentPostObject.destroy();
 
             this.textActionPhase(
                 this.SCREEN_WIDTH * 0.4, 
@@ -370,6 +388,8 @@ export default class TutorialScene extends Phaser.Scene{
         this.tutorialPhaseQueue.pushPhaseDelay(200); 
 
         this.tutorialPhaseQueue.pushPhase(() => {
+            this.postManager.currentPostObject.destroy();
+            
             this.textActionPhase(
                 this.SCREEN_WIDTH * 0.5, 
                 this.SCREEN_HEIGHT * 0.45,

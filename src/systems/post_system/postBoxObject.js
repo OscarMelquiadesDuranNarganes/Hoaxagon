@@ -93,4 +93,12 @@ export class PostBoxObject extends Phaser.GameObjects.Container {
 
         super.destroy(fromScene);
     }
+
+    /**
+     * 
+     * @returns {boolean}
+     */
+    containsSelectedSentences() {
+        return this.wordBlockContainer.getSelectedSentenceIDs().length > 0;
+    }
 }

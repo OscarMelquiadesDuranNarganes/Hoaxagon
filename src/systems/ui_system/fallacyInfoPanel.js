@@ -95,4 +95,12 @@ export class FallacyInfoPanel extends Phaser.GameObjects.Container {
             this.setInfoBoxSelected(infoBox, false);
         });
     }
+
+    /**
+     * 
+     * @returns {boolean}
+     */
+    containsSelectedInfoBox() {
+        return this.selectedInfoBox !== null;
+    }
 }
