@@ -80,7 +80,7 @@ export default class GameScene extends Phaser.Scene{
     /**
      * @type {Array<number>}
      */
-    levelThresholds = [1000,5000,15000,30000,50000,-1];
+    levelThresholds = [500,1000,1500,2000,-1];
 
     /**
      * @type {boolean}
@@ -152,20 +152,10 @@ export default class GameScene extends Phaser.Scene{
         });
 
         this.acceptButton = new ImageButton({scene:this,x:1000,y:240,width:200,height:200,color:PALETTE_HEX.White,imageKey:IMAGE_KEYS.ACCEPT,clickCallback:()=>{ 
-            if (this.postManager.currentPostDefinition.fallacyType === "NONE") {
-                this.success(true);
-            }
-            else {
-                this.fail(true);
-            }
+            this.accept();
             } });
         this.declineButton = new ImageButton({scene:this,x:1200,y:240,width:200,height:200,color:PALETTE_HEX.White,imageKey:IMAGE_KEYS.DECLINE,clickCallback:()=>{ 
-            if (this.postManager.currentPostDefinition.fallacyType !== "NONE") {
-                this.success(false);
-            } 
-            else {
-                this.fail(false);
-            }
+            this.reject();
         }});
         this.acceptButton.setImageScale(0.5);
         this.declineButton.setImageScale(0.5);
@@ -234,7 +224,22 @@ export default class GameScene extends Phaser.Scene{
         this.postManager.loadNextPostInUI();
     }
     
-
+    accept(){
+            if (this.postManager.currentPostDefinition.fallacyType === "NONE") {
+                this.success(true);
+            }
+            else {
+                this.fail(true);
+            }
+    }
+    reject(){
+            if (this.postManager.currentPostDefinition.fallacyType !== "NONE") {
+                this.success(false);
+            } 
+            else {
+                this.fail(false);
+            }
+    }
     update(time, dt) {
         //#region timer
         this.timerManager.update(time, dt);
@@ -258,19 +263,25 @@ export default class GameScene extends Phaser.Scene{
             this.pauseGame();
         }
         if (Phaser.Input.Keyboard.JustDown(this.KEYS.INSPECT)){
-
+            this.inspectorManager.handleInspectorButtonClick();
+        }
+        if (Phaser.Input.Keyboard.JustDown(this.KEYS.ACCEPT)){
+            this.accept();
+        }
+        if (Phaser.Input.Keyboard.JustDown(this.KEYS.REJECT)){
+            this.reject();
         }
         //#endregion
         //#region debug
-        if (Phaser.Input.Keyboard.JustDown(this.KEYS.TIMEUP)){
-            this.timerManager.addTimeSeconds(30);
-        }
-        if (Phaser.Input.Keyboard.JustDown(this.KEYS.TIMEDOWN)){
-            this.timerManager.addTimeSeconds(-30);
-        }
-        if (Phaser.Input.Keyboard.JustDown(this.KEYS.BOOST)){
-            this.scoreManager.setBoost(true);
-        }
+        // if (Phaser.Input.Keyboard.JustDown(this.KEYS.TIMEUP)){
+        //     this.timerManager.addTimeSeconds(30);
+        // }
+        // if (Phaser.Input.Keyboard.JustDown(this.KEYS.TIMEDOWN)){
+        //     this.timerManager.addTimeSeconds(-30);
+        // }
+        // if (Phaser.Input.Keyboard.JustDown(this.KEYS.BOOST)){
+        //     this.scoreManager.setBoost(true);
+        // }
         //#endregion
         //#endregion
 
