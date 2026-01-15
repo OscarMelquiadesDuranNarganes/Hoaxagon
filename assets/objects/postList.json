@@ -79,6 +79,22 @@
             "fallacyType": "Ad Verecundiam",
             "fallaciousSentenceID": 1,
             "difficulty": ""
+        },
+        {
+            "user": "Trictoria",
+            "text": "Hoaxagon se cayó durante cinco minutos. Habrá sido ese discurso horrible que Hexandra ha tirado.",
+            "userPhoto": "",
+            "fallacyType": "Post Hoc",
+            "fallaciousSentenceID": 1,
+            "difficulty": ""
+        },
+        {
+            "user": "Pentadeo",
+            "text": "Creo en los icosahedros. ¡Porque sería tan genial vivir en un mundo con ellos!",
+            "userPhoto": "",
+            "fallacyType": "Ad Consequentiam",
+            "fallaciousSentenceID": 1,
+            "difficulty": ""
         }
 
     ],
