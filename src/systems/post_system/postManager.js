@@ -4,6 +4,7 @@ import { TEXT_CONFIG } from "../../utils/textConfigs.js";
 import { PALETTE_RGBA } from "../../utils/Palette.js";
 import { EvaluatedPostInfo } from "./evaluatedPostInfo.js";
 import { InfoBox } from "../../utils/infoBox.js";
+import opUtils from "../../utils/opUtils.js";
 
 export const FALLACY_TYPE = {
     ALL: "ALL",
@@ -108,10 +109,6 @@ export class PostManager {
         this.innocentPosts = this.postDataBase.innocentPosts;
         this.fallaciousPosts = this.postDataBase.fallaciousPosts;
         this.postsList = this.innocentPosts.concat(this.fallaciousPosts);
-        this.innocentIndexes = [];
-        for (let i = 0; i<5;i++){
-            this.innocentIndexes.push(Math.floor(this.innocentPosts.length/5*i));
-        }
 
         console.log(this.innocentPosts);
         console.log(this.fallaciousPosts);
@@ -134,15 +131,20 @@ export class PostManager {
             });            
         }
 
+        opUtils.shuffle(this.postsList);
         this._postList = []; // Clear
-
+        let innocent_tally = 0;
         this.postsList.forEach((postDef) => {
             if(
                 fallacyTypes.length === 0 ||
-                fallacyTypes.includes(postDef.fallacyType) ||
-                postDef.fallacyType === "NONE"
+                fallacyTypes.includes(postDef.fallacyType)
                 )
-                this._postList.push(postDef);
+                    this._postList.push(postDef);
+            else if(
+                postDef.fallacyType === "NONE" && innocent_tally<fallacyTypes.length*2){
+                    this._postList.push(postDef);
+                    innocent_tally++;
+                }
         });
 
         this.shufflePostList();

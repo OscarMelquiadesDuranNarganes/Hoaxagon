@@ -26,7 +26,7 @@
         },
         {
             "user": "Hexandra",
-            "text": "Todo el mundo dice que el penteno no es tóxico. A ver si escuchas, Cuadricio.",
+            "text": "Todo el mundo dice que el penteno no es tóxico. A ver si escuchas, Trictoria.",
             "userPhoto": "",
             "fallacyType": "Ad Populum",
             "fallaciousSentenceID": 0,
@@ -34,7 +34,7 @@
         },
         {
             "user": "Trictoria",
-            "text": "¿Que no tengo que preocuparme tanto sobre mi ingesta de hexágeno, Circlaudia? No sabes nada.",
+            "text": "¿Que no tengo que preocuparme tanto sobre mi ingesta de penteno, Hexandra? No sabes nada.",
             "userPhoto": "",
             "fallacyType": "Ad Hominem",
             "fallaciousSentenceID": 2,
@@ -47,7 +47,40 @@
             "fallacyType": "Ad Consequentiam",
             "fallaciousSentenceID": 1,
             "difficulty": ""
+        },
+        {
+            "user": "Cuadricio",
+            "text": "No tienes NI IDEA del esoterismo, Trictoria. Ya me parecía por cómo de mal vistes.",
+            "userPhoto": "",
+            "fallacyType": "Ad Hominem",
+            "fallaciousSentenceID": 2,
+            "difficulty": ""
+        },
+        {
+            "user": "Circlaudia",
+            "text": "Hexandra, sé que has hecho algo con Heptamara. Porque no me has convencido de que no lo has hecho.",
+            "userPhoto": "",
+            "fallacyType": "Ad Ignorantiam",
+            "fallaciousSentenceID": 2,
+            "difficulty": ""
+        },
+        {
+            "user": "Pentadeo",
+            "text": "Pongo 'La Undécima Arista' como mi libro del año. ¡No lo he leído pero todos dicen que es genial!",
+            "userPhoto": "",
+            "fallacyType": "Ad Populum",
+            "fallaciousSentenceID": 1,
+            "difficulty": ""
+        },
+        {
+            "user": "Hexandra",
+            "text": "Todos preguntándose qué película ver este finde. Preguntadle a nuestro expero modista Cuadricio.",
+            "userPhoto": "",
+            "fallacyType": "Ad Verecundiam",
+            "fallaciousSentenceID": 1,
+            "difficulty": ""
         }
+
     ],
     "innocentPosts": [
         {
@@ -84,7 +117,31 @@
         },
         {
             "user": "Trictoria",
-            "text": "¿Alguien ha visto a Pentadeo?",
+            "text": "Vuelvo a casa de pasar el día con Pentadeo. Qué majo el chaval.",
+            "userPhoto": "",
+            "fallacyType": "NONE",
+            "fallaciousSentenceID": -1,
+            "difficulty": ""
+        },
+        {
+            "user": "Circlaudia",
+            "text": "Alguien me está observando.",
+            "userPhoto": "",
+            "fallacyType": "NONE",
+            "fallaciousSentenceID": -1,
+            "difficulty": ""
+        },
+        {
+            "user": "Pentadeo",
+            "text": "Cuatro hamburguesas #yupi",
+            "userPhoto": "",
+            "fallacyType": "NONE",
+            "fallaciousSentenceID": -1,
+            "difficulty": ""
+        },
+        {
+            "user": "Pentadeo",
+            "text": "¿Le ha pasado algo a Heptamara?",
             "userPhoto": "",
             "fallacyType": "NONE",
             "fallaciousSentenceID": -1,
