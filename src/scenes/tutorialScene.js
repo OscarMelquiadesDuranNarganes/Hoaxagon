@@ -226,7 +226,7 @@ export default class TutorialScene extends Phaser.Scene{
     }
 
     textActionPhase(positionX, positionY, text, actionAfterClick) {
-        const background = this.add.rectangle(0, 0, this.SCREEN_WIDTH, this.SCREEN_HEIGHT, PALETTE_HEX.Black, 0.2)
+        const filter = this.add.rectangle(0, 0, this.SCREEN_WIDTH, this.SCREEN_HEIGHT, PALETTE_HEX.Black, 0.2)
         .setOrigin(0, 0)
         .setInteractive();
 
@@ -234,10 +234,13 @@ export default class TutorialScene extends Phaser.Scene{
         textConfig.wordWrap = { width: this.SCREEN_WIDTH * 0.4 };
 
         const textObj = this.add.text(positionX, positionY, text, textConfig)
-        .setOrigin(0.5, 0);
+        .setOrigin(0.5, 0).setColor(PALETTE_RGBA.Black);
+        const background = this.add.rectangle(positionX-10,positionY-10,this.SCREEN_WIDTH*0.4+20,textObj.height+20,PALETTE_HEX.White).setOrigin(0.5,0);
+        textObj.setDepth(1);
 
-        background.on(Phaser.Input.Events.POINTER_DOWN, () => {
+        filter.on(Phaser.Input.Events.POINTER_DOWN, () => {
             textObj.destroy(); // Destroying the message UI
+            filter.destroy();
             background.destroy();
 
             actionAfterClick();
@@ -252,8 +255,8 @@ export default class TutorialScene extends Phaser.Scene{
                 this.SCREEN_WIDTH * 0.4, 
                 this.SCREEN_HEIGHT * 0.2,
                 "Esto es el panel del moderador. " +
-                "Aquí llevará a cabo sus labores. " + 
-                "Para ello, tiene varias herramientas a su disposición.",
+                "Aquí llevarás a cabo tus labores. " + 
+                "Para ello, tienes varias herramientas a tu disposición.",
                 () => {
                     this.time.addEvent({
                         delay: 500, // ms
