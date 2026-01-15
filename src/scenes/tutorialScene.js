@@ -235,7 +235,7 @@ export default class TutorialScene extends Phaser.Scene{
 
         const textObj = this.add.text(positionX, positionY, text, textConfig)
         .setOrigin(0.5, 0).setColor(PALETTE_RGBA.Black);
-        const background = this.add.rectangle(positionX-10,positionY-10,this.SCREEN_WIDTH*0.4+20,textObj.height+20,PALETTE_HEX.White).setOrigin(0.5,0);
+        const background = this.add.rectangle(positionX-5,positionY-10,this.SCREEN_WIDTH*0.4+40,textObj.height+20,PALETTE_HEX.White).setOrigin(0.5,0);
         textObj.setDepth(1);
 
         filter.on(Phaser.Input.Events.POINTER_DOWN, () => {
