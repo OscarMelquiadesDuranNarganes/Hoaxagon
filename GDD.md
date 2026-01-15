@@ -60,25 +60,31 @@ Evaluar un comentario correctamente otorga puntuación.
 Error: 
 Evaluar un comentario incorrectamente resta tiempo al cronómetro.
 
-Comentarios VIP:
-Comentarios aportados por figuras prominentes. Estos proporcionan puntuación adicional y restauran tiempo al cronómetro si son evaluados correctamente.
+Identificación de falacia:
+Correctamente señalar la falacia presente en un comentario falaz otorga puntuación adicional.
+
+Comentarios estrella:
+Comentarios con un tráfico mayor de lo normal. Estos proporcionan puntuación adicional y restauran tiempo al cronómetro si son evaluados correctamente.
 
 Combo:
-Un jugador que apunta varios aciertos en rápida sucesión acumula un combo. El combo aporta puntuación adicional, y aumenta las posibilidades de que aparezca un comentario VIP. Después de que el jugador reciba un comentario VIP, la probabilidad adicional se reinicia.
+Un jugador que apunta varios aciertos en rápida sucesión acumula un combo. El combo aporta puntuación adicional, y aumenta las posibilidades de que aparezca un comentario estrella. Después de que el jugador reciba un comentario estrella, la probabilidad adicional se reinicia.
 
 ## Dinámica
 
 ### Estructura del juego
 
-El juego ofrece un modo de entrenamiento y un modo de juego arcade. De esta manera, el jugador no deberá repetir contenido que ya haya completado. El jugador puede iniciar una partida normal en cualquier momento, pero se recomienda visitar el modo de entrenamiento primero.
+El juego ofrece un tutorial, un modo de entrenamiento y un modo de juego arcade. De esta manera, el jugador no deberá repetir contenido que ya haya completado. El jugador puede iniciar una partida normal en cualquier momento, pero se recomienda visitar el tutorial primero.
+
+El tutorial presenta una serie de situaciones en las que el jugador se puede encontrar a lo largo de una partida cualquiera, mientras que se introducen los distintos elementos de juego. El jugador recibirá una serie de instrucciones en la forma de comentarios escritos, y deberá actuar acorde a ellas para avanzar. Tras cumplir todos los objetivos planteados por el tutorial, el jugador será devuelto al menú principal, y podrá elegir otro modo de juego. El tutorial durará entre 2 y 6 minutos según la cooperación del jugador.
 
 Respecto al modo de entrenamiento, el juego ofrece un menú en el que se puede iniciar una partida con un tipo particular de falacia. De esta manera, el jugador escoge las que no conozca bien para después ir al modo de juego normal con todo sabido. Cabe destacar que de todas formas el jugador tendrá información de cada tipo de falacia durante la partida. 
 Completar todos los entrenamientos individuales no durará más de 10 minutos.
 
-Cada vez que se inicia una nueva partida en modo arcade, el jugador recibe una breve explicación de una nueva clase de falacia o irregularidad que debe tener en cuenta a la hora de aceptar o rechazar los comentarios. Tras esto, el jugador empieza en el nivel 1, y comienza su rutina de moderación mientras que el cronómetro empieza su cuenta atrás desde los 3 minutos. A medida que evalúa los comentarios correctamente, el jugador recibe puntuación adicional, gradualmente llenando un medidor, hasta llegar al nivel siguiente. Cuando esto ocurre, el usuario recibe una nueva falacia argumentativa que tener en cuenta, y continúa desde el mismo punto, con un cierto tiempo adicional añadido al cronómetro. Tras el nivel 10, no se añadirán más falacias, y la puntuación podrá aumentar indefinidamente. El juego termina únicamente si se acaba el tiempo, o si el jugador lo concluye prematuramente. 
+Cada vez que se inicia una nueva partida en modo arcade, el jugador recibe una breve explicación de una nueva clase de falacia o irregularidad que debe tener en cuenta a la hora de aceptar o rechazar los comentarios. Tras esto, el jugador empieza en el nivel 1, y comienza su rutina de moderación mientras que el cronómetro empieza su cuenta atrás desde los 3 minutos. A medida que evalúa comentarios e identifica falacias correctamente, el jugador recibe puntuación adicional, gradualmente llenando un medidor hasta llegar al nivel siguiente. Cuando esto ocurre, el usuario recibe una nueva falacia argumentativa que tener en cuenta, y continúa desde el mismo punto, con un cierto tiempo adicional añadido al cronómetro. Tras el nivel 10, no se añadirán más falacias, y la puntuación podrá aumentar indefinidamente. El juego termina únicamente si se acaba el tiempo, o si el jugador lo concluye prematuramente. 
 Una partida en el modo arcade tiene una duración variable según el desempeño del jugador, desde unos segundos hasta en torno a los 10 minutos. Se estima que la partida promedio durará unos 5 minutos.
 
 Una sesión de juego podrá durar entre 10 a 30 minutos, según la dedicación personal y habilidad del jugador.
+
 
 ### Objetivo y conflicto
 
